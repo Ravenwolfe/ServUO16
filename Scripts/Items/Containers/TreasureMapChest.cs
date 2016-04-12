@@ -163,10 +163,6 @@ namespace Server.Items
 
         public static void Fill(LockableContainer cont, int luck, int level, bool isSos)
         {
-			// Apply Felucca luck bonus
-			if (cont.Map == Map.Felucca)
-				luck += Mobiles.RandomItemGenerator.FeluccaLuckBonus;
-
             cont.Movable = false;
             cont.Locked = true;
             int numberItems;
@@ -219,22 +215,18 @@ namespace Server.Items
                 for (int i = 0; i < level * 5; ++i)
                     cont.DropItem(Loot.RandomScroll(0, 63, SpellbookType.Regular));
 
-				double propsScale = 1.0;
                 if (Core.SE)
                 {
                     switch (level)
                     {
                         case 1:
                             numberItems = 32;
-							propsScale = 0.5625;
                             break;
                         case 2:
                             numberItems = 40;
-							propsScale = 0.6875;
                             break;
                         case 3:
                             numberItems = 48;
-							propsScale = 0.875;
                             break;
                         case 4:
                             numberItems = 56;
@@ -267,10 +259,10 @@ namespace Server.Items
 
                     if (item != null && Core.HS && RandomItemGenerator.Enabled)
                     {
-                        int min, max;
-                        GetRandomItemStat(out min, out max, propsScale);
-
-                        RunicReforging.GenerateRandomItem(item, LootPack.GetLuckChance(luck), min, max);
+						int baseBudget = level * 100 + 100;
+						int minBudget = (int)(baseBudget * 0.75);
+						int maxBudget = (int)(baseBudget * 1.25);
+						RunicReforging.GenerateRandomItem(item, LootPack.GetLuckChance(luck), minBudget, maxBudget);
 
                         cont.DropItem(item);
                     }
@@ -441,6 +433,34 @@ namespace Server.Items
                 cont.DropItem(special);
         }
 
+		public static void GetRandomItemStat(out int min, out int max, double scale = 1.0)
+		{
+			int rnd = Utility.Random(100);
+
+			if (rnd <= 1)
+			{
+				min = 500; max = 800;
+			}
+			else if (rnd < 5)
+			{
+				min = 400; max = 700;
+			}
+			else if (rnd < 25)
+			{
+				min = 350; max = 600;
+			}
+			else if (rnd < 50)
+			{
+				min = 250; max = 500;
+			}
+			else
+			{
+				min = 100; max = 400;
+			}
+			min = (int)(min * scale);
+			max = (int)(max * scale);
+		}
+
         private static Item GetRandomSpecial(int level, Map map)
         {
             Item special;
@@ -459,34 +479,6 @@ namespace Server.Items
             }
 
             return special;
-        }
-
-        public static void GetRandomItemStat(out int min, out int max, double scale = 1.0)
-        {
-            int rnd = Utility.Random(100);
-
-            if (rnd <= 1)
-            {
-                min = 500; max = 800;
-            }
-            else if (rnd < 5)
-            {
-                min = 400; max = 700;
-            }
-            else if (rnd < 25)
-            {
-                min = 350; max = 600;
-            }
-            else if (rnd < 50)
-            {
-                min = 250; max = 500;
-            }
-            else
-            {
-                min = 100; max = 400;
-            }
-			min = (int)(min * scale);
-			max = (int)(max * scale);
         }
 
         public static Item GetRandomRecipe()
