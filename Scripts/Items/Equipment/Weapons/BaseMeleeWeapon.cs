@@ -1,6 +1,3 @@
-using System;
-using Server.Spells.Spellweaving;
-
 namespace Server.Items
 {
     public abstract class BaseMeleeWeapon : BaseWeapon
@@ -19,11 +16,6 @@ namespace Server.Items
         {
             damage = base.AbsorbDamage(attacker, defender, damage);
 
-            AttuneWeaponSpell.TryAbsorb(defender, ref damage);
-
-            if (Core.AOS)
-                return damage;
-			
             int absorb = defender.MeleeDamageAbsorb;
 
             if (absorb > 0)

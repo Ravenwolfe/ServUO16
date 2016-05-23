@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using Server.ContextMenus;
+using Server.Engines.ConPVP;
 using Server.Mobiles;
 using Server.Network;
 using Server.Regions;
 using Server.Spells;
-using Server.Spells.Ninjitsu;
 using Server.Targeting;
 
 namespace Server.Items
@@ -20,12 +20,12 @@ namespace Server.Items
         public BallOfSummoning()
             : base(0xE2E)
         {
-            this.Weight = 10.0;
-            this.Light = LightType.Circle150;
+            Weight = 10.0;
+            Light = LightType.Circle150;
 
-            this.m_Charges = Utility.RandomMinMax(3, 9);
+            m_Charges = Utility.RandomMinMax(3, 9);
 
-            this.m_PetName = "";
+            m_PetName = "";
         }
 
         public BallOfSummoning(Serial serial)
@@ -39,18 +39,18 @@ namespace Server.Items
         {
             get
             {
-                return this.m_Charges;
+                return m_Charges;
             }
             set
             {
-                if (value > this.MaxCharges)
-                    this.m_Charges = this.MaxCharges;
+                if (value > MaxCharges)
+                    m_Charges = MaxCharges;
                 else if (value < 0)
-                    this.m_Charges = 0;
+                    m_Charges = 0;
                 else
-                    this.m_Charges = value;
+                    m_Charges = value;
 
-                this.InvalidateProperties();
+                InvalidateProperties();
             }
         }
         [CommandProperty(AccessLevel.GameMaster)]
@@ -58,18 +58,18 @@ namespace Server.Items
         {
             get
             {
-                return this.m_Recharges;
+                return m_Recharges;
             }
             set
             {
-                if (value > this.MaxRecharges)
-                    this.m_Recharges = this.MaxRecharges;
+                if (value > MaxRecharges)
+                    m_Recharges = MaxRecharges;
                 else if (value < 0)
-                    this.m_Recharges = 0;
+                    m_Recharges = 0;
                 else
-                    this.m_Recharges = value;
+                    m_Recharges = value;
 
-                this.InvalidateProperties();
+                InvalidateProperties();
             }
         }
         [CommandProperty(AccessLevel.GameMaster)]
@@ -100,18 +100,18 @@ namespace Server.Items
         {
             get
             {
-                if (this.m_Pet != null && this.m_Pet.Deleted)
+                if (m_Pet != null && m_Pet.Deleted)
                 {
-                    this.m_Pet = null;
-                    this.InternalUpdatePetName();
+                    m_Pet = null;
+                    InternalUpdatePetName();
                 }
 
-                return this.m_Pet;
+                return m_Pet;
             }
             set
             {
-                this.m_Pet = value;
-                this.InternalUpdatePetName();
+                m_Pet = value;
+                InternalUpdatePetName();
             }
         }
         [CommandProperty(AccessLevel.GameMaster)]
@@ -119,26 +119,26 @@ namespace Server.Items
         {
             get
             {
-                return this.m_PetName;
+                return m_PetName;
             }
         }
         public override void AddNameProperty(ObjectPropertyList list)
         {
-            list.Add(1054131, this.m_Charges.ToString() + (this.m_PetName.Length == 0 ? "\t " : "\t" + this.m_PetName)); // a crystal ball of pet summoning: [charges: ~1_charges~] : [linked pet: ~2_petName~]
+            list.Add(1054131, m_Charges.ToString() + (m_PetName.Length == 0 ? "\t " : "\t" + m_PetName)); // a crystal ball of pet summoning: [charges: ~1_charges~] : [linked pet: ~2_petName~]
         }
 
         public override void OnSingleClick(Mobile from)
         {
-            this.LabelTo(from, 1054131, this.m_Charges.ToString() + (this.m_PetName.Length == 0 ? "\t " : "\t" + this.m_PetName)); // a crystal ball of pet summoning: [charges: ~1_charges~] : [linked pet: ~2_petName~]
+            LabelTo(from, 1054131, m_Charges.ToString() + (m_PetName.Length == 0 ? "\t " : "\t" + m_PetName)); // a crystal ball of pet summoning: [charges: ~1_charges~] : [linked pet: ~2_petName~]
         }
 
         public override void GetContextMenuEntries(Mobile from, List<ContextMenuEntry> list)
         {
             base.GetContextMenuEntries(from, list);
 
-            if (from.Alive && this.RootParent == from)
+            if (from.Alive && RootParent == from)
             {
-                if (this.Pet == null)
+                if (Pet == null)
                 {
                     list.Add(new BallEntry(new BallCallback(LinkPet), 6180));
                 }
@@ -153,35 +153,27 @@ namespace Server.Items
 
         public override void OnDoubleClick(Mobile from)
         {
-            if (this.RootParent != from) // TODO: Previous implementation allowed use on ground, without house protection checks. What is the correct behavior?
+            if (RootParent != from) // TODO: Previous implementation allowed use on ground, without house protection checks. What is the correct behavior?
             {
                 from.LocalOverheadMessage(MessageType.Regular, 0x3B2, 1042001); // That must be in your pack for you to use it.
                 return;
             }
 
-            AnimalFormContext animalContext = AnimalForm.GetContext(from);
-
-            if (Core.ML && animalContext != null)
+            if (Pet == null)
             {
-                from.LocalOverheadMessage(MessageType.Regular, 0x3B2, 1080073); // You cannot use a Crystal Ball of Pet Summoning while in animal form.
-                return;
-            }
-
-            if (this.Pet == null)
-            {
-                this.LinkPet(from);
+                LinkPet(from);
             }
             else
             {
-                this.CastSummonPet(from);
+                CastSummonPet(from);
             }
         }
 
         public void LinkPet(Mobile from)
         {
-            BaseCreature pet = this.Pet;
+            BaseCreature pet = Pet;
 
-            if (this.Deleted || pet != null || this.RootParent != from)
+            if (Deleted || pet != null || RootParent != from)
                 return;
 
             from.SendLocalizedMessage(1054114); // Target your pet that you wish to link to this Crystal Ball of Pet Summoning.
@@ -190,14 +182,14 @@ namespace Server.Items
 
         public void CastSummonPet(Mobile from)
         {
-            BaseCreature pet = this.Pet;
+            BaseCreature pet = Pet;
 
-            if (this.Deleted || pet == null || this.RootParent != from)
+            if (Deleted || pet == null || RootParent != from)
                 return;
 
-            if (this.Charges == 0)
+            if (Charges == 0)
             {
-                this.SendLocalizedMessageTo(from, 1054122); // The Crystal Ball darkens. It must be charged before it can be used again.
+                SendLocalizedMessageTo(from, 1054122); // The Crystal Ball darkens. It must be charged before it can be used again.
             }
             else if (pet is BaseMount && ((BaseMount)pet).Rider == from)
             {
@@ -215,9 +207,9 @@ namespace Server.Items
             {
                 MessageHelper.SendLocalizedMessageTo(this, from, 1054127, 0x22); // The Crystal Ball fills with a red mist. You appear to have let your bond to your pet deteriorate.
             }
-            else if (from.Map == Map.Ilshenar || from.Region.IsPartOf(typeof(DungeonRegion)) || from.Region.IsPartOf(typeof(Jail)) || from.Region.IsPartOf(typeof(Server.Engines.ConPVP.SafeZone)))
+            else if (from.Map == Map.Ilshenar || from.Region.IsPartOf(typeof(DungeonRegion)) || from.Region.IsPartOf(typeof(Jail)) || from.Region.IsPartOf(typeof(SafeZone)))
             {
-                from.Send(new AsciiMessage(this.Serial, this.ItemID, MessageType.Regular, 0x22, 3, "", "You cannot summon your pet to this location."));
+                from.Send(new AsciiMessage(Serial, ItemID, MessageType.Regular, 0x22, 3, "", "You cannot summon your pet to this location."));
             }
             else if (Core.ML && from is PlayerMobile && DateTime.UtcNow < ((PlayerMobile)from).LastPetBallTime.AddSeconds(15.0))
             {
@@ -228,18 +220,18 @@ namespace Server.Items
                 if (Core.ML)
                     new PetSummoningSpell(this, from).Cast();
                 else
-                    this.SummonPet(from);
+                    SummonPet(from);
             }
         }
 
         public void SummonPet(Mobile from)
         {
-            BaseCreature pet = this.Pet;
+            BaseCreature pet = Pet;
 
             if (pet == null)
                 return;
 
-            this.Charges--;
+            Charges--;
 
             if (pet.IsStabled)
             {
@@ -271,17 +263,17 @@ namespace Server.Items
 
         public void UnlinkPet(Mobile from)
         {
-            if (!this.Deleted && this.Pet != null && this.RootParent == from)
+            if (!Deleted && Pet != null && RootParent == from)
             {
-                this.Pet = null;
+                Pet = null;
 
-                this.SendLocalizedMessageTo(from, 1054120); // This crystal ball is no longer linked to a pet.
+                SendLocalizedMessageTo(from, 1054120); // This crystal ball is no longer linked to a pet.
             }
         }
 
         public void UpdatePetName(Mobile from)
         {
-            this.InternalUpdatePetName();
+            InternalUpdatePetName();
         }
 
         public override void Serialize(GenericWriter writer)
@@ -290,11 +282,11 @@ namespace Server.Items
 
             writer.WriteEncodedInt((int)1); // version
 
-            writer.WriteEncodedInt((int)this.m_Recharges);
+            writer.WriteEncodedInt((int)m_Recharges);
 
-            writer.WriteEncodedInt((int)this.m_Charges);
-            writer.Write((Mobile)this.Pet);
-            writer.Write((string)this.m_PetName);
+            writer.WriteEncodedInt((int)m_Charges);
+            writer.Write((Mobile)Pet);
+            writer.Write((string)m_PetName);
         }
 
         public override void Deserialize(GenericReader reader)
@@ -307,14 +299,14 @@ namespace Server.Items
             {
                 case 1:
                     {
-                        this.m_Recharges = reader.ReadEncodedInt();
+                        m_Recharges = reader.ReadEncodedInt();
                         goto case 0;
                     }
                 case 0:
                     {
-                        this.m_Charges = Math.Min(reader.ReadEncodedInt(), this.MaxCharges);
-                        this.Pet = (BaseCreature)reader.ReadMobile();
-                        this.m_PetName = reader.ReadString();
+                        m_Charges = Math.Min(reader.ReadEncodedInt(), MaxCharges);
+                        Pet = (BaseCreature)reader.ReadMobile();
+                        m_PetName = reader.ReadString();
                         break;
                     }
             }
@@ -322,14 +314,14 @@ namespace Server.Items
 
         private void InternalUpdatePetName()
         {
-            BaseCreature pet = this.Pet;
+            BaseCreature pet = Pet;
 
             if (pet == null)
-                this.m_PetName = "";
+                m_PetName = "";
             else
-                this.m_PetName = pet.Name;
+                m_PetName = pet.Name;
 
-            this.InvalidateProperties();
+            InvalidateProperties();
         }
 
         private class BallEntry : ContextMenuEntry
@@ -338,15 +330,15 @@ namespace Server.Items
             public BallEntry(BallCallback callback, int number)
                 : base(number, 2)
             {
-                this.m_Callback = callback;
+                m_Callback = callback;
             }
 
             public override void OnClick()
             {
-                Mobile from = this.Owner.From;
+                Mobile from = Owner.From;
 
                 if (from.CheckAlive())
-                    this.m_Callback(from);
+                    m_Callback(from);
             }
         }
 
@@ -356,15 +348,15 @@ namespace Server.Items
             public PetLinkTarget(BallOfSummoning ball)
                 : base(-1, false, TargetFlags.None)
             {
-                this.m_Ball = ball;
+                m_Ball = ball;
             }
 
             protected override void OnTarget(Mobile from, object targeted)
             {
-                if (this.m_Ball.Deleted || this.m_Ball.Pet != null)
+                if (m_Ball.Deleted || m_Ball.Pet != null)
                     return;
 
-                if (this.m_Ball.RootParent != from)
+                if (m_Ball.RootParent != from)
                 {
                     from.LocalOverheadMessage(MessageType.Regular, 0x3B2, 1042001); // That must be in your pack for you to use it.
                 }
@@ -374,26 +366,26 @@ namespace Server.Items
 
                     if (!creature.Controlled || creature.ControlMaster != from)
                     {
-                        MessageHelper.SendLocalizedMessageTo(this.m_Ball, from, 1054117, 0x59); // You may only link your own pets to a Crystal Ball of Pet Summoning.
+                        MessageHelper.SendLocalizedMessageTo(m_Ball, from, 1054117, 0x59); // You may only link your own pets to a Crystal Ball of Pet Summoning.
                     }
                     else if (!creature.IsBonded)
                     {
-                        MessageHelper.SendLocalizedMessageTo(this.m_Ball, from, 1054118, 0x59); // You must bond with your pet before it can be linked to a Crystal Ball of Pet Summoning.
+                        MessageHelper.SendLocalizedMessageTo(m_Ball, from, 1054118, 0x59); // You must bond with your pet before it can be linked to a Crystal Ball of Pet Summoning.
                     }
                     else
                     {
-                        MessageHelper.SendLocalizedMessageTo(this.m_Ball, from, 1054119, 0x59); // Your pet is now linked to this Crystal Ball of Pet Summoning.
+                        MessageHelper.SendLocalizedMessageTo(m_Ball, from, 1054119, 0x59); // Your pet is now linked to this Crystal Ball of Pet Summoning.
 
-                        this.m_Ball.Pet = creature;
+                        m_Ball.Pet = creature;
                     }
                 }
-                else if (targeted == this.m_Ball)
+                else if (targeted == m_Ball)
                 {
-                    MessageHelper.SendLocalizedMessageTo(this.m_Ball, from, 1054115, 0x59); // The Crystal Ball of Pet Summoning cannot summon itself.
+                    MessageHelper.SendLocalizedMessageTo(m_Ball, from, 1054115, 0x59); // The Crystal Ball of Pet Summoning cannot summon itself.
                 }
                 else
                 {
-                    MessageHelper.SendLocalizedMessageTo(this.m_Ball, from, 1054116, 0x59); // Only pets can be linked to this Crystal Ball of Pet Summoning.
+                    MessageHelper.SendLocalizedMessageTo(m_Ball, from, 1054116, 0x59); // Only pets can be linked to this Crystal Ball of Pet Summoning.
                 }
             }
         }
@@ -407,8 +399,8 @@ namespace Server.Items
             public PetSummoningSpell(BallOfSummoning ball, Mobile caster)
                 : base(caster, null, m_Info)
             {
-                this.m_Caster = caster;
-                this.m_Ball = ball;
+                m_Caster = caster;
+                m_Ball = ball;
             }
 
             public override bool ClearHandsOnCast
@@ -461,8 +453,8 @@ namespace Server.Items
 
             public void Stop()
             {
-                this.m_Stop = true;
-                this.Disturb(DisturbType.Hurt, false, false);
+                m_Stop = true;
+                Disturb(DisturbType.Hurt, false, false);
             }
 
             public override bool CheckDisturb(DisturbType type, bool checkFirst, bool resistable)
@@ -475,27 +467,27 @@ namespace Server.Items
 
             public override void DoHurtFizzle()
             {
-                if (!this.m_Stop)
+                if (!m_Stop)
                     base.DoHurtFizzle();
             }
 
             public override void DoFizzle()
             {
-                if (!this.m_Stop)
+                if (!m_Stop)
                     base.DoFizzle();
             }
 
             public override void OnDisturb(DisturbType type, bool message)
             {
-                if (message && !this.m_Stop)
-                    this.Caster.SendLocalizedMessage(1080074); // You have been disrupted while attempting to summon your pet!
+                if (message && !m_Stop)
+                    Caster.SendLocalizedMessage(1080074); // You have been disrupted while attempting to summon your pet!
             }
 
             public override void OnCast()
             {
-                this.m_Ball.SummonPet(this.m_Caster);
+                m_Ball.SummonPet(m_Caster);
 
-                this.FinishSequence();
+                FinishSequence();
             }
         }
     }

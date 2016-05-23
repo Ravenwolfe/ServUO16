@@ -58,15 +58,6 @@ namespace Server.Multis
             if (map == Map.Malas && (multiID == 0x007C || multiID == 0x007E))
                 return HousePlacementResult.InvalidCastleKeep;
 
-            #region SA
-            if (map == Map.TerMur)
-            {
-                var pm = from as PlayerMobile;
-                if (pm != null && pm.Exp <= 9999)
-                    return HousePlacementResult.NoQueenLoyalty;
-            }
-            #endregion
-
             var noHousingRegion = (NoHousingRegion)Region.Find(center, map).GetRegion(typeof(NoHousingRegion));
 
             if (noHousingRegion != null)
