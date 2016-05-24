@@ -307,9 +307,6 @@
     <Compile Include="Gumps\ConfirmBreakCrystalGump.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Gumps\ConfirmHeritageGump.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Gumps\ConfirmHouseResize.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -445,9 +442,6 @@
     <Compile Include="Gumps\Guilds\RecruitTarget.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Gumps\HeritageTokenGump.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Gumps\HonorSelf.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -519,19 +513,10 @@
     <Compile Include="Gumps\ResurrectGump.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Gumps\RunebookGump.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Gumps\SetSecureLevelGump.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Gumps\SkillsGump.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Gumps\TithingGump.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Gumps\ToTAdminGump.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Gumps\VendorInventoryGump.cs">
@@ -579,7 +564,6 @@
     <Compile Include="Items\Consumables\PumpkinPizza.cs" />
     <Compile Include="Items\Consumables\Taffy.cs" />
     <Compile Include="Items\Consumables\WrappedCandy.cs" />
-    <Compile Include="Items\Containers\MeagerImbuingBag.cs" />
     <Compile Include="Items\Containers\ScrollBox2.cs" />
     <Compile Include="Items\Decorative\AcidWall.cs" />
     <Compile Include="Items\Decorative\AcidWall1.cs" />
@@ -601,6 +585,7 @@
     <Compile Include="Items\Equipment\Armor\BaseArmor.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Items\Equipment\Armor\BoneArms.cs" />
     <Compile Include="Items\Equipment\Light\TwilightLantern.cs" />
     <Compile Include="Items\Equipment\Weapons\BaseAxe.cs">
       <SubType>Code</SubType>
@@ -617,12 +602,6 @@
     <Compile Include="Items\Equipment\Clothing\BaseClothing.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Consumables\BaseConflagrationPotion.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Consumables\BaseConfusionBlastPotion.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Consumables\BaseCurePotion.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -636,16 +615,7 @@
     <Compile Include="Items\Consumables\BaseExplosionPotion.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Internal\BlightedGroveTeleporters.cs" />
-    <Compile Include="Items\Internal\BlueNinjaQuestTeleporter.cs" />
-    <Compile Include="Items\Internal\GreenNinjaQuestTeleporter.cs" />
-    <Compile Include="Items\Internal\PrismOfLightTeleporters.cs" />
-    <Compile Include="Items\Internal\UnderworldTele.cs" />
-    <Compile Include="Items\Internal\WhiteNinjaQuestTeleporter.cs" />
-    <Compile Include="Items\Quest\BlueKey1.cs" />
-    <Compile Include="Items\Quest\Bluekeyfragment.cs" />
     <Compile Include="Items\Quest\CompletedTuitionReimbursementForm.cs" />
-    <Compile Include="Items\Quest\CreepyWeeds.cs" />
     <Compile Include="Items\Quest\CrystalCaveBarrier.cs" />
     <Compile Include="Items\Quest\DarkTidesHorn.cs" />
     <Compile Include="Items\Quest\DarkTidesTeleporter.cs" />
@@ -656,30 +626,22 @@
     <Compile Include="Items\Quest\GamanHorn.cs" />
     <Compile Include="Items\Quest\GiftForArielle.cs" />
     <Compile Include="Items\Quest\GuardianBarrier.cs" />
-    <Compile Include="Items\Quest\HaochisKatana.cs" />
-    <Compile Include="Items\Quest\HaochisKatanaGenerator.cs" />
-    <Compile Include="Items\Quest\HaochisTreasureChest.cs" />
     <Compile Include="Items\Quest\HonorCandle.cs" />
     <Compile Include="Items\Quest\ImageType.cs" />
     <Compile Include="Items\Quest\KirinBrains.cs" />
     <Compile Include="Items\Quest\MaabusCoffin.cs" />
-    <Compile Include="Items\Quest\MapFragment.cs" />
     <Compile Include="Items\Quest\MiniatureMushroom.cs" />
     <Compile Include="Items\Quest\NaxMarker.cs" />
     <Compile Include="Items\Quest\NoteForZoel.cs" />
     <Compile Include="Items\Quest\Obsidian.cs" />
     <Compile Include="Items\Quest\PaintedImage.cs" />
     <Compile Include="Items\Quest\PixieLeg.cs" />
-    <Compile Include="Items\Quest\RedKey1.cs" />
-    <Compile Include="Items\Quest\Redkeyfragment.cs" />
-    <Compile Include="Items\Quest\SAQuestItems.cs" />
     <Compile Include="Items\Quest\ScrollOfAbraxus.cs" />
     <Compile Include="Items\Quest\SealedNotesForJamal.cs" />
     <Compile Include="Items\Quest\SignedTuitionReimbursementForm.cs" />
     <Compile Include="Items\Quest\StoutWhip.cs" />
     <Compile Include="Items\Quest\TaintedTreeSample.cs" />
     <Compile Include="Items\Quest\TreatForDrithen.cs" />
-    <Compile Include="Items\Quest\TuitionReimbursementForm.cs" />
     <Compile Include="Items\Quest\UnicornRibs.cs" />
     <Compile Include="Items\Quest\VaultOfSecretsBarrier.cs" />
     <Compile Include="Items\Resource\BaseFish.cs">
@@ -731,9 +693,6 @@
     <Compile Include="Items\Consumables\BaseRefreshPotion.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Tools\BaseRunicTool.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Equipment\Armor\BaseShield.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -779,7 +738,6 @@
     <Compile Include="Items\Equipment\Weapons\BaseWeapon.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Misc\Extensions.cs" />
     <Compile Include="Items\Resource\AbyssalCloth.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -804,9 +762,6 @@
     <Compile Include="Items\Containers\BaseTreasureChestMod.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Internal\BedlamTeleporters.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Decorative\GlobOfMonstreousInterredGrizzle.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -828,22 +783,10 @@
     <Compile Include="Items\Quest\AbscessTail.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Quest\CoilsFang.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Decorative\EternallyCorruptTree.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Quest\HydraScale.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Consumables\MelisandesFermentedWine.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Consumables\MelisandesHairDye.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Quest\SalivasFeather.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Quest\SamplesOfCorruptedWater.cs">
@@ -1039,9 +982,6 @@
     <Compile Include="Items\Tools\KeyRing.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Internal\LabyrinthTeleporters.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Quest\MinotaurArtifact.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -1052,9 +992,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Internal\LOSBlocker.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Quest\MagicalRope.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Consumables\Moonstone.cs">
@@ -1075,9 +1012,6 @@
     <Compile Include="Items\Quest\GrobusFur.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Internal\PaintedCavesTeleporters.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Decorative\ParoxysmusCorrodedStein.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -1088,9 +1022,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Decorative\SweatOfParoxysmus.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Internal\ParoxysmusTeleporters.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Addons\Parrot.cs">
@@ -1201,24 +1132,6 @@
     <Compile Include="Items\Decorative\GargishBanner.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Addons\GargishCotEastAddon.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\GargishCotSouthAddon.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\GargishCouchEastAddon.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\GargishCouchSouthAddon.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\GargishLongTableEastAddon.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\GargishLongTableSouthAddon.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Decorative\GargishSculpture.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -1244,9 +1157,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Decorative\GargoyleWallMirror.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Containers\GargoyleWoodenChest.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Addons\LargeGargoyleBedEastAddon.cs">
@@ -1308,9 +1218,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Decorative\TaintedMushroom.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Internal\TwistedWealdTeleporters.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Resource\UnholyBone.cs">
@@ -1403,53 +1310,6 @@
     <Compile Include="Items\Addons\DartBoard.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Addons\ElvenBedEastAddon.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\ElvenBedSouthAddon.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\ElvenDresserEastAddon.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\ElvenDresserSouthAddon.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\ElvenForgeAddon.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\ElvenLoveseatEastAddon.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\ElvenLoveseatSouthAddon.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\ElvenSpinningwheelEastAddon.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\ElvenSpinningwheelSouthAddon.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\ElvenStoveEastAddon.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\ElvenStoveSouthAddon.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\ElvenWashbasinEastAddon.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\ElvenWashbasinEastAddonWithDrawer.cs" />
-    <Compile Include="Items\Addons\ElvenWashbasinSouthAddon.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\ElvenWashbasinSouthAddonWithDrawer.cs" />
-    <Compile Include="Items\Addons\FancyElvenTableEastAddon.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\FancyElvenTableSouthAddon.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Addons\FireColumnAddon.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -1501,14 +1361,6 @@
     <Compile Include="Items\Addons\LoomSouthAddon.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Addons\Aquarium\Rewards\AquariumMessage.cs" />
-    <Compile Include="Items\Addons\Aquarium\Rewards\CaptainBlackheartsFishingPole.cs" />
-    <Compile Include="Items\Addons\Aquarium\Rewards\CraftysFishingHat.cs" />
-    <Compile Include="Items\Addons\Aquarium\Rewards\FishBones.cs" />
-    <Compile Include="Items\Addons\Aquarium\Rewards\IslandStatue.cs" />
-    <Compile Include="Items\Addons\Aquarium\Rewards\Shell.cs" />
-    <Compile Include="Items\Addons\Aquarium\Rewards\ToyBoat.cs" />
-    <Compile Include="Items\Addons\Aquarium\Rewards\WaterloggedBoots.cs" />
     <Compile Include="Mobiles\Bosses\AbyssalInfernal.cs" />
     <Compile Include="Mobiles\Bosses\Barracoon.cs" />
     <Compile Include="Mobiles\Bosses\BaseChampion.cs" />
@@ -2348,8 +2200,6 @@
     <Compile Include="Mobiles\Normal\GargishOutcast.cs" />
     <Compile Include="Mobiles\Normal\GargishRouser.cs" />
     <Compile Include="Mobiles\Normal\VoidManesfistation.cs" />
-    <Compile Include="Items\Consumables\BaseExplodingTarPotion.cs" />
-    <Compile Include="Items\Consumables\ExplodingTarPotion.cs" />
     <Compile Include="Mobiles\NPCs\Gretchen.cs" />
     <Compile Include="Items\Containers\BagOfJewels.cs" />
     <Compile Include="Quests\HonorOfDeBoorsQuest.cs" />
@@ -2359,16 +2209,8 @@
     <Compile Include="Mobiles\Normal\GargoyleGuardian.cs" />
     <Compile Include="Items\Books\ShrineMantra.cs" />
     <Compile Include="Items\Functional\ShrineOfSingularity.cs" />
-    <Compile Include="Gumps\SQ1Gump.cs" />
-    <Compile Include="Gumps\SQ2Gump.cs" />
-    <Compile Include="Gumps\SQ3Gump.cs" />
-    <Compile Include="Gumps\SQ4Gump.cs" />
-    <Compile Include="Gumps\SQ5Gump.cs" />
-    <Compile Include="Gumps\SQGump.cs" />
     <Compile Include="Mobiles\NPCs\Agralem.cs" />
     <Compile Include="Mobiles\NPCs\Aliabeth.cs" />
-    <Compile Include="Items\Containers\AverageImbuingBag.cs" />
-    <Compile Include="Items\Containers\ValuableImbuingBag.cs" />
     <Compile Include="Mobiles\NPCs\Axem.cs" />
     <Compile Include="Items\Containers\BulgingMuseumBag.cs" />
     <Compile Include="Items\Containers\DustyMuseumBag.cs" />
@@ -2379,7 +2221,6 @@
     <Compile Include="Quests\Missing.cs" />
     <Compile Include="Quests\ATangledWeb.cs" />
     <Compile Include="Quests\BadCompany.cs" />
-    <Compile Include="Items\Containers\JaacarBox.cs" />
     <Compile Include="Mobiles\NPCs\Jaacar.cs" />
     <Compile Include="Items\Quest\BritannianWool.cs" />
     <Compile Include="Mobiles\NPCs\Laifem.cs" />
@@ -2389,10 +2230,8 @@
     <Compile Include="Items\Addons\VariableCarpetAddonDeed.cs" />
     <Compile Include="Quests\EscortToDugan.cs" />
     <Compile Include="Mobiles\NPCs\Neville.cs" />
-    <Compile Include="Items\Containers\RewardBackpack.cs" />
     <Compile Include="Mobiles\NPCs\Percolem.cs" />
     <Compile Include="Quests\Percolem.cs" />
-    <Compile Include="Items\Containers\EssenceBox.cs" />
     <Compile Include="Mobiles\NPCs\Sliem.cs" />
     <Compile Include="Quests\UnusualGoods.cs" />
     <Compile Include="Quests\AllThatGlitters.cs" />
@@ -2455,7 +2294,6 @@
     <Compile Include="Quests\StudyOfTheSolenHive\StudyOfSolenQuest.cs" />
     <Compile Include="Gumps\ClockworkStartGump.cs" />
     <Compile Include="Items\Quest\ClockworkMechanism.cs" />
-    <Compile Include="Items\Quest\DirtyGear.cs" />
     <Compile Include="Items\Quest\FlaskOfOil.cs" />
     <Compile Include="Items\Quest\MechanicalLifeBook.cs" />
     <Compile Include="Items\Quest\ModifiedClockworkAssembly.cs" />
@@ -2711,105 +2549,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Addons\WaterVat.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\Aquarium\Aquarium.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\Aquarium\AquariumFishingNet.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\Aquarium\AquariumFood.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\Aquarium\AquariumGump.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\Aquarium\AquariumState.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\Aquarium\FishBowl.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\Aquarium\Fish\AlbinoCourtesanFish.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\Aquarium\Fish\AlbinoFrog.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\Aquarium\Fish\BritainCrownFish.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\Aquarium\Fish\FandancerFish.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\Aquarium\Fish\GoldenBroadtail.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\Aquarium\Fish\Jellyfish.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\Aquarium\Fish\KillerFrog.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\Aquarium\Fish\LongClawCrab.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\Aquarium\Fish\MakotoCourtesanFish.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\Aquarium\Fish\MinocBlueFish.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\Aquarium\Fish\NujelmHoneyFish.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\Aquarium\Fish\PurpleFrog.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\Aquarium\Fish\RedDartFish.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\Aquarium\Fish\Shrimp.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\Aquarium\Fish\SmallMouthSuckerFin.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\Aquarium\Fish\SpeckledCrab.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\Aquarium\Fish\SpinedScratcherFish.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\Aquarium\Fish\SpottedBuccaneer.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\Aquarium\Fish\VesperReefTiger.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\Aquarium\Fish\YellowFinBluebelly.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\Aquarium\Reward Fish\BrineShrimp.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\Aquarium\Reward Fish\Coral.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\Aquarium\Reward Fish\FullMoonFish.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\Aquarium\Reward Fish\SeaHorse.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\Aquarium\Reward Fish\StrippedFlakeFish.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\Aquarium\Reward Fish\StrippedSosarianSwill.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\Aquarium\VacationWafer.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Equipment\Armor\ArmorEnums.cs">
@@ -3297,19 +3036,7 @@
     <Compile Include="Items\Books\TanBook.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Equipment\Clothing\Arms.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Equipment\Clothing\Cloaks.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Clothing\Gargoyle Accessories.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Clothing\LeatherTalons.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Clothing\PlateTalons.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Equipment\Clothing\Hats.cs">
@@ -3639,9 +3366,6 @@
     <Compile Include="Items\Decorative\ElvenPodium.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Containers\FancyElvenArmoire.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Decorative\GiantReplicaAcorn.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -3649,9 +3373,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Decorative\RarewoodChest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Containers\SimpleElvenArmoire.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Containers\Backgammon.cs">
@@ -3885,12 +3606,6 @@
     <Compile Include="Items\Tools\WorldMap.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Containers\BagOfNecromancerReagents.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Containers\BagOfSmokeBombs.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Decorative\EmptyPots.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -3946,12 +3661,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Resource\WoodPulp.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Containers\BagOfAllReagents.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Containers\BagOfNecroReagents.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Containers\BagOfReagents.cs">
@@ -4218,13 +3927,7 @@
     <Compile Include="Items\Consumables\GreaterAgilityPotion.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Consumables\ConflagrationPotion.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Consumables\GreaterConflagrationPotion.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Consumables\ConfusionBlastPotion.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Consumables\GreaterConfusionBlastPotion.cs">
@@ -4237,9 +3940,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Consumables\LesserCurePotion.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Consumables\DarkglowPotion.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Consumables\ExplosionPotion.cs">
@@ -4449,18 +4149,6 @@
     <Compile Include="Items\Consumables\CurseWeaponScroll.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Consumables\EvilOmenScroll.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Consumables\ExorcismScroll.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Consumables\HorrificBeastScroll.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Consumables\LichFormScroll.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Consumables\MindRotScroll.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -4632,19 +4320,7 @@
     <Compile Include="Items\Equipment\Instruments\TambourineTassel.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Consumables\EggBomb.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Consumables\FukiyaDarts.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Clothing\LeatherNinjaBelt.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Consumables\Shuriken.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Consumables\SmokeBomb.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Consumables\GemMiningBook.cs">
@@ -4684,9 +4360,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Tools\RewardBlackDyeTub.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Tools\RunebookDyeTub.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Tools\SpecialDyeTub.cs">
@@ -4794,18 +4467,6 @@
     <Compile Include="Items\Tools\RollingPin.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Tools\RunicDovetailSaw.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Tools\RunicFletcherTool.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Tools\RunicHammer.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Tools\RunicSewingKit.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Tools\Saw.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -4834,24 +4495,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Tools\Tongs.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\DawnsMusicBox\DawnsMusicBox.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\DawnsMusicBox\DawnsMusicGear.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\DawnsMusicBox\DawnsMusicInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\DawnsMusicBox\RewardVersion\DawnsMusicBox.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\DawnsMusicBox\RewardVersion\MusicBoxGears.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Addons\DawnsMusicBox\RewardVersion\TrackInfo.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Addons\FountainOfLife.cs">
@@ -5134,9 +4777,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Addons\MiniHouses.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Consumables\GrizzledMareStatuette.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Decorative\MinotaurHedge.cs">
@@ -6113,9 +5753,6 @@
     <Compile Include="Misc\CrashGuard.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Misc\CurrentExpansion.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Misc\DataPath.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -6277,9 +5914,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Misc\WelcomeTimer.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Abilities\Abilities.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Abilities\BaseSummoned.cs">
@@ -6792,9 +6426,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Functional\DespiseAnkh.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Quest\PutridHeart.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Internal\DespiseTeleporter.cs">
@@ -7421,19 +7052,7 @@
     <Compile Include="Quests\BaseQuest.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Containers\CraftsmanSatchel.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Containers\RewardBag.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Containers\RewardBox.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Functional\BedlamAltar.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Quest\DisintegratingThesisNotes.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Mobiles\Bosses\LadyMelisande.cs">
@@ -7443,9 +7062,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Functional\BlightedGroveAltar.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Consumables\GorgonLens.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Mobiles\IFreezable.cs">
@@ -7478,25 +7094,7 @@
     <Compile Include="Mobiles\Bosses\ChiefParoxysmus.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Quest\CoagulatedLegs.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Quest\ParoxysmusKey.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Quest\PartiallyDigestedTorso.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Functional\PrismOfLightAltar.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Quest\BrokenCrystals.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Quest\CrushedCrystals.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Quest\PiecesOfCrystal.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Mobiles\Bosses\ShimmeringEffusion.cs">
@@ -7517,13 +7115,7 @@
     <Compile Include="Items\Functional\CitadelAltar.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Quest\DragonFlameKey.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Mobiles\Normal\DragonsFlameMage.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Quest\CitadelKey.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Mobiles\Normal\SerpentsFangAssassin.cs">
@@ -7539,9 +7131,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Mobiles\Bosses\DreadHorn.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Quest\TwistedWealdKey.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Services\RemoteAdmin\Network.cs">
@@ -7723,12 +7312,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Services\TrickOrTreat.cs" />
-    <Compile Include="Items\Addons\FountainOfFortune.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Containers\GemologistsSatchel.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Services\VeteranRewards\Character Statue Maker\CharacterStatue.cs">
       <SubType>Code</SubType>
     </Compile>

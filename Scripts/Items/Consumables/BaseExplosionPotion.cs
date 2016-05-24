@@ -216,7 +216,7 @@ namespace Server.Items
 						damage /= toDamage - 1;
 					}
 
-					AOS.Damage(m, from, damage, 0, 100, 0, 0, 0);
+					m.Damage(damage, from);
 				}
 				else if (o is BaseExplosionPotion)
 				{

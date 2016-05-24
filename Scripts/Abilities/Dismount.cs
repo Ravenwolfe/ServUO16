@@ -29,7 +29,7 @@ namespace Server.Items
             if (!base.Validate(from))
                 return false;
 
-            if ( (from.Mounted || from.Flying) && !(from.Weapon is Lance) && !(from.Weapon is GargishLance) )
+            if ( (from.Mounted) && !(from.Weapon is Lance) )
             {
                 from.SendLocalizedMessage(1061283); // You cannot perform that attack while mounted or flying!
                 return false;
@@ -46,14 +46,14 @@ namespace Server.Items
             if (defender is ChaosDragoon || defender is ChaosDragoonElite)
                 return;
 
-            if ((attacker.Mounted || attacker.Flying) && (!(attacker.Weapon is Lance) && !(defender.Weapon is Lance) && !(attacker.Weapon is GargishLance) && !(defender.Weapon is GargishLance))) // TODO: Should there be a message here?
+            if ((attacker.Mounted || attacker.Flying) && (!(attacker.Weapon is Lance) && !(defender.Weapon is Lance))) // TODO: Should there be a message here?
                 return;
 
             ClearCurrentAbility(attacker);
 
             IMount mount = defender.Mount;
 
-            if (mount == null && !Server.Spells.Ninjitsu.AnimalForm.UnderTransformation(defender) && !defender.Flying)
+            if (mount == null)
             {
                 attacker.SendLocalizedMessage(1060848); // This attack only works on mounted or flying targets
                 return;
@@ -81,17 +81,9 @@ namespace Server.Items
 
             if (defender is PlayerMobile)
             {
-                if (Server.Spells.Ninjitsu.AnimalForm.UnderTransformation(defender))
-                {
-                    defender.SendLocalizedMessage(1114066, attacker.Name); // ~1_NAME~ knocked you out of animal form!
-                }
-                else if (defender.Mounted)
+                if (defender.Mounted)
                 {
                     defender.SendLocalizedMessage(1040023); // You have been knocked off of your mount!
-                }
-                else if (defender.Flying)
-                {
-                    defender.SendLocalizedMessage(1113590, attacker.Name); // You have been grounded by ~1_NAME~!
                 }
 
                 (defender as PlayerMobile).SetMountBlock(BlockMountType.Dazed, TimeSpan.FromSeconds(10), true);
@@ -118,7 +110,7 @@ namespace Server.Items
             }
 				
             if (!attacker.Mounted)
-                AOS.Damage(defender, attacker, Utility.RandomMinMax(15, 25), 100, 0, 0, 0, 0);
+                defender.Damage(Utility.RandomMinMax(15, 25), attacker);
         }
     }
 }

@@ -241,22 +241,6 @@ namespace Server.Items
                             }
                         }
                     }
-                    else if ((item is Runebook || item is RecallRune) && this.m_Tub.AllowRunebooks)
-                    {
-                        if (!from.InRange(this.m_Tub.GetWorldLocation(), 1) || !from.InRange(item.GetWorldLocation(), 1))
-                        {
-                            from.SendLocalizedMessage(500446); // That is too far away.
-                        }
-                        else if (!item.Movable)
-                        {
-                            from.SendLocalizedMessage(1049776); // You cannot dye runes or runebooks that are locked down.
-                        }
-                        else
-                        {
-                            item.Hue = this.m_Tub.DyedHue;
-                            from.PlaySound(0x23E);
-                        }
-                    }
                     else if (item is MonsterStatuette && this.m_Tub.AllowStatuettes)
                     {
                         if (!from.InRange(this.m_Tub.GetWorldLocation(), 1) || !from.InRange(item.GetWorldLocation(), 1))

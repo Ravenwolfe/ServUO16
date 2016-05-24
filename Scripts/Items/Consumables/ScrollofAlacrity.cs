@@ -68,24 +68,6 @@ namespace Server.Items
             if (pm == null)
                 return false;
 
-            #region Mondain's Legacy
-            for (int i = pm.Quests.Count - 1; i >= 0; i--)
-            {
-                BaseQuest quest = pm.Quests[i];
-
-                for (int j = quest.Objectives.Count - 1; j >= 0; j--)
-                {
-                    BaseObjective objective = quest.Objectives[j];
-
-                    if (objective is ApprenticeObjective)
-                    {
-                        from.SendMessage("You are already under the effect of an enhanced skillgain quest.");
-                        return false;
-                    }
-                }
-            }
-            #endregion
-
             #region Scroll of Alacrity
             if (pm.AcceleratedStart > DateTime.UtcNow)
             {

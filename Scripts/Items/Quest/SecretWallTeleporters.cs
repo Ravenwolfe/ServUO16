@@ -175,7 +175,7 @@ namespace Server.Items
                     Effects.SendLocationParticles(EffectItem.Create(from.Location, from.Map, EffectItem.DefaultDuration), 0x36B0, 1, 14, 63, 7, 9915, 0);
                     Effects.PlaySound(from.Location, from.Map, 0x229);
 					
-                    AOS.Damage(from, Utility.Random(4, 5), 0, 0, 0, 100, 0);
+                    from.Damage(Utility.Random(4, 5));
                 }
 				
                 from.SendLocalizedMessage(1072739); // You hear a click behind the wall.

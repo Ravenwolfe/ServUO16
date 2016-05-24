@@ -100,13 +100,7 @@ namespace Server.Items
                 mana -= 5;
 
             double scalar = 1.0;
-            if (!Server.Spells.Necromancy.MindRotSpell.GetMindRotScalar(from, ref scalar))
-                scalar = 1.0;
 
-            // Lower Mana Cost = 40%
-            int lmc = Math.Min(AosAttributes.GetValue(from, AosAttribute.LowerManaCost), 40);
-
-            scalar -= (double)lmc / 100;
             mana = (int)(mana * scalar);
 
             // Using a special move within 3 seconds of the previous special move costs double mana 
@@ -135,11 +129,6 @@ namespace Server.Items
 
             if (skill != null && skill.Base >= reqSkill)
                 return true;
-
-            /* <UBWS> */
-            if (weapon.WeaponAttributes.UseBestSkill > 0 && (from.Skills[SkillName.Swords].Base >= reqSkill || from.Skills[SkillName.Macing].Base >= reqSkill || from.Skills[SkillName.Fencing].Base >= reqSkill))
-                return true;
-            /* </UBWS> */
 
             if (reqTactics)
             {
@@ -188,10 +177,7 @@ namespace Server.Items
                     AddContext(from, new WeaponAbilityContext(timer));
                 }
 
-                if (ManaPhasingOrb.IsInManaPhase(from))
-                    ManaPhasingOrb.RemoveFromTable(from);
-                else
-                    from.Mana -= mana;
+                from.Mana -= mana;
             }
 
             return true;
@@ -207,32 +193,10 @@ namespace Server.Items
             if (state == null)
                 return false;
 
-            if (this.RequiresSE && !state.SupportsExpansion(Expansion.SE))
-            {
-                from.SendLocalizedMessage(1063456); // You must upgrade to Samurai Empire in order to use that ability.
-                return false;
-            }
-
-            if (Spells.Bushido.HonorableExecution.IsUnderPenalty(from) || Spells.Ninjitsu.AnimalForm.UnderTransformation(from))
-            {
-                from.SendLocalizedMessage(1063024); // You cannot perform this special move right now.
-                return false;
-            }
-
-            if (Core.ML && from.Spell != null)
-            {
-                from.SendLocalizedMessage(1063024); // You cannot perform this special move right now.
-                return false;
-            }
-
             #region Dueling
             string option = null;
 
-            if (this is ArmorIgnore)
-                option = "Armor Ignore";
-            else if (this is BleedAttack)
-                option = "Bleed Attack";
-            else if (this is ConcussionBlow)
+            if (this is ConcussionBlow)
                 option = "Concussion Blow";
             else if (this is CrushingBlow)
                 option = "Crushing Blow";
@@ -240,40 +204,10 @@ namespace Server.Items
                 option = "Disarm";
             else if (this is Dismount)
                 option = "Dismount";
-            else if (this is DoubleStrike)
-                option = "Double Strike";
             else if (this is InfectiousStrike)
                 option = "Infectious Strike";
-            else if (this is MortalStrike)
-                option = "Mortal Strike";
-            else if (this is MovingShot)
-                option = "Moving Shot";
             else if (this is ParalyzingBlow)
                 option = "Paralyzing Blow";
-            else if (this is ShadowStrike)
-                option = "Shadow Strike";
-            else if (this is WhirlwindAttack)
-                option = "Whirlwind Attack";
-            else if (this is RidingSwipe)
-                option = "Riding Swipe";
-            else if (this is FrenziedWhirlwind)
-                option = "Frenzied Whirlwind";
-            else if (this is Block)
-                option = "Block";
-            else if (this is DefenseMastery)
-                option = "Defense Mastery";
-            else if (this is NerveStrike)
-                option = "Nerve Strike";
-            else if (this is TalonStrike)
-                option = "Talon Strike";
-            else if (this is Feint)
-                option = "Feint";
-            else if (this is DualWield)
-                option = "Dual Wield";
-            else if (this is DoubleShot)
-                option = "Double Shot";
-            else if (this is ArmorPierce)
-                option = "Armor Pierce";
 
             if (option != null && !Engines.ConPVP.DuelContext.AllowSpecialAbility(from, option, true))
                 return false;
@@ -282,41 +216,15 @@ namespace Server.Items
             return this.CheckSkills(from) && this.CheckMana(from, false);
         }
 
-        private static readonly WeaponAbility[] m_Abilities = new WeaponAbility[33]
+        private static readonly WeaponAbility[] m_Abilities = new WeaponAbility[7]
         {
             null,
-            new ArmorIgnore(),
-            new BleedAttack(),
             new ConcussionBlow(),
             new CrushingBlow(),
             new Disarm(),
             new Dismount(),
-            new DoubleStrike(),
             new InfectiousStrike(),
-            new MortalStrike(),
-            new MovingShot(),
-            new ParalyzingBlow(),
-            new ShadowStrike(),
-            new WhirlwindAttack(),
-            new RidingSwipe(),
-            new FrenziedWhirlwind(),
-            new Block(),
-            new DefenseMastery(),
-            new NerveStrike(),
-            new TalonStrike(),
-            new Feint(),
-            new DualWield(),
-            new DoubleShot(),
-            new ArmorPierce(),
-            new Bladeweave(),
-            new ForceArrow(),
-            new LightningArrow(),
-            new PsychicAttack(),
-            new SerpentArrow(),
-            new ForceOfNature(),
-            new InfusedThrow(),
-            new MysticArc(),
-            new Disrobe()
+            new ParalyzingBlow()
         };
 
         public static WeaponAbility[] Abilities

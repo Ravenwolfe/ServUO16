@@ -9,10 +9,8 @@ namespace Server.Items
         public DaemonArms()
             : base(0x144E)
         {
-            this.Weight = 2.0;
-            this.Hue = 0x648;
-
-            this.ArmorAttributes.SelfRepair = 1;
+            Weight = 2.0;
+            Hue = 0x648;
         }
 
         public DaemonArms(Serial serial)
@@ -124,8 +122,8 @@ namespace Server.Items
 
             writer.Write((int)0);
 
-            if (this.Weight == 1.0)
-                this.Weight = 2.0;
+            if (Weight == 1.0)
+                Weight = 2.0;
         }
 
         public override void Deserialize(GenericReader reader)
@@ -133,9 +131,6 @@ namespace Server.Items
             base.Deserialize(reader);
 
             int version = reader.ReadInt();
-
-            if (this.ArmorAttributes.SelfRepair == 0)
-                this.ArmorAttributes.SelfRepair = 1;
         }
     }
 }

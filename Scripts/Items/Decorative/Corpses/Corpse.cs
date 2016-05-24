@@ -1278,28 +1278,6 @@ namespace Server.Items
 							return;
 						}
 					}
-					else if (qs is TheSummoningQuest)
-					{
-						VanquishDaemonObjective obj = qs.FindObjective(typeof(VanquishDaemonObjective)) as VanquishDaemonObjective;
-
-						if (obj != null && obj.Completed && obj.CorpseWithSkull == this)
-						{
-							GoldenSkull sk = new GoldenSkull();
-
-							if (player.PlaceInBackpack(sk))
-							{
-								obj.CorpseWithSkull = null;
-								player.SendLocalizedMessage(1050022);
-									// For your valor in combating the devourer, you have been awarded a golden skull.
-								qs.Complete();
-							}
-							else
-							{
-								sk.Delete();
-								player.SendLocalizedMessage(1050023); // You find a golden skull, but your backpack is too full to carry it.
-							}
-						}
-					}
 				}
 				#endregion
 

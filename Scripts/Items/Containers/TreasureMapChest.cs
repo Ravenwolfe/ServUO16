@@ -10,56 +10,6 @@ namespace Server.Items
 {
     public class TreasureMapChest : LockableContainer
     {
-        public static Type[] Artifacts { get { return m_Artifacts; } }
-        private static readonly Type[] m_Artifacts = new Type[]
-        {
-            typeof(CandelabraOfSouls), typeof(GoldBricks), typeof(PhillipsWoodenSteed),
-            typeof(ArcticDeathDealer), typeof(BlazeOfDeath), typeof(BurglarsBandana),
-            typeof(CavortingClub), typeof(DreadPirateHat),
-            typeof(EnchantedTitanLegBone), typeof(GwennosHarp), typeof(IolosLute),
-            typeof(LunaLance), typeof(NightsKiss), typeof(NoxRangersHeavyCrossbow),
-            typeof(PolarBearMask), typeof(VioletCourage), typeof(HeartOfTheLion),
-            typeof(ColdBlood), typeof(AlchemistsBauble), typeof(CaptainQuacklebushsCutlass),
-			typeof(ForgedPardon), typeof(ShieldOfInvulnerability), typeof(AncientShipModelOfTheHMSCape),
-			typeof(AdmiralHeartyRum)
-        };
-
-        public static Type[] ArtifactsLevelFiveToSeven { get { return m_LevelFiveToSeven; } }
-        private static Type[] m_LevelFiveToSeven = new Type[]
-        {
-            typeof(ForgedPardon), typeof(ManaPhasingOrb), typeof(RunedSashOfWarding), typeof(SurgeShield)
-        };
-
-        public static Type[] ArtifactsLevelSeven { get { return m_LevelSevenOnly; } }
-        private static Type[] m_LevelSevenOnly = new Type[]
-        {
-            typeof(CoffinPiece), typeof(MasterSkeletonKey)
-        };
-
-        public static Type[] SOSArtifacts { get { return m_SOSArtifacts; } }
-        private static Type[] m_SOSArtifacts = new Type[]
-        {
-            typeof(AntiqueWeddingDress), 
-            typeof(KelpWovenLeggings),   
-            typeof(RunedDriftwoodBow),
-            typeof(ValkyrieArmor)
-        };
-        public static Type[] SOSDecor { get { return m_SOSDecor; } }
-        private static Type[] m_SOSDecor = new Type[]
-        {
-            typeof(GrapeVine),
-            typeof(LargeFishingNet)
-            
-        };
-
-
-        private static Type[] m_ImbuingIngreds =
-		{
-			typeof(AbyssalCloth),   typeof(EssencePrecision), typeof(EssenceAchievement), typeof(EssenceBalance), 
-			typeof(EssenceControl), typeof(EssenceDiligence), typeof(EssenceDirection),   typeof(EssenceFeeling), 
-			typeof(EssenceOrder),   typeof(EssencePassion),   typeof(EssencePersistence), typeof(EssenceSingularity)
-		};
-
         private int m_Level;
         private DateTime m_DeleteTime;
         private Timer m_Timer;
@@ -265,16 +215,7 @@ namespace Server.Items
                     else
                         item = Loot.RandomArmorOrShieldOrWeapon();
 
-                    if (item != null && Core.HS && RandomItemGenerator.Enabled)
-                    {
-                        int min, max;
-                        GetRandomItemStat(out min, out max, propsScale);
-
-                        RunicReforging.GenerateRandomItem(item, LootPack.GetLuckChance(luck), min, max);
-
-                        cont.DropItem(item);
-                    }
-                    else if (item is BaseWeapon)
+                    if (item is BaseWeapon)
                     {
                         BaseWeapon weapon = (BaseWeapon)item;
 

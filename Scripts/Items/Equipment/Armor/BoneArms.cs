@@ -2,18 +2,18 @@ using System;
 
 namespace Server.Items
 {
-    [FlipableAttribute(0x1451, 0x1456)]
-    public class DaemonHelm : BaseArmor
+    [FlipableAttribute(0x144e, 0x1453)]
+    public class BoneArms : BaseArmor
     {
+		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public DaemonHelm()
-            : base(0x1451)
+        public BoneArms()
+            : base(0x144E)
         {
-            Hue = 0x648;
-            Weight = 3.0;
+            this.Weight = 2.0;
         }
 
-        public DaemonHelm(Serial serial)
+        public BoneArms(Serial serial)
             : base(serial)
         {
         }
@@ -22,56 +22,56 @@ namespace Server.Items
         {
             get
             {
-                return 6;
+                return 3;
             }
         }
         public override int BaseFireResistance
         {
             get
             {
-                return 6;
+                return 3;
             }
         }
         public override int BaseColdResistance
         {
             get
             {
-                return 7;
+                return 4;
             }
         }
         public override int BasePoisonResistance
         {
             get
             {
-                return 5;
+                return 2;
             }
         }
         public override int BaseEnergyResistance
         {
             get
             {
-                return 7;
+                return 4;
             }
         }
         public override int InitMinHits
         {
             get
             {
-                return 255;
+                return 25;
             }
         }
         public override int InitMaxHits
         {
             get
             {
-                return 255;
+                return 30;
             }
         }
         public override int AosStrReq
         {
             get
             {
-                return 20;
+                return 55;
             }
         }
         public override int OldStrReq
@@ -81,11 +81,25 @@ namespace Server.Items
                 return 40;
             }
         }
+        public override int OldDexBonus
+        {
+            get
+            {
+                return -2;
+            }
+        }
         public override int ArmorBase
         {
             get
             {
-                return 46;
+                return 30;
+            }
+        }
+        public override int RevertArmorBase
+        {
+            get
+            {
+                return 4;
             }
         }
         public override ArmorMaterialType MaterialType
@@ -102,28 +116,19 @@ namespace Server.Items
                 return CraftResource.RegularLeather;
             }
         }
-        public override int LabelNumber
-        {
-            get
-            {
-                return 1041374;
-            }
-        }// daemon bone helmet
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-
             writer.Write((int)0);
+
+            if (this.Weight == 1.0)
+                this.Weight = 2.0;
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
-
             int version = reader.ReadInt();
-
-            if (Weight == 1.0)
-                Weight = 3.0;
         }
     }
 }

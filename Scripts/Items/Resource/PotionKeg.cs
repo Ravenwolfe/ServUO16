@@ -360,16 +360,6 @@ namespace Server.Items
                     return new ExplosionPotion();
                 case PotionEffect.ExplosionGreater:
                     return new GreaterExplosionPotion();
-				
-                case PotionEffect.Conflagration:
-                    return new ConflagrationPotion();
-                case PotionEffect.ConflagrationGreater:
-                    return new GreaterConflagrationPotion();
-
-                case PotionEffect.ConfusionBlast:
-                    return new ConfusionBlastPotion();
-                case PotionEffect.ConfusionBlastGreater:
-                    return new GreaterConfusionBlastPotion();
             }
         }
     }

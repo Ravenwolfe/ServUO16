@@ -22,8 +22,8 @@ namespace Server.Items
         public ArcheryButte(int itemID)
             : base(itemID)
         {
-            this.m_MinSkill = -25.0;
-            this.m_MaxSkill = +25.0;
+            m_MinSkill = -25.0;
+            m_MaxSkill = +25.0;
         }
 
         public ArcheryButte(Serial serial)
@@ -36,11 +36,11 @@ namespace Server.Items
         {
             get
             {
-                return this.m_MinSkill;
+                return m_MinSkill;
             }
             set
             {
-                this.m_MinSkill = value;
+                m_MinSkill = value;
             }
         }
         [CommandProperty(AccessLevel.GameMaster)]
@@ -48,11 +48,11 @@ namespace Server.Items
         {
             get
             {
-                return this.m_MaxSkill;
+                return m_MaxSkill;
             }
             set
             {
-                this.m_MaxSkill = value;
+                m_MaxSkill = value;
             }
         }
         [CommandProperty(AccessLevel.GameMaster)]
@@ -60,11 +60,11 @@ namespace Server.Items
         {
             get
             {
-                return this.m_LastUse;
+                return m_LastUse;
             }
             set
             {
-                this.m_LastUse = value;
+                m_LastUse = value;
             }
         }
         [CommandProperty(AccessLevel.GameMaster)]
@@ -72,11 +72,11 @@ namespace Server.Items
         {
             get
             {
-                return (this.ItemID == 0x100A);
+                return (ItemID == 0x100A);
             }
             set
             {
-                this.ItemID = value ? 0x100A : 0x100B;
+                ItemID = value ? 0x100A : 0x100B;
             }
         }
         [CommandProperty(AccessLevel.GameMaster)]
@@ -84,11 +84,11 @@ namespace Server.Items
         {
             get
             {
-                return this.m_Arrows;
+                return m_Arrows;
             }
             set
             {
-                this.m_Arrows = value;
+                m_Arrows = value;
             }
         }
         [CommandProperty(AccessLevel.GameMaster)]
@@ -96,62 +96,59 @@ namespace Server.Items
         {
             get
             {
-                return this.m_Bolts;
+                return m_Bolts;
             }
             set
             {
-                this.m_Bolts = value;
+                m_Bolts = value;
             }
         }
         public override void OnDoubleClick(Mobile from)
         {
-            if ((from.Weapon is Boomerang || from.Weapon is Cyclone || from.Weapon is BaseThrown) && from.InRange(this.GetWorldLocation(), 1))
-                this.Fire(from);
-            if ((this.m_Arrows > 0 || this.m_Bolts > 0) && from.InRange(this.GetWorldLocation(), 1))
-                this.Gather(from);
+            if ((m_Arrows > 0 || m_Bolts > 0) && from.InRange(GetWorldLocation(), 1))
+                Gather(from);
             else
-                this.Fire(from);
+                Fire(from);
         }
 
         public void Gather(Mobile from)
         {
             from.LocalOverheadMessage(MessageType.Regular, 0x3B2, 500592); // You gather the arrows and bolts.
 
-            if (this.m_Arrows > 0)
-                from.AddToBackpack(new Arrow(this.m_Arrows));
+            if (m_Arrows > 0)
+                from.AddToBackpack(new Arrow(m_Arrows));
 
-            if (this.m_Bolts > 0)
-                from.AddToBackpack(new Bolt(this.m_Bolts));
+            if (m_Bolts > 0)
+                from.AddToBackpack(new Bolt(m_Bolts));
 
-            this.m_Arrows = 0;
-            this.m_Bolts = 0;
+            m_Arrows = 0;
+            m_Bolts = 0;
 
-            this.m_Entries = null;
+            m_Entries = null;
         }
 
         public void Fire(Mobile from)
         {
             BaseRanged bow = from.Weapon as BaseRanged;
-            BaseThrown trow = from.Weapon as BaseThrown;
 
-            if (bow == null && trow == null)
+            if (bow == null)
             {
-                this.SendLocalizedMessageTo(from, 500593); // You must practice with ranged weapons on this.
+                SendLocalizedMessageTo(from, 500593); // You must practice with ranged weapons on this.
                 return;
             }
 
-            if (DateTime.UtcNow < (this.m_LastUse + UseDelay))
+            if (DateTime.UtcNow < (m_LastUse + UseDelay))
                 return;
 
-            Point3D worldLoc = this.GetWorldLocation();
+            Point3D worldLoc = GetWorldLocation();
 
-            if (this.FacingEast ? from.X <= worldLoc.X : from.Y <= worldLoc.Y)
+            if (FacingEast ? from.X <= worldLoc.X : from.Y <= worldLoc.Y)
             {
                 from.LocalOverheadMessage(MessageType.Regular, 0x3B2, 500596); // You would do better to stand in front of the archery butte.
                 return;
             }
 
-            if (this.FacingEast ? from.Y != worldLoc.Y : from.X != worldLoc.X)
+            if (FacingEast ? from.Y != worldLoc.Y : from.X != worldLoc.X)
             {
                 from.LocalOverheadMessage(MessageType.Regular, 0x3B2, 500597); // You aren't properly lined up with the archery butte to get an accurate shot.
                 return;
@@ -175,73 +172,45 @@ namespace Server.Items
             bool isBolt = (ammoType == typeof(Bolt));
             bool isKnown = (isArrow || isBolt);
 
-            if (from.Weapon != trow && (pack == null || !pack.ConsumeTotal(ammoType, 1)))
+            if (pack == null || !pack.ConsumeTotal(ammoType, 1))
             {
                 if (isArrow)
                     from.LocalOverheadMessage(MessageType.Regular, 0x3B2, 500594); // You do not have any arrows with which to practice.
                 else if (isBolt)
                     from.LocalOverheadMessage(MessageType.Regular, 0x3B2, 500595); // You do not have any crossbow bolts with which to practice.
                 else
-                    this.SendLocalizedMessageTo(from, 500593); // You must practice with ranged weapons on this.
+                    SendLocalizedMessageTo(from, 500593); // You must practice with ranged weapons on this.
 
                 return;
             }
 
-            this.m_LastUse = DateTime.UtcNow;
+            m_LastUse = DateTime.UtcNow;
 
-            if (from.Weapon == trow)
+            from.Direction = from.GetDirectionTo(GetWorldLocation());
+            bow.PlaySwingAnimation(from);
+            from.MovingEffect(this, bow.EffectID, 18, 1, false, false);
+
+            ScoreEntry se = GetEntryFor(from);
+
+            if (from.Weapon == bow)
             {
-                from.MovingEffect(this, trow.EffectID, 18, 1, false, false);
-                from.Direction = from.GetDirectionTo(this.GetWorldLocation());
-                trow.PlaySwingAnimation(from);
-            }
-
-            else
-            {
-                from.Direction = from.GetDirectionTo(this.GetWorldLocation());
-                bow.PlaySwingAnimation(from);
-                from.MovingEffect(this, bow.EffectID, 18, 1, false, false);
-            }
-
-            ScoreEntry se = this.GetEntryFor(from);
-
-            if (from.Weapon == trow)
-            {
-                if (!from.CheckSkill(trow.Skill, this.m_MinSkill, this.m_MaxSkill))
-                {
-                    from.PlaySound(trow.MissSound);
-
-                    this.PublicOverheadMessage(MessageType.Regular, 0x3B2, 500604, from.Name); // You miss the target altogether.
-
-                    se.Record(0);
-
-                    if (se.Count == 1)
-                        this.PublicOverheadMessage(MessageType.Regular, 0x3B2, 1062719, se.Total.ToString());
-                    else
-                        this.PublicOverheadMessage(MessageType.Regular, 0x3B2, 1042683, String.Format("{0}\t{1}", se.Total, se.Count));
-
-                    return;
-                }
-            }
-            else if (from.Weapon == bow)
-            {
-                if (!from.CheckSkill(bow.Skill, this.m_MinSkill, this.m_MaxSkill))
+                if (!from.CheckSkill(bow.Skill, m_MinSkill, m_MaxSkill))
                 {
                     from.PlaySound(bow.MissSound);
 
-                    this.PublicOverheadMessage(MessageType.Regular, 0x3B2, 500604, from.Name); // You miss the target altogether.
+                    PublicOverheadMessage(MessageType.Regular, 0x3B2, 500604, from.Name); // You miss the target altogether.
 
                     se.Record(0);
 
                     if (se.Count == 1)
-                        this.PublicOverheadMessage(MessageType.Regular, 0x3B2, 1062719, se.Total.ToString());
+                        PublicOverheadMessage(MessageType.Regular, 0x3B2, 1062719, se.Total.ToString());
                     else
-                        this.PublicOverheadMessage(MessageType.Regular, 0x3B2, 1042683, String.Format("{0}\t{1}", se.Total, se.Count));
+                        PublicOverheadMessage(MessageType.Regular, 0x3B2, 1042683, String.Format("{0}\t{1}", se.Total, se.Count));
 
                     return;
                 }
             }
-            Effects.PlaySound(this.Location, this.Map, 0x2B1);
+            Effects.PlaySound(Location, Map, 0x2B1);
 
             double rand = Utility.RandomDouble();
 
@@ -272,28 +241,28 @@ namespace Server.Items
                 splitScore = 5;
             }
 
-            bool split = (isKnown && ((this.m_Arrows + this.m_Bolts) * 0.02) > Utility.RandomDouble());
+            bool split = (isKnown && ((m_Arrows + m_Bolts) * 0.02) > Utility.RandomDouble());
 
             if (split)
             {
-                this.PublicOverheadMessage(MessageType.Regular, 0x3B2, 1010027 + area, String.Format("{0}\t{1}", from.Name, isArrow ? "arrow" : "bolt"));
+                PublicOverheadMessage(MessageType.Regular, 0x3B2, 1010027 + area, String.Format("{0}\t{1}", from.Name, isArrow ? "arrow" : "bolt"));
             }
             else
             {
-                this.PublicOverheadMessage(MessageType.Regular, 0x3B2, 1010035 + area, from.Name);
+                PublicOverheadMessage(MessageType.Regular, 0x3B2, 1010035 + area, from.Name);
 
                 if (isArrow)
-                    ++this.m_Arrows;
+                    ++m_Arrows;
                 else if (isBolt)
-                    ++this.m_Bolts;
+                    ++m_Bolts;
             }
 
             se.Record(split ? splitScore : score);
 
             if (se.Count == 1)
-                this.PublicOverheadMessage(MessageType.Regular, 0x3B2, 1062719, se.Total.ToString());
+                PublicOverheadMessage(MessageType.Regular, 0x3B2, 1062719, se.Total.ToString());
             else
-                this.PublicOverheadMessage(MessageType.Regular, 0x3B2, 1042683, String.Format("{0}\t{1}", se.Total, se.Count));
+                PublicOverheadMessage(MessageType.Regular, 0x3B2, 1042683, String.Format("{0}\t{1}", se.Total, se.Count));
         }
 
         public override void Serialize(GenericWriter writer)
@@ -302,10 +271,10 @@ namespace Server.Items
 
             writer.Write((int)0);
 
-            writer.Write(this.m_MinSkill);
-            writer.Write(this.m_MaxSkill);
-            writer.Write(this.m_Arrows);
-            writer.Write(this.m_Bolts);
+            writer.Write(m_MinSkill);
+            writer.Write(m_MaxSkill);
+            writer.Write(m_Arrows);
+            writer.Write(m_Bolts);
         }
 
         public override void Deserialize(GenericReader reader)
@@ -318,15 +287,15 @@ namespace Server.Items
             {
                 case 0:
                     {
-                        this.m_MinSkill = reader.ReadDouble();
-                        this.m_MaxSkill = reader.ReadDouble();
-                        this.m_Arrows = reader.ReadInt();
-                        this.m_Bolts = reader.ReadInt();
+                        m_MinSkill = reader.ReadDouble();
+                        m_MaxSkill = reader.ReadDouble();
+                        m_Arrows = reader.ReadInt();
+                        m_Bolts = reader.ReadInt();
 
-                        if (this.m_MinSkill == 0.0 && this.m_MaxSkill == 30.0)
+                        if (m_MinSkill == 0.0 && m_MaxSkill == 30.0)
                         {
-                            this.m_MinSkill = -25.0;
-                            this.m_MaxSkill = +25.0;
+                            m_MinSkill = -25.0;
+                            m_MaxSkill = +25.0;
                         }
 
                         break;
@@ -336,13 +305,13 @@ namespace Server.Items
 
         private ScoreEntry GetEntryFor(Mobile from)
         {
-            if (this.m_Entries == null)
-                this.m_Entries = new Hashtable();
+            if (m_Entries == null)
+                m_Entries = new Hashtable();
 
-            ScoreEntry e = (ScoreEntry)this.m_Entries[from];
+            ScoreEntry e = (ScoreEntry)m_Entries[from];
 
             if (e == null)
-                this.m_Entries[from] = e = new ScoreEntry();
+                m_Entries[from] = e = new ScoreEntry();
 
             return e;
         }
@@ -359,28 +328,28 @@ namespace Server.Items
             {
                 get
                 {
-                    return this.m_Total;
+                    return m_Total;
                 }
                 set
                 {
-                    this.m_Total = value;
+                    m_Total = value;
                 }
             }
             public int Count
             {
                 get
                 {
-                    return this.m_Count;
+                    return m_Count;
                 }
                 set
                 {
-                    this.m_Count = value;
+                    m_Count = value;
                 }
             }
             public void Record(int score)
             {
-                this.m_Total += score;
-                this.m_Count += 1;
+                m_Total += score;
+                m_Count += 1;
             }
         }
     }
@@ -390,7 +359,7 @@ namespace Server.Items
         [Constructable]
         public ArcheryButteAddon()
         {
-            this.AddComponent(new ArcheryButte(0x100A), 0, 0, 0);
+            AddComponent(new ArcheryButte(0x100A), 0, 0, 0);
         }
 
         public ArcheryButteAddon(Serial serial)

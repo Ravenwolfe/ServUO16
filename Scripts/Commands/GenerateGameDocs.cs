@@ -61,8 +61,6 @@ namespace Server.Commands
 			csv.AddValue("Cold Resist", arm.ColdResistance);
 			csv.AddValue("Poison Resist", arm.PoisonResistance);
 			csv.AddValue("Energy Resist", arm.EnergyResistance);
-			csv.AddValue("DCI", arm.Attributes.DefendChance);
-
 		}
 
 		private static void HandleBaseWeapon(object obj)

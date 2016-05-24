@@ -79,14 +79,6 @@ namespace Server.Items
             if (item == null)
                 return;
 
-            if (Core.SA && Server.Mobiles.RandomItemGenerator.Enabled)
-            {
-                int min, max;
-                TreasureMapChest.GetRandomItemStat(out min, out max);
-
-                RunicReforging.GenerateRandomItem(item, 0, min, max);
-            }
-
             DropItem(item);
         }
 

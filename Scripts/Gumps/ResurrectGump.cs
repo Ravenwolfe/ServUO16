@@ -210,13 +210,13 @@ namespace Server.Gumps
                     switch( level )
                     {
                         case VirtueLevel.Seeker:
-                            from.Hits = AOS.Scale(from.HitsMax, 20);
+                            from.Hits = Utility.RandomMinMax(20, from.HitsMax);
                             break;
                         case VirtueLevel.Follower:
-                            from.Hits = AOS.Scale(from.HitsMax, 40);
+                            from.Hits = Utility.RandomMinMax(40, from.HitsMax);
                             break;
                         case VirtueLevel.Knight:
-                            from.Hits = AOS.Scale(from.HitsMax, 80);
+                            from.Hits = Utility.RandomMinMax(80, from.HitsMax);
                             break;
                     }
                 }

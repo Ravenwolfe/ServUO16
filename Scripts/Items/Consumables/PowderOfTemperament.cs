@@ -137,42 +137,6 @@ namespace Server.Items
                         return;
                     }
 
-                    #region SA
-                    if (item is BaseWeapon)
-                    {
-                        if (((BaseWeapon)item).Attributes.Brittle > 0 || ((BaseWeapon)item).NegativeAttributes.Brittle > 0)
-                            noGo = true;
-                        antique = ((BaseWeapon)item).NegativeAttributes.Antique;
-                    }
-                    else if (item is BaseArmor)
-                    {
-                        if (((BaseArmor)item).Attributes.Brittle > 0 || ((BaseArmor)item).NegativeAttributes.Brittle > 0)
-                            noGo = true;
-                        antique = ((BaseArmor)item).NegativeAttributes.Antique;
-                    }
-                    else if (item is BaseClothing)
-                    {
-                        if (((BaseClothing)item).Attributes.Brittle > 0 || ((BaseClothing)item).NegativeAttributes.Brittle > 0)
-                            noGo = true;
-                        antique = ((BaseClothing)item).NegativeAttributes.Antique;
-                    }
-                    else if (item is BaseJewel)
-                    {
-                        if (((BaseJewel)item).Attributes.Brittle > 0 || ((BaseJewel)item).NegativeAttributes.Brittle > 0)
-                            noGo = true;
-                        antique = ((BaseJewel)item).NegativeAttributes.Antique;
-                    }
-                    else if (item is BaseTalisman && ((BaseTalisman)item).Attributes.Brittle > 0)
-                    {
-                        noGo = true;
-                    }
-                    if (noGo)
-                    {
-                        from.SendLocalizedMessage(1149799); //That cannot be used on brittle items.
-                        return;
-                    }
-                    #endregion
-
                     if (targeted is IDurability)
                     {
                         IDurability wearable = (IDurability)targeted;
@@ -197,14 +161,6 @@ namespace Server.Items
 
                                 if (wearable.MaxHitPoints < initMaxHP)
                                 {
-                                    if (antique > 0)
-                                    {
-                                        if (item is BaseWeapon) ((BaseWeapon)item).NegativeAttributes.Antique++;
-                                        if (item is BaseArmor) ((BaseArmor)item).NegativeAttributes.Antique++;
-                                        if (item is BaseJewel) ((BaseJewel)item).NegativeAttributes.Antique++;
-                                        if (item is BaseClothing) ((BaseClothing)item).NegativeAttributes.Antique++;
-                                    }
-
                                     int bonus = initMaxHP - wearable.MaxHitPoints;
 
                                     if (bonus > 10)

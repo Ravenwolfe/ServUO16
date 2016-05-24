@@ -92,9 +92,6 @@ namespace Server.Items
             base.Deserialize(reader);
 
             int version = reader.ReadInt();
-
-            if (!(this.Parent is Aquarium) && !(this.Parent is FishBowl))
-                this.StartTimer();
         }
     }
 }

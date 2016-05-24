@@ -9,7 +9,7 @@ namespace Server.Items
         public RunedSwitch()
             : base(0x2F61)
         {
-            this.Weight = 1.0;
+            Weight = 1.0;
         }
 
         public RunedSwitch(Serial serial)
@@ -26,7 +26,7 @@ namespace Server.Items
         }// runed switch
         public override void OnDoubleClick(Mobile from)
         {
-            if (this.IsChildOf(from.Backpack))
+            if (IsChildOf(from.Backpack))
             {
                 from.SendLocalizedMessage(1075101); // Please select an item to recharge.
                 from.Target = new InternalTarget(this);
@@ -55,29 +55,15 @@ namespace Server.Items
             public InternalTarget(RunedSwitch item)
                 : base(0, false, TargetFlags.None)
             {
-                this.m_Item = item;
+                m_Item = item;
             }
 
             protected override void OnTarget(Mobile from, object o)
             {
-                if (this.m_Item == null || this.m_Item.Deleted)
+                if (m_Item == null || m_Item.Deleted)
                     return;
-
-                if (o is BaseTalisman)
-                {
-                    BaseTalisman talisman = (BaseTalisman)o;
-
-                    if (talisman.Charges == 0)
-                    {
-                        talisman.Charges = talisman.MaxCharges;
-                        this.m_Item.Delete();
-                        from.SendLocalizedMessage(1075100); // The item has been recharged.
-                    }
-                    else
-                        from.SendLocalizedMessage(1075099); // You cannot recharge that item until all of its current charges have been used.
-                }
-                else
-                    from.SendLocalizedMessage(1046439); // That is not a valid target.
+                
+                from.SendLocalizedMessage(1046439); // That is not a valid target.
             }
         }
     }
