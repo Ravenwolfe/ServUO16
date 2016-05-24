@@ -504,7 +504,7 @@ namespace Server.Accounting
 		///     not supported by the client.
 		/// </summary>
 		[CommandProperty(AccessLevel.Administrator)]
-		public int Limit { get { return (Core.SA ? 7 : Core.AOS ? 6 : 5); } }
+		public int Limit { get { return 5; } }
 
 		/// <summary>
 		///     Gets the maxmimum amount of characters that this account can hold.

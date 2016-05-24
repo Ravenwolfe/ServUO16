@@ -73,7 +73,7 @@ namespace Server.Misc
             if (from is BaseCreature && !((BaseCreature)from).IsAnimatedDead)
                 points += 4;
 
-            if ((from is BaseCreature && ((BaseCreature)from).IsParagon) || from is Leviathan)
+            if ((from is BaseCreature && ((BaseCreature)from).IsParagon))
                 points += 40;
         
             if (points < 0)
@@ -91,7 +91,7 @@ namespace Server.Misc
 
             int points = (int)(from.Skills[SkillName.Focus].Value * 0.1);
 
-            if ((from is BaseCreature && ((BaseCreature)from).IsParagon) || from is Leviathan)
+            if ((from is BaseCreature && ((BaseCreature)from).IsParagon))
                 points += 40;
 
             if (points < -1)
@@ -130,7 +130,7 @@ namespace Server.Misc
 
                 double totalPoints = focusPoints + medPoints + (from.Meditating ? (medPoints > 13.0 ? 13.0 : medPoints) : 0.0);
 
-                if ((from is BaseCreature && ((BaseCreature)from).IsParagon) || from is Leviathan)
+                if ((from is BaseCreature && ((BaseCreature)from).IsParagon))
                     totalPoints += 40;
 
                 if (totalPoints < -1)

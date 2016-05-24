@@ -708,51 +708,6 @@ namespace Server.Engines.Craft
 
                                     break;
                                 }
-                            case 8: // Enhance item
-                                {
-                                    if (system.CanEnhance)
-                                        Enhance.BeginTarget(this.m_From, system, this.m_Tool);
-
-                                    break;
-                                }
-                            #region Stygian Abyss
-                            case 9: // Alter Item (Gargoyle)
-                                {
-                                    if (system.CanAlter)
-                                    {
-                                        if (Server.SkillHandlers.Imbuing.CheckSoulForge(m_From, 1, false))
-                                        {
-                                            AlterItem.BeginTarget(this.m_From, system, this.m_Tool);
-                                        }
-                                        else
-                                            m_From.SendLocalizedMessage(1111867); // You must be near a soulforge to alter an item.
-                                    }
-									break;
-                                }
-                            case 10: // Quest Item/Non Quest Item toggle
-                                {
-                                    //if (context == null || !system.QuestOption)
-                                    //break;
-                                    switch ( context.QuestOption )
-                                    {
-                                        case CraftQuestOption.QuestItem:
-                                            context.QuestOption = CraftQuestOption.NonQuestItem;
-                                            break;
-                                        case CraftQuestOption.NonQuestItem:
-                                            context.QuestOption = CraftQuestOption.QuestItem;
-                                            break;
-                                    }
-
-                                    this.m_From.SendGump(new CraftGump(this.m_From, this.m_CraftSystem, this.m_Tool, null, this.m_Page));
-
-                                    break;
-                                }
-                            case 11: // Cancel Make
-                                {
-                                    AutoCraftTimer.EndTimer(m_From);
-                                    break;
-                                }
-                            #endregion
                         }
                         break;
                     }

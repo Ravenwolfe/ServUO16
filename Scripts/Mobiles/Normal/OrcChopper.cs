@@ -70,9 +70,6 @@ namespace Server.Mobiles
                     this.PackItem(new Jug(BeverageType.Cider));
                     break;
             }
-
-            if (Core.AOS)
-                this.PackItem(Loot.RandomNecromancyReagent());
         }
 
         public OrcChopper(Serial serial)
@@ -126,12 +123,6 @@ namespace Server.Mobiles
 
             c.DropItem(new DoubleAxe());
 
-            if (Core.ML)
-            {
-                if (Utility.RandomDouble() < 0.05)
-                    c.DropItem(new StoutWhip());
-            }
-
             if (Utility.RandomDouble() < 0.1)
                 c.DropItem(new EvilOrcHelm());
         }
@@ -157,7 +148,7 @@ namespace Server.Mobiles
 
             if (item is OrcishKinMask)
             {
-                AOS.Damage(aggressor, 50, 0, 100, 0, 0, 0);
+                aggressor.Damage(50);
                 item.Delete();
                 aggressor.FixedParticles(0x36BD, 20, 10, 5044, EffectLayer.Head);
                 aggressor.PlaySound(0x307);

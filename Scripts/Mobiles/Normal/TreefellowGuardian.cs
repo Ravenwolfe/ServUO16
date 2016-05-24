@@ -37,9 +37,6 @@ namespace Server.Mobiles
 
             this.VirtualArmor = 24;
             this.PackItem(new Log(Utility.RandomMinMax(23, 34)));
-
-            if (0.05 > Utility.RandomDouble())
-                this.PackItem(new TreefellowWood()); 
         }
 
         public TreefellowGuardian(Serial serial)

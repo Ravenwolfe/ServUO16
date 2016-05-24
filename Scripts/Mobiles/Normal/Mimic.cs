@@ -54,14 +54,6 @@ namespace Server.Mobiles
             this.AddLoot(LootPack.MedScrolls);
         }
 
-        public override void OnDeath(Container c)
-        {
-            base.OnDeath(c);
-
-            if (Utility.RandomDouble() < 0.03)            
-                c.DropItem(new LuckyCoin());            
-        }
-
         public override int GetIdleSound()
         {
             return 1561;

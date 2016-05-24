@@ -698,12 +698,7 @@ namespace Server.Factions
 				}
 				else if (IsDamaged && (m_Guard.HitsMax - m_Guard.Hits) > Utility.Random(200))
 				{
-					if (IsAllowed(GuardAI.Magic) && ((m_Guard.Hits * 100) / Math.Max(m_Guard.HitsMax, 1)) < 10 &&
-						m_Guard.Home != Point3D.Zero && !Utility.InRange(m_Guard.Location, m_Guard.Home, 15) && m_Guard.Mana >= 11)
-					{
-						spell = new RecallSpell(m_Guard, null, new RunebookEntry(m_Guard.Home, m_Guard.Map, "Guard's Home", null), null);
-					}
-					else if (IsAllowed(GuardAI.Bless))
+					if (IsAllowed(GuardAI.Bless))
 					{
 						if (m_Guard.Mana >= 11 && (m_Guard.Hits + 30) < m_Guard.HitsMax)
 						{

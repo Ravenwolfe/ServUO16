@@ -32,8 +32,6 @@ namespace Server.Mobiles
             this.SetSkill(SkillName.MagicResist, 66.6);
             this.SetSkill(SkillName.Tactics, 86.2);
             this.SetSkill(SkillName.Wrestling, 86.9);
-
-            this.PackNecroReg(10, 15); /// Stratics didn't specify
         }
 
         public UndeadGuardian(Serial serial)

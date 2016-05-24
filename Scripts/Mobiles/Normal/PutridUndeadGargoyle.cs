@@ -51,15 +51,6 @@ namespace Server.Mobiles
 
             if (0.05 > Utility.RandomDouble())
                 PackItem(new UndyingFlesh());
-
-            if (0.05 > Utility.RandomDouble())
-                PackItem(new TatteredAncientScroll());
-
-            if (0.10 > Utility.RandomDouble())
-                PackItem(new InfusedGlassStave());
-
-            if (0.15 > Utility.RandomDouble())
-                PackItem(new AncientPotteryFragments());
         }
 
         public PutridUndeadGargoyle(Serial serial)

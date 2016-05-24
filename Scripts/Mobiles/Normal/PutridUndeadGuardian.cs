@@ -32,7 +32,6 @@ namespace Server.Mobiles
             this.SetSkill(SkillName.Tactics, 45.4);
             this.SetSkill(SkillName.Wrestling, 50.7);
 
-            this.PackNecroReg(10, 15); /// Stratics didn't specify
         }
 
         public PutridUndeadGuardian(Serial serial)

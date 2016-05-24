@@ -76,12 +76,6 @@ namespace Server.Items
 
 		public override void Drink(Mobile from)
 		{
-			if (Core.AOS && (from.Paralyzed || from.Frozen || (from.Spell != null && from.Spell.IsCasting)))
-			{
-				from.SendLocalizedMessage(1062725); // You can not use a purple potion while paralyzed.
-				return;
-			}
-
 			ThrowTarget targ = from.Target as ThrowTarget;
 			Stackable = false; // Scavenged explosion potions won't stack with those ones in backpack, and still will explode.
 
@@ -161,7 +155,7 @@ namespace Server.Items
 
 			if (direct)
 			{
-				alchemyBonus = (int)(from.Skills.Alchemy.Value / (Core.AOS ? 5 : 10));
+				alchemyBonus = (int)(from.Skills.Alchemy.Value / 10);
 			}
 
 			IPooledEnumerable eable = LeveledExplosion
@@ -206,15 +200,6 @@ namespace Server.Items
 					int damage = Utility.RandomMinMax(min, max);
 
 					damage += alchemyBonus;
-
-					if (!Core.AOS && damage > 40)
-					{
-						damage = 40;
-					}
-					else if (Core.AOS && toDamage > 2)
-					{
-						damage /= toDamage - 1;
-					}
 
 					m.Damage(damage, from);
 				}

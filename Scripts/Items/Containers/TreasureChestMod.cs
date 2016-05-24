@@ -215,26 +215,21 @@ namespace Server.Items
 			{
 				Item item = Loot.RandomArmorOrShieldOrWeapon();
 
-                if (!Core.AOS)
+                if (item is BaseWeapon)
                 {
-                    if (item is BaseWeapon)
-                    {
-                        BaseWeapon weapon = (BaseWeapon)item;
-                        weapon.DamageLevel = (WeaponDamageLevel)Utility.Random(3);
-                        weapon.AccuracyLevel = (WeaponAccuracyLevel)Utility.Random(3);
-                        weapon.DurabilityLevel = (WeaponDurabilityLevel)Utility.Random(3);
-                        weapon.Quality = WeaponQuality.Regular;
-                    }
-                    else if (item is BaseArmor)
-                    {
-                        BaseArmor armor = (BaseArmor)item;
-                        armor.ProtectionLevel = (ArmorProtectionLevel)Utility.Random(3);
-                        armor.Durability = (ArmorDurabilityLevel)Utility.Random(3);
-                        armor.Quality = ArmorQuality.Regular;
-                    }
+                    BaseWeapon weapon = (BaseWeapon)item;
+                    weapon.DamageLevel = (WeaponDamageLevel)Utility.Random(3);
+                    weapon.AccuracyLevel = (WeaponAccuracyLevel)Utility.Random(3);
+                    weapon.DurabilityLevel = (WeaponDurabilityLevel)Utility.Random(3);
+                    weapon.Quality = WeaponQuality.Regular;
                 }
-                else
-                    AddLoot(item);
+                else if (item is BaseArmor)
+                {
+                    BaseArmor armor = (BaseArmor)item;
+                    armor.ProtectionLevel = (ArmorProtectionLevel)Utility.Random(3);
+                    armor.Durability = (ArmorDurabilityLevel)Utility.Random(3);
+                    armor.Quality = ArmorQuality.Regular;
+                }
 			}
 
 			for( int i = Utility.Random( 1, 2 ); i > 1; i-- )
@@ -310,26 +305,21 @@ namespace Server.Items
 			{
 				Item item = Loot.RandomArmorOrShieldOrWeapon();
 
-                if (!Core.AOS)
-                {
-                    if (item is BaseWeapon)
-                    {
-                        BaseWeapon weapon = (BaseWeapon)item;
-                        weapon.DamageLevel = (WeaponDamageLevel)Utility.Random(4);
-                        weapon.AccuracyLevel = (WeaponAccuracyLevel)Utility.Random(4);
-                        weapon.DurabilityLevel = (WeaponDurabilityLevel)Utility.Random(4);
-                        weapon.Quality = WeaponQuality.Regular;
-                    }
-                    else if (item is BaseArmor)
-                    {
-                        BaseArmor armor = (BaseArmor)item;
-                        armor.ProtectionLevel = (ArmorProtectionLevel)Utility.Random(4);
-                        armor.Durability = (ArmorDurabilityLevel)Utility.Random(4);
-                        armor.Quality = ArmorQuality.Regular;
-                    }
+				if (item is BaseWeapon)
+				{
+                    BaseWeapon weapon = (BaseWeapon)item;
+                    weapon.DamageLevel = (WeaponDamageLevel)Utility.Random(4);
+                    weapon.AccuracyLevel = (WeaponAccuracyLevel)Utility.Random(4);
+                    weapon.DurabilityLevel = (WeaponDurabilityLevel)Utility.Random(4);
+                    weapon.Quality = WeaponQuality.Regular;
                 }
-                else
-                    AddLoot(item);
+                else if (item is BaseArmor)
+                {
+                    BaseArmor armor = (BaseArmor)item;
+                    armor.ProtectionLevel = (ArmorProtectionLevel)Utility.Random(4);
+                    armor.Durability = (ArmorDurabilityLevel)Utility.Random(4);
+                    armor.Quality = ArmorQuality.Regular;
+                }
 			}
 
 			for( int i = Utility.Random( 1, 2 ); i > 1; i-- )

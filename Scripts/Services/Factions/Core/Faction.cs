@@ -766,7 +766,7 @@ namespace Server.Factions
 
             foreach (Item item in World.Items.Values)
             {
-                if (item is IFactionItem && !(item is HoodedShroudOfShadows))
+                if (item is IFactionItem)
                     pots.Add(item);
             }
 

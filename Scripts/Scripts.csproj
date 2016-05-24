@@ -584,6 +584,7 @@
     <Compile Include="Items\Equipment\Armor\DaemonChest.cs" />
     <Compile Include="Items\Equipment\Armor\DaemonGloves.cs" />
     <Compile Include="Items\Equipment\Armor\DaemonLegs.cs" />
+    <Compile Include="Items\Equipment\Armor\GlovesOfMining.cs" />
     <Compile Include="Items\Equipment\Armor\RangerArms.cs" />
     <Compile Include="Items\Equipment\Armor\RangerChest.cs" />
     <Compile Include="Items\Equipment\Armor\RangerGloves.cs" />
@@ -1273,6 +1274,8 @@
     <Compile Include="Items\Addons\LoomSouthAddon.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Misc\CurrentExpansion.cs" />
+    <Compile Include="Misc\Extensions.cs" />
     <Compile Include="Misc\MathHelper.cs" />
     <Compile Include="Mobiles\Bosses\Barracoon.cs" />
     <Compile Include="Mobiles\Bosses\BaseChampion.cs" />
@@ -1372,6 +1375,7 @@
     <Compile Include="Mobiles\Normal\EffeteUndeadGargoyle.cs" />
     <Compile Include="Mobiles\Normal\Efreet.cs" />
     <Compile Include="Mobiles\Normal\ElderGazer.cs" />
+    <Compile Include="Mobiles\Normal\EnragedCreatures.cs" />
     <Compile Include="Mobiles\Normal\EnslavedGargoyle.cs" />
     <Compile Include="Mobiles\Normal\EnslavedGoblinKeeper.cs" />
     <Compile Include="Mobiles\Normal\EnslavedGoblinMage.cs" />
@@ -1508,10 +1512,6 @@
     <Compile Include="Mobiles\Normal\Pig.cs" />
     <Compile Include="Mobiles\Normal\PitFiend.cs" />
     <Compile Include="Mobiles\Normal\Pixie.cs" />
-    <Compile Include="Mobiles\Normal\PlagueBeast.cs" />
-    <Compile Include="Mobiles\Normal\PlagueBeastLord.cs" />
-    <Compile Include="Mobiles\Normal\PlagueRat.cs" />
-    <Compile Include="Mobiles\Normal\PlagueSpawn.cs" />
     <Compile Include="Mobiles\NPCs\Farmer.cs" />
     <Compile Include="Mobiles\NPCs\Mage.cs" />
     <Compile Include="Mobiles\PlayerMobile.cs" />
@@ -1531,12 +1531,6 @@
     <Compile Include="Mobiles\Normal\RatmanMage.cs" />
     <Compile Include="Mobiles\Normal\Ravager.cs" />
     <Compile Include="Mobiles\Normal\Reaper.cs" />
-    <Compile Include="Mobiles\Normal\RedSolenInfiltratorQueen.cs" />
-    <Compile Include="Mobiles\Normal\RedSolenInfiltratorWarrior.cs" />
-    <Compile Include="Mobiles\Normal\RedSolenQueen.cs" />
-    <Compile Include="Mobiles\Normal\RedSolenWarrior.cs" />
-    <Compile Include="Mobiles\Normal\RedSolenWorker.cs" />
-    <Compile Include="Mobiles\Normal\Relanord.cs" />
     <Compile Include="Mobiles\Normal\RenegadeChangeling.cs" />
     <Compile Include="Mobiles\Normal\Reptalon.cs" />
     <Compile Include="Mobiles\Normal\RestlessSoul.cs" />
@@ -1544,13 +1538,8 @@
     <Compile Include="Mobiles\Normal\RevenantLion.cs" />
     <Compile Include="Mobiles\Normal\RidableLlama.cs" />
     <Compile Include="Mobiles\Normal\Ridgeback.cs" />
-    <Compile Include="Mobiles\Normal\Ronin.cs" />
     <Compile Include="Mobiles\Normal\RottingCorpse.cs" />
-    <Compile Include="Mobiles\Normal\Rotworm.cs" />
-    <Compile Include="Mobiles\Normal\RuddyBoura.cs" />
-    <Compile Include="Mobiles\Normal\RuneBeetle.cs" />
     <Compile Include="Mobiles\Normal\SandVortex.cs" />
-    <Compile Include="Mobiles\Normal\SAPixie.cs" />
     <Compile Include="Mobiles\Normal\Satyr.cs" />
     <Compile Include="Mobiles\Normal\Savage.cs" />
     <Compile Include="Mobiles\Normal\SavageRider.cs" />
@@ -1562,10 +1551,8 @@
     <Compile Include="Mobiles\Normal\SeaSerpent.cs" />
     <Compile Include="Mobiles\Normal\SentinelSpider.cs" />
     <Compile Include="Mobiles\Normal\SerpentineDragon.cs" />
-    <Compile Include="Mobiles\Normal\SerpentsFangHighExecutioner.cs" />
     <Compile Include="Mobiles\Normal\SewerRat.cs" />
     <Compile Include="Mobiles\Normal\Shade.cs" />
-    <Compile Include="Mobiles\Normal\ShadowDweller.cs" />
     <Compile Include="Mobiles\Normal\ShadowFiend.cs" />
     <Compile Include="Mobiles\Normal\ShadowIronElemental.cs" />
     <Compile Include="Mobiles\Normal\ShadowWisp.cs" />
@@ -1581,38 +1568,29 @@
     <Compile Include="Mobiles\Normal\SkeletalMount.cs" />
     <Compile Include="Mobiles\Normal\Skeleton.cs" />
     <Compile Include="Mobiles\Normal\SkitteringHopper.cs" />
-    <Compile Include="Mobiles\Normal\Skree.cs" />
     <Compile Include="Mobiles\Normal\Slime.cs" />
-    <Compile Include="Mobiles\Normal\Slith.cs" />
     <Compile Include="Mobiles\Normal\Snake.cs" />
     <Compile Include="Mobiles\Normal\SnowElemental.cs" />
     <Compile Include="Mobiles\Normal\SnowLeopard.cs" />
     <Compile Include="Mobiles\Normal\SolenHelper.cs" />
-    <Compile Include="Mobiles\Normal\SpeckledScorpion.cs" />
     <Compile Include="Mobiles\Normal\SpectralArmour.cs" />
     <Compile Include="Mobiles\Normal\Spectre.cs" />
     <Compile Include="Mobiles\Normal\Spellbinder.cs" />
     <Compile Include="Mobiles\Normal\Squirrel.cs" />
     <Compile Include="Mobiles\Normal\StoneGargoyle.cs" />
     <Compile Include="Mobiles\Normal\StoneHarpy.cs" />
-    <Compile Include="Mobiles\Normal\StoneSlith.cs" />
     <Compile Include="Mobiles\Normal\StrongMongbat.cs" />
     <Compile Include="Mobiles\Normal\Succubus.cs" />
     <Compile Include="Mobiles\Normal\SwampDragon.cs" />
     <Compile Include="Mobiles\Normal\SwampTentacle.cs" />
-    <Compile Include="Mobiles\Normal\TanglingRoots.cs" />
     <Compile Include="Mobiles\Normal\TerathanAvenger.cs" />
     <Compile Include="Mobiles\Normal\TerathanDrone.cs" />
     <Compile Include="Mobiles\Normal\TerathanMatriarch.cs" />
     <Compile Include="Mobiles\Normal\TerathanWarrior.cs" />
     <Compile Include="Mobiles\Normal\ThirdDawnParrot.cs" />
-    <Compile Include="Mobiles\Normal\TigersClawMaster.cs" />
     <Compile Include="Mobiles\Normal\TimberWolf.cs" />
     <Compile Include="Mobiles\Normal\Titan.cs" />
     <Compile Include="Mobiles\Normal\Tormented Minotaur.cs" />
-    <Compile Include="Mobiles\Normal\ToxicElemental.cs" />
-    <Compile Include="Mobiles\Normal\ToxicSlith.cs" />
-    <Compile Include="Mobiles\Normal\TrapdoorSpider.cs" />
     <Compile Include="Mobiles\Normal\Treefellow.cs" />
     <Compile Include="Mobiles\Normal\Troglodyte.cs" />
     <Compile Include="Mobiles\Normal\Troll.cs" />
@@ -1621,9 +1599,7 @@
     <Compile Include="Mobiles\Normal\Unicorn.cs" />
     <Compile Include="Mobiles\Normal\ValoriteElemental.cs" />
     <Compile Include="Mobiles\Normal\VampireBat.cs" />
-    <Compile Include="Mobiles\Normal\Vasanord.cs" />
     <Compile Include="Mobiles\Normal\VeriteElemental.cs" />
-    <Compile Include="Mobiles\Normal\Virulent.cs" />
     <Compile Include="Mobiles\Normal\VorpalBunny.cs" />
     <Compile Include="Mobiles\Normal\WailingBanshee.cs" />
     <Compile Include="Mobiles\Normal\Walrus.cs" />
@@ -1634,12 +1610,10 @@
     <Compile Include="Mobiles\Normal\WhiteWyrm.cs" />
     <Compile Include="Mobiles\Normal\Wight.cs" />
     <Compile Include="Mobiles\Normal\Wisp.cs" />
-    <Compile Include="Mobiles\Normal\WolfSpider.cs" />
     <Compile Include="Mobiles\Normal\Wraith.cs" />
     <Compile Include="Mobiles\Normal\Wyvern.cs" />
     <Compile Include="Mobiles\Normal\Zombie.cs" />
     <Compile Include="Mobiles\NPCs\Alchemist.cs" />
-    <Compile Include="Mobiles\NPCs\AmbitiousSolenQueen.cs" />
     <Compile Include="Mobiles\NPCs\AnimalTrainer.cs" />
     <Compile Include="Mobiles\NPCs\ArcherGuard.cs" />
     <Compile Include="Mobiles\NPCs\Architect.cs" />
@@ -1661,7 +1635,6 @@
     <Compile Include="Mobiles\NPCs\Blacksmith.cs" />
     <Compile Include="Mobiles\NPCs\BlacksmithGuildmaster.cs" />
     <Compile Include="Mobiles\NPCs\Bowyer.cs" />
-    <Compile Include="Mobiles\NPCs\Bravehorn.cs" />
     <Compile Include="Mobiles\NPCs\BrideGroom.cs" />
     <Compile Include="Mobiles\NPCs\Butcher.cs" />
     <Compile Include="Mobiles\NPCs\Carpenter.cs" />
@@ -1670,10 +1643,8 @@
     <Compile Include="Mobiles\NPCs\Cook.cs" />
     <Compile Include="Mobiles\NPCs\CrateForSledge.cs" />
     <Compile Include="Mobiles\NPCs\CustomHairstylist.cs" />
-    <Compile Include="Mobiles\NPCs\Darius.cs" />
     <Compile Include="Mobiles\NPCs\EnshroudedFigure.cs" />
     <Compile Include="Mobiles\NPCs\EscortableMage.cs" />
-    <Compile Include="Mobiles\NPCs\Escortables.cs" />
     <Compile Include="Mobiles\NPCs\EvilHealer.cs" />
     <Compile Include="Mobiles\NPCs\EvilWanderingHealer.cs" />
     <Compile Include="Mobiles\NPCs\FisherGuildmaster.cs" />
@@ -1700,7 +1671,6 @@
     <Compile Include="Mobiles\NPCs\HireRangerArcher.cs" />
     <Compile Include="Mobiles\NPCs\HireSailor.cs" />
     <Compile Include="Mobiles\NPCs\HireThief.cs" />
-    <Compile Include="Mobiles\NPCs\Impresario.cs" />
     <Compile Include="Mobiles\NPCs\InnKeeper.cs" />
     <Compile Include="Mobiles\NPCs\IronWorker.cs" />
     <Compile Include="Mobiles\NPCs\Jeweler.cs" />
@@ -1718,7 +1688,6 @@
     <Compile Include="Mobiles\NPCs\Noble.cs" />
     <Compile Include="Mobiles\NPCs\OrderGuard.cs" />
     <Compile Include="Mobiles\NPCs\Peasant.cs" />
-    <Compile Include="Mobiles\NPCs\PersonalAttendant.cs" />
     <Compile Include="Mobiles\NPCs\PlayerBarkeeper.cs" />
     <Compile Include="Mobiles\NPCs\PlayerVendor.cs" />
     <Compile Include="Mobiles\NPCs\PricedHealer.cs" />
@@ -1769,7 +1738,6 @@
     <Compile Include="Mobiles\Summons\SummonedDaemon.cs" />
     <Compile Include="Mobiles\Summons\SummonedEarthElemental.cs" />
     <Compile Include="Mobiles\Summons\SummonedFireElemental.cs" />
-    <Compile Include="Mobiles\Summons\SummonedPaladin.cs" />
     <Compile Include="Mobiles\Summons\SummonedWaterElemental.cs" />
     <Compile Include="Mobiles\Summons\VampireBat.cs" />
     <Compile Include="Items\Containers\ScrollBox.cs" />
@@ -1783,16 +1751,11 @@
     <Compile Include="Items\Addons\VariableCarpetAddonDeed.cs" />
     <Compile Include="Items\Books\GargishDocuments.cs" />
     <Compile Include="Mobiles\Normal\TreefellowGuardian.cs" />
-    <Compile Include="Mobiles\NPCs\SolenMatriarch.cs" />
-    <Compile Include="Mobiles\NPCs\Naturalist.cs" />
     <Compile Include="Items\Addons\HavenCannon.cs" />
-    <Compile Include="Mobiles\NPCs\Dryad.cs" />
-    <Compile Include="Mobiles\NPCs\MansionGuard.cs" />
     <Compile Include="Mobiles\NPCs\MilitiaCanoneer.cs" />
     <Compile Include="Mobiles\Normal\MilitiaFighter.cs" />
     <Compile Include="Items\Addons\HagCauldron.cs" />
     <Compile Include="Items\Addons\HagStew.cs" />
-    <Compile Include="Mobiles\NPCs\Grizelda.cs" />
     <Compile Include="Services\ConPVP\AcceptDuelGump.cs" />
     <Compile Include="Services\ConPVP\Arena.cs" />
     <Compile Include="Services\ConPVP\ArenaGump.cs" />
@@ -1890,9 +1853,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Addons\SmallSoulForge.cs" />
-    <Compile Include="Items\Addons\SolenAntHole.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Addons\SpinningwheelEastAddon.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -4946,9 +4906,6 @@
     <Compile Include="Multis\Camps\BrigandCamp.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Multis\Camps\ElfBrigandCamp.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Multis\Camps\HealerCamp.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -5007,9 +4964,6 @@
     <Compile Include="Regions\BaseRegion.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Regions\DamagingRegion.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Regions\DungeonRegion.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -5025,9 +4979,6 @@
     <Compile Include="Regions\Jail.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Regions\MondainRegion.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Regions\NoHousingRegion.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -5040,13 +4991,7 @@
     <Compile Include="Regions\Spawning\SpawnPersistence.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Regions\StygianAbyssRegion.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Regions\TownRegion.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Regions\TwistedWealdDesert.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Services\Assistants.cs">
@@ -5192,9 +5137,6 @@
     <Compile Include="Services\Chat\Packets.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Services\Craft\Core\AlterItem.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Services\Craft\Core\AutoCraft.cs" />
     <Compile Include="Services\Craft\Core\CraftContext.cs">
       <SubType>Code</SubType>
@@ -5242,9 +5184,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Services\Craft\Core\CustomCraft.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Services\Craft\Core\Enhance.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Services\Craft\Core\QueryMakersMarkGump.cs">
@@ -5896,15 +5835,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Addons\MedusaNest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Mobiles\Normal\StoneMonster.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Mobiles\Normal\SerpentsFangAssassin.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Mobiles\Normal\TigersClawThief.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Services\RemoteAdmin\Network.cs">

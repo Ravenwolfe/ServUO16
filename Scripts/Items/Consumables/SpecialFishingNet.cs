@@ -449,12 +449,5 @@ namespace Server.Items
         {
             return base.GetSpawnCount() + 4;
         }
-
-        protected override void FinishEffect(Point3D p, Map map, Mobile from)
-        {
-            this.Spawn(p, map, new Leviathan(from));
-
-            base.FinishEffect(p, map, from);
-        }
     }
 }

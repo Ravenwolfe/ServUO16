@@ -212,13 +212,6 @@ namespace Server.Engines.Craft
 
 			if (Mana > 0)
 			{
-                if (ManaPhasingOrb.IsInManaPhase(from))
-                {
-                    if (consume)
-                        ManaPhasingOrb.RemoveFromTable(from);
-                    return true;
-                }
-
                 if (from.Mana < Mana)
                 {
                     message = "You lack the required mana to make that.";
@@ -299,7 +292,6 @@ namespace Server.Engines.Craft
 			new[] {typeof(BarbedLeather), typeof(BarbedHides)}, new[] {typeof(BlankMap), typeof(BlankScroll)},
 			new[] {typeof(Cloth), typeof(UncutCloth), typeof(AbyssalCloth)}, new[] {typeof(CheeseWheel), typeof(CheeseWedge)},
 			new[] {typeof(Pumpkin), typeof(SmallPumpkin)}, new[] {typeof(WoodenBowlOfPeas), typeof(PewterBowlOfPeas)},
-            new[] { typeof( CrystallineFragments ), typeof( BrokenCrystals ), typeof( ShatteredCrystals ), typeof( ScatteredCrystals ), typeof( CrushedCrystals ), typeof( JaggedCrystals ), typeof( AncientPotteryFragments ) },
             new[] { typeof( RedScales ), typeof( BlueScales ), typeof( BlackScales ), typeof( YellowScales ), typeof( GreenScales ), typeof( WhiteScales ), typeof( MedusaDarkScales ), typeof( MedusaLightScales ) }
 		};
 
@@ -313,21 +305,20 @@ namespace Server.Engines.Craft
 		private static readonly Type[] m_ColoredResourceTable = new[]
 		{
 			typeof(BaseIngot), typeof(BaseOre), typeof(BaseLeather), typeof(BaseHides), typeof(AbyssalCloth), typeof(UncutCloth), typeof(Cloth),
-			typeof(BaseGranite), typeof(BaseScales), typeof(PlantClippings), typeof(DryReeds), typeof(SoftenedReeds),
-			typeof(PlantPigment), typeof(BaseContainer)
+			typeof(BaseGranite), typeof(BaseScales), typeof(PlantClippings),
+			typeof(BaseContainer)
 		};
 
 		private static readonly Type[] m_MarkableTable = new[]
 		{
 			typeof(BaseArmor), typeof(BaseWeapon), typeof(BaseClothing), typeof(BaseInstrument), typeof(BaseTool),
-			typeof(BaseHarvestTool), typeof(BaseQuiver), typeof(DragonBardingDeed), typeof(Fukiya), typeof(FukiyaDarts),
-			typeof(Shuriken), typeof(Spellbook), typeof(Runebook), typeof(ShortMusicStand), typeof(TallMusicStand),
+			typeof(BaseHarvestTool), typeof(DragonBardingDeed), typeof(Spellbook), typeof(ShortMusicStand), typeof(TallMusicStand),
 			typeof(RedHangingLantern), typeof(WhiteHangingLantern), typeof(BambooScreen), typeof(ShojiScreen), typeof(Easle),
 			typeof(FishingPole), typeof(Stool), typeof(FootStool), typeof(WoodenBench), typeof(WoodenThrone), typeof(Throne),
 			typeof(BambooChair), typeof(WoodenChair), typeof(FancyWoodenChairCushion), typeof(WoodenChairCushion),
 			typeof(Nightstand), typeof(LargeTable), typeof(WritingTable), typeof(YewWoodTable), typeof(PlainLowTable),
 			typeof(ElegantLowTable), typeof(Dressform), typeof(BasePlayerBB), typeof(BaseContainer), typeof(BarrelStaves),
-			typeof(BarrelLid), typeof(Clippers)
+			typeof(BarrelLid)
 		};
 
 		private static readonly Dictionary<Type, Type> m_ResourceConversionTable = new Dictionary<Type, Type>()
@@ -880,39 +871,8 @@ namespace Server.Engines.Craft
 		private int m_ResAmount;
 		private CraftSystem m_System;
 
-		#region Plant Pigments
-		private PlantHue m_PlantHue = PlantHue.Plain;
-		private PlantPigmentHue m_PlantPigmentHue = PlantPigmentHue.Plain;
-		#endregion
-
 		private void OnResourceConsumed(Item item, int amount)
 		{
-			#region Plant Pigments
-			if (item is PlantClippings)
-			{
-				m_PlantHue = ((PlantClippings)item).PlantHue;
-				m_ResHue = item.Hue;
-			}
-
-			if (item is PlantPigment)
-			{
-				m_PlantPigmentHue = ((PlantPigment)item).PigmentHue;
-				m_ResHue = item.Hue;
-			}
-
-			if (item is DryReeds)
-			{
-				m_PlantHue = ((DryReeds)item).PlantHue;
-				m_ResHue = item.Hue;
-			}
-
-			if (item is SoftenedReeds)
-			{
-				m_PlantHue = ((SoftenedReeds)item).PlantHue;
-				m_ResHue = item.Hue;
-			}
-			#endregion
-
             if (!RetainsColorFrom(m_System, item.GetType()))
 			{
 				return;
@@ -938,17 +898,6 @@ namespace Server.Engines.Craft
 			}
 
 			double bonus = 0.0;
-
-			if (from.Talisman is BaseTalisman)
-			{
-				BaseTalisman talisman = (BaseTalisman)from.Talisman;
-
-				if (talisman.Skill == system.MainSkill)
-				{
-					chance -= talisman.SuccessBonus / 100.0;
-					bonus = talisman.ExceptionalBonus / 100.0;
-				}
-			}
 
 			switch (system.ECA)
 			{
@@ -1049,16 +998,6 @@ namespace Server.Engines.Craft
 			else
 			{
 				chance = 0.0;
-			}
-
-			if (allRequiredSkills && from.Talisman is BaseTalisman)
-			{
-				BaseTalisman talisman = (BaseTalisman)from.Talisman;
-
-				if (talisman.Skill == craftSystem.MainSkill)
-				{
-					chance += talisman.SuccessBonus / 100.0;
-				}
 			}
 
 			if (allRequiredSkills && valMainSkill == maxMainSkill)
@@ -1350,38 +1289,6 @@ namespace Server.Engines.Craft
 							item.Amount = maxAmount;
 						}
 					}
-
-					#region Plant Pigments
-					if (item is PlantPigment && (craftSystem is DefAlchemy || craftSystem is DefCooking))
-					{
-						((PlantPigment)item).PigmentHue = PlantPigmentHueInfo.HueFromPlantHue(m_PlantHue);
-					}
-
-					if (item is NaturalDye && (craftSystem is DefAlchemy || craftSystem is DefCooking))
-					{
-						((NaturalDye)item).PigmentHue = PlantPigmentHueInfo.GetInfo(m_PlantPigmentHue).PlantPigmentHue;
-					}
-
-					if (item is SoftenedReeds && (craftSystem is DefAlchemy || craftSystem is DefCooking))
-					{
-						((SoftenedReeds)item).PlantHue = PlantHueInfo.GetInfo(m_PlantHue).PlantHue;
-					}
-
-					if (item is BaseContainer && (craftSystem is DefBasketweaving))
-					{
-						(item).Hue = PlantHueInfo.GetInfo(m_PlantHue).Hue;
-					}
-
-                    CraftContext context = craftSystem.GetContext(from);
-
-                    if (context.QuestOption == CraftQuestOption.QuestItem)
-                    {
-                        PlayerMobile px = from as PlayerMobile;
-
-                        if (!QuestHelper.CheckItem(px, item))
-                            from.SendLocalizedMessage(1072355, null, 0x23); // That item does not match any of your quest criteria	
-                    }
-					#endregion
 
 					from.AddToBackpack(item);
 

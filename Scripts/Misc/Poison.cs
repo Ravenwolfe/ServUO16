@@ -65,6 +65,42 @@ namespace Server
 		public override string Name { get { return m_Name; } }
 		public override int Level { get { return m_Level; } }
 
+		public override int RealLevel
+		{
+			get
+			{
+				if (m_Level >= 14)
+				{
+					return m_Level - 14;
+				}
+
+				if (m_Level >= 10)
+				{
+					return m_Level - 10;
+				}
+
+				return m_Level;
+			}
+		}
+
+		public override int LabelNumber
+		{
+			get
+			{
+				if (m_Level >= 14)
+				{
+					return 1072852; // parasitic poison charges: ~1_val~
+				}
+
+				if (m_Level >= 10)
+				{
+					return 1072853; // darkglow poison charges: ~1_val~
+				}
+
+				return 1062412 + m_Level; // ~poison~ poison charges: ~1_val~
+			}
+		}
+
 		public PoisonImpl(
 			string name,
 			int level,

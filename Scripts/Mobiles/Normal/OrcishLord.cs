@@ -61,7 +61,7 @@ namespace Server.Mobiles
             this.PackItem(new RingmailChest());
 
             if (0.3 > Utility.RandomDouble())
-                this.PackItem(Loot.RandomPossibleReagent());
+                this.PackItem(Loot.RandomReagent());
 
             if (0.2 > Utility.RandomDouble())
                 this.PackItem(new BolaBall());
@@ -130,7 +130,7 @@ namespace Server.Mobiles
 
             if (item is OrcishKinMask)
             {
-                AOS.Damage(aggressor, 50, 0, 100, 0, 0, 0);
+                aggressor.Damage(50);
                 item.Delete();
                 aggressor.FixedParticles(0x36BD, 20, 10, 5044, EffectLayer.Head);
                 aggressor.PlaySound(0x307);

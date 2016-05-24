@@ -112,7 +112,6 @@ namespace Server.Items
                         {
                             if (from.InRange(loc, 1))
                                 from.Damage(m_TrapPower);
-                            //AOS.Damage( from, m_TrapPower, 0, 100, 0, 0, 0 );
 
                             Effects.PlaySound(loc, Map, 0x307);
 

@@ -113,10 +113,7 @@ namespace Server.Engines.Craft
                 if (this.m_CraftSystem is DefTailoring)
                 {
                     return (clothing is BearMask) ||
-                           (clothing is DeerMask) ||
-                           (clothing is TheMostKnowledgePerson) ||
-                           (clothing is TheRobeOfBritanniaAri) ||
-                           (clothing is EmbroideredOakLeafCloak);
+                           (clothing is DeerMask);
                 }
 
                 return false;
@@ -138,106 +135,37 @@ namespace Server.Engines.Craft
                 }
                 else if (this.m_CraftSystem is DefCarpentry)
                 {
-                    return (weapon is Club) ||
-                           (weapon is BlackStaff) ||
-                           (weapon is MagicWand)
-                           #region Temporary
-                           // TODO: Make these items craftable
-                           ||
-                           (weapon is WildStaff);
-                    #endregion
+	                return (weapon is Club) ||
+	                       (weapon is BlackStaff) ||
+	                       (weapon is MagicWand);
                 }
                 else if (this.m_CraftSystem is DefBlacksmithy)
                 {
-                    return (weapon is Pitchfork)
-                           #region Temporary
-                           // TODO: Make these items craftable
-                           ||
-                           (weapon is RadiantScimitar) ||
-                           (weapon is WarCleaver) ||
-                           (weapon is ElvenSpellblade) ||
-                           (weapon is AssassinSpike) ||
-                           (weapon is Leafblade) ||
-                           (weapon is RuneBlade) ||
-                           (weapon is ElvenMachete) ||
-                           (weapon is OrnateAxe) ||
-                           (weapon is DiamondMace);
-                    #endregion
-                }
-                #region Temporary
-                // TODO: Make these items craftable
-                else if (this.m_CraftSystem is DefBowFletching)
-                {
-                    return (weapon is ElvenCompositeLongbow) ||
-                           (weapon is MagicalShortbow);
-                }
-                #endregion
+	                return (weapon is Pitchfork)
 
-                return false;
-            }
+		                #region Temporary
 
-            private bool IsSpecialArmor(BaseArmor armor)
-            {
-                // Armor repairable but not craftable
-                #region Temporary
-                // TODO: Make these items craftable
-                if (this.m_CraftSystem is DefTailoring)
-                {
-                    return (armor is LeafTonlet) ||
-                           (armor is LeafArms) ||
-                           (armor is LeafChest) ||
-                           (armor is LeafGloves) ||
-                           (armor is LeafGorget) ||
-                           (armor is LeafLegs) ||
-                           (armor is HideChest) ||
-                           (armor is HideGloves) ||
-                           (armor is HideGorget) ||
-                           (armor is HidePants) ||
-                           (armor is HidePauldrons);
-                }
-                else if (this.m_CraftSystem is DefCarpentry)
-                {
-                    return (armor is WingedHelm) ||
-                           (armor is RavenHelm) ||
-                           (armor is VultureHelm) ||
-                           (armor is WoodlandArms) ||
-                           (armor is WoodlandChest) ||
-                           (armor is WoodlandGloves) ||
-                           (armor is WoodlandGorget) ||
-                           (armor is WoodlandLegs);
-                }
-                else if (this.m_CraftSystem is DefBlacksmithy)
-                {
-                    return (armor is Circlet) ||
-                           (armor is RoyalCirclet) ||
-                           (armor is GemmedCirclet);
-                }
-                else if (this.m_CraftSystem is DefTinkering)
-                {
-                    return (armor is Glasses) ||
-                           (armor is ElvenGlasses) ||
-                           (armor is GargishGlasses);
-                }
-                #endregion
+		                // TODO: Make these items craftable
+	                       ||
+	                       (weapon is RadiantScimitar) ||
+	                       (weapon is WarCleaver) ||
+	                       (weapon is Leafblade) ||
+	                       (weapon is OrnateAxe);
 
+	                #endregion
+                }
                 return false;
             }
 
             protected override void OnTarget(Mobile from, object targeted)
             {
-                int number;
+                int number = 0;
 
                 if (!this.CheckDeed(from))
                     return;
 
                 bool usingDeed = (this.m_Deed != null);
                 bool toDelete = false;
-
-                if (!AllowsRepair(targeted as Item, m_CraftSystem))
-                {
-                    from.SendLocalizedMessage(500426); // You can't repair that.
-                    return;
-                }
 
                 if (this.m_CraftSystem.CanCraft(from, this.m_Tool, targeted.GetType()) == 1044267)
                 {
@@ -348,10 +276,6 @@ namespace Server.Engines.Craft
                     {
                         number = 1044278; // That item has been repaired many times, and will break if repairs are attempted again.
                     }
-                    else if (weapon.BlockRepair)
-                    {
-                        number = 1044277; // That item cannot be repaired.
-                    }
                     else
                     {
                         if (this.CheckWeaken(from, skill, weapon.HitPoints, weapon.MaxHitPoints))
@@ -397,10 +321,6 @@ namespace Server.Engines.Craft
                             toWeaken = 3;
                     }
 
-                    if (this.m_CraftSystem.CraftItems.SearchForSubclass(armor.GetType()) == null && !this.IsSpecialArmor(armor))
-                    {
-                        number = (usingDeed) ? 1061136 : 1044277; // That item cannot be repaired. // You cannot repair that item with this type of repair contract.
-                    }
                     else if (!armor.IsChildOf(from.Backpack) && (!Core.ML || armor.Parent != from))
                     {
                         number = 1044275; // The item must be in your backpack to repair it.
@@ -412,10 +332,6 @@ namespace Server.Engines.Craft
                     else if (armor.MaxHitPoints <= toWeaken)
                     {
                         number = 1044278; // That item has been repaired many times, and will break if repairs are attempted again.
-                    }
-                    else if (armor.BlockRepair)
-                    {
-                        number = 1044277; // That item cannot be repaired.
                     }
                     else
                     {
@@ -440,7 +356,7 @@ namespace Server.Engines.Craft
                         toDelete = true;
                     }
                 }
-                else if (targeted is BaseJewel && ((BaseJewel)targeted).TimesImbued > 0)
+                else if (targeted is BaseJewel)
                 {
                     BaseJewel jewel = (BaseJewel)targeted;
                     SkillName skill = m_CraftSystem.MainSkill;
@@ -477,10 +393,6 @@ namespace Server.Engines.Craft
                     else if (jewel.MaxHitPoints <= toWeaken)
                     {
                         number = 1044278; // That item has been repaired many times, and will break if repairs are attempted again.
-                    }
-                    else if (jewel.BlockRepair)
-                    {
-                        number = 1044277; // That item cannot be repaired.
                     }
                     else
                     {
@@ -543,10 +455,6 @@ namespace Server.Engines.Craft
                     {
                         number = 1044278; // That item has been repaired many times, and will break if repairs are attempted again.
                     }
-                    else if (clothing.BlockRepair)// quick fix
-                    {
-                        number = 1044277; // That item cannot be repaired.
-                    }
                     else
                     {
                         if (this.CheckWeaken(from, skill, clothing.HitPoints, clothing.MaxHitPoints))
@@ -560,71 +468,6 @@ namespace Server.Engines.Craft
                             number = 1044279; // You repair the item.
                             this.m_CraftSystem.PlayCraftEffect(from);
                             clothing.HitPoints = clothing.MaxHitPoints;
-                        }
-                        else
-                        {
-                            number = (usingDeed) ? 1061137 : 1044280; // You fail to repair the item. [And the contract is destroyed]
-                            this.m_CraftSystem.PlayCraftEffect(from);
-                        }
-
-                        toDelete = true;
-                    }
-                }
-                else if (targeted is BaseTalisman)
-                {
-                    BaseTalisman talisman = (BaseTalisman)targeted;
-                    SkillName skill = this.m_CraftSystem.MainSkill;
-                    int toWeaken = 0;
-
-                    if (Core.AOS)
-                    {
-                        toWeaken = 1;
-                    }
-                    else if (skill != SkillName.Tailoring)
-                    {
-                        double skillLevel = (usingDeed) ? this.m_Deed.SkillLevel : from.Skills[skill].Base;
-
-                        if (skillLevel >= 90.0)
-                            toWeaken = 1;
-                        else if (skillLevel >= 70.0)
-                            toWeaken = 2;
-                        else
-                            toWeaken = 3;
-                    }
-
-                    if (talisman is IRepairable && ((IRepairable)talisman).RepairSystem != m_CraftSystem)
-                    {
-                        number = (usingDeed) ? 1061136 : 1044277; // That item cannot be repaired. // You cannot repair that item with this type of repair contract.
-                    }
-                    else if (!talisman.IsChildOf(from.Backpack) && (!Core.ML || talisman.Parent != from))
-                    {
-                        number = 1044275; // The item must be in your backpack to repair it.
-                    }
-                    else if (talisman.MaxHitPoints <= 0 || talisman.HitPoints == talisman.MaxHitPoints)
-                    {
-                        number = 1044281; // That item is in full repair
-                    }
-                    else if (talisman.MaxHitPoints <= toWeaken)
-                    {
-                        number = 1044278; // That item has been repaired many times, and will break if repairs are attempted again.
-                    }
-                    else if (!talisman.CanRepair)// quick fix
-                    {
-                        number = 1044277; // That item cannot be repaired.
-                    }
-                    else
-                    {
-                        if (this.CheckWeaken(from, skill, talisman.HitPoints, talisman.MaxHitPoints))
-                        {
-                            talisman.MaxHitPoints -= toWeaken;
-                            talisman.HitPoints = Math.Max(0, talisman.HitPoints - toWeaken);
-                        }
-
-                        if (this.CheckRepairDifficulty(from, skill, talisman.HitPoints, talisman.MaxHitPoints))
-                        {
-                            number = 1044279; // You repair the item.
-                            this.m_CraftSystem.PlayCraftEffect(from);
-                            talisman.HitPoints = talisman.MaxHitPoints;
                         }
                         else
                         {
@@ -672,19 +515,6 @@ namespace Server.Engines.Craft
                         this.m_Deed.Delete();
                 }
             }
-        }
-
-        public static bool AllowsRepair(Item item, CraftSystem system)
-        {
-            if (item == null)
-                return false;
-
-            return (item is BlankScroll ||
-					(item is BaseArmor && ((BaseArmor)item).CanRepair) ||
-                    (item is BaseWeapon && ((BaseWeapon)item).CanRepair) ||
-                    (item is BaseClothing && ((BaseClothing)item).CanRepair) ||
-                    (item is BaseJewel && ((BaseJewel)item).CanRepair)) ||
-                    (item is BaseTalisman && ((BaseTalisman)item).CanRepair);
         }
     }
 }

@@ -64,9 +64,6 @@ namespace Server.Items
         }
         public static int GetRandomLevel()
         {
-            if (Core.AOS && 10 == Utility.RandomMinMax(1,25))
-                return 4; // ancient
-
             return Utility.RandomMinMax(1, 3);
         }
 

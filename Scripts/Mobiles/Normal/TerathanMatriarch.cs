@@ -40,7 +40,6 @@ namespace Server.Mobiles
             this.Karma = -10000;
 
             this.PackItem(new SpidersSilk(5));
-            this.PackNecroReg(Utility.RandomMinMax(4, 10));
         }
 
         public TerathanMatriarch(Serial serial)

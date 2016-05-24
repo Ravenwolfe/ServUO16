@@ -247,10 +247,6 @@ namespace Server.Mobiles
 			{
 				SayTo(from, 502673); // I can not stable summoned creatures.
 			}
-			else if (pet.Allured)
-			{
-				SayTo(from, 1048053); // You can't stable that!
-			}
 			else if ((pet is PackLlama || pet is PackHorse || pet is Beetle) &&
 					 (pet.Backpack != null && pet.Backpack.Items.Count > 0))
 			{

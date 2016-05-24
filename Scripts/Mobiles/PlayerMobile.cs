@@ -635,9 +635,8 @@ namespace Server.Mobiles
 		{
 			global = LightCycle.ComputeLevelFor(this);
 
-			bool racialNightSight = (Core.ML && Race == Race.Elf);
 
-			if (LightLevel < 21 && (AosAttributes.GetValue(this, AosAttribute.NightSight) > 0 || racialNightSight))
+			if (LightLevel < 21)
 			{
 				personal = 21;
 			}
@@ -842,7 +841,7 @@ namespace Server.Mobiles
 						{
 							drop = true;
 						}
-						else if (str < MathHelper.Scale(weapon.StrRequirement, 100 - weapon.GetLowerStatReq()))
+						else if (str < MathHelper.Scale(weapon.StrRequirement, 100))
 						{
 							drop = true;
 						}
@@ -883,29 +882,6 @@ namespace Server.Mobiles
 						{
 							drop = true;
 						}
-						else if (armor.RequiredRace != null && armor.RequiredRace != Race)
-						{
-							drop = true;
-						}
-						else
-						{
-							int strBonus = armor.ComputeStatBonus(StatType.Str), strReq = armor.ComputeStatReq(StatType.Str);
-							int dexBonus = armor.ComputeStatBonus(StatType.Dex), dexReq = armor.ComputeStatReq(StatType.Dex);
-							int intBonus = armor.ComputeStatBonus(StatType.Int), intReq = armor.ComputeStatReq(StatType.Int);
-
-							if (dex < dexReq || (dex + dexBonus) < 1)
-							{
-								drop = true;
-							}
-							else if (str < strReq || (str + strBonus) < 1)
-							{
-								drop = true;
-							}
-							else if (intel < intReq || (intel + intBonus) < 1)
-							{
-								drop = true;
-							}
-						}
 
 						if (drop)
 						{
@@ -942,20 +918,6 @@ namespace Server.Mobiles
 						else if (!clothing.AllowFemaleWearer && from.Female && from.AccessLevel < AccessLevel.GameMaster)
 						{
 							drop = true;
-						}
-						else if (clothing.RequiredRace != null && clothing.RequiredRace != Race)
-						{
-							drop = true;
-						}
-						else
-						{
-							int strBonus = clothing.ComputeStatBonus(StatType.Str);
-							int strReq = clothing.ComputeStatReq(StatType.Str);
-
-							if (str < strReq || (str + strBonus) < 1)
-							{
-								drop = true;
-							}
 						}
 
 						if (drop)
@@ -1280,7 +1242,7 @@ namespace Server.Mobiles
 		{
 			BaseArmor ar = armor as BaseArmor;
 
-			if (ar != null && (!Core.AOS || ar.ArmorAttributes.MageArmor == 0))
+			if (ar != null)
 			{
 				rating += ar.ArmorRatingScaled;
 			}
@@ -1295,33 +1257,19 @@ namespace Server.Mobiles
 				int strBase;
 				int strOffs = GetStatOffset(StatType.Str);
 
-				if (Core.AOS)
-				{
-					strBase = Str; //this.Str already includes GetStatOffset/str
-					strOffs = AosAttributes.GetValue(this, AosAttribute.BonusHits);
-
-					if (Core.ML && strOffs > 25 && IsPlayer())
-					{
-						strOffs = 25;
-					}
-				}
-				else
-				{
-					strBase = RawStr;
-				}
+				strBase = RawStr;
 
 				return (strBase / 2) + 50 + strOffs;
 			}
 		}
 
 		[CommandProperty(AccessLevel.GameMaster)]
-		public override int StamMax { get { return base.StamMax + AosAttributes.GetValue(this, AosAttribute.BonusStam); } }
+		public override int StamMax { get { return base.StamMax; } }
 
 		[CommandProperty(AccessLevel.GameMaster)]
 		public override int ManaMax { get
 		{
-			return base.ManaMax + AosAttributes.GetValue(this, AosAttribute.BonusMana) +
-				   ((Core.ML && Race == Race.Elf) ? 20 : 0);
+			return base.ManaMax;
 		} }
 		#endregion
 
@@ -1664,7 +1612,7 @@ namespace Server.Mobiles
 				return false;
 			}
 
-			if ((item is Spellbook && item.LootType == LootType.Blessed) || item is Runebook || item is PotionKeg ||
+			if ((item is Spellbook && item.LootType == LootType.Blessed) || item is PotionKeg ||
 				item is Sigil)
 			{
 				return false;
@@ -3202,8 +3150,6 @@ namespace Server.Mobiles
 		public List<Mobile> VisibilityList { get { return m_VisList; } }
 
 		public List<Mobile> PermaFlags { get { return m_PermaFlags; } }
-
-		public override int Luck { get { return AosAttributes.GetValue(this, AosAttribute.Luck); } }
 
 		public override bool IsHarmfulCriminal(Mobile target)
 		{

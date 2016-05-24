@@ -206,10 +206,7 @@ namespace Server.Items
                 {
                     Item item;
 
-                    if (Core.AOS)
-                        item = Loot.RandomArmorOrShieldOrWeaponOrJewelry();
-                    else
-                        item = Loot.RandomArmorOrShieldOrWeapon();
+                    item = Loot.RandomArmorOrShieldOrWeapon();
 
                     if (item is BaseWeapon)
                     {

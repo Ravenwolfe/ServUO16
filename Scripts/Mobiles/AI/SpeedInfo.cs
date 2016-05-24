@@ -115,7 +115,7 @@ namespace Server
                 typeof(Ettin), typeof(FrostOoze), typeof(FrostTroll),
                 typeof(GazerLarva), typeof(Ghoul), typeof(Golem),
                 typeof(HeadlessOne), typeof(Jwilson), typeof(Mummy),
-                typeof(Ogre), typeof(OgreLord), typeof(PlagueBeast),
+                typeof(Ogre), typeof(OgreLord),
                 typeof(Quagmire), typeof(Rat), typeof(RottingCorpse),
                 typeof(Sewerrat), typeof(Skeleton), typeof(Slime),
                 typeof(Zombie), typeof(Walrus), typeof(RestlessSoul),
@@ -135,7 +135,6 @@ namespace Server
                 typeof(SnowElemental), typeof(WhiteWyrm), typeof(Wisp),
                 typeof(GiantBlackWidow), typeof(SummonedAirElemental),
                 typeof(LadyOfTheSnow),
-                typeof(RuneBeetle),
                 typeof(Changeling)
 
             }),
@@ -155,7 +154,7 @@ namespace Server
             /* Medium */
             new SpeedInfo(0.25, 0.5, new Type[]
             {
-                typeof(ToxicElemental), typeof(AgapiteElemental), typeof(Alligator),
+                typeof(AgapiteElemental), typeof(Alligator),
                 typeof(AncientLich), typeof(Betrayer), typeof(Bird),
                 typeof(BlackBear), typeof(BlackSolenInfiltratorQueen), typeof(BlackSolenInfiltratorWarrior),
                 typeof(BlackSolenQueen), typeof(BlackSolenWarrior), typeof(BlackSolenWorker),
@@ -188,10 +187,9 @@ namespace Server
                 typeof(OrcBomber), typeof(OrcBrute), typeof(OrcCaptain),
                 typeof(OrcishLord), typeof(OrcishMage), typeof(PackHorse),
                 typeof(PackLlama), typeof(Panther), typeof(Pig),
-                typeof(PlagueSpawn), typeof(PolarBear), typeof(Rabbit),
+                typeof(PolarBear), typeof(Rabbit),
                 typeof(Ratman), typeof(RatmanArcher), typeof(RatmanMage),
-                typeof(RedSolenInfiltratorQueen), typeof(RedSolenInfiltratorWarrior), typeof(RedSolenQueen),
-                typeof(RedSolenWarrior), typeof(RedSolenWorker), typeof(RidableLlama),
+                typeof(RidableLlama),
                 typeof(Ridgeback), typeof(Scorpion), typeof(SeaSerpent),
                 typeof(SerpentineDragon), typeof(Shade), typeof(ShadowIronElemental),
                 typeof(ShadowWisp), typeof(ShadowWyrm), typeof(Sheep),

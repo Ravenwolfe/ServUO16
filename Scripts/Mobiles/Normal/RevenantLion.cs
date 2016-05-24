@@ -41,7 +41,6 @@ namespace Server.Mobiles
 
             this.Fame = 4000;
             this.Karma = -4000;
-            this.PackNecroReg(6, 8);
 			
             switch ( Utility.Random(10))
             {

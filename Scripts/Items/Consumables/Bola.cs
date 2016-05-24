@@ -41,7 +41,7 @@ namespace Server.Items
             {
                 from.SendLocalizedMessage(1049631); // This bola is already being used.
             }
-            else if (!Core.AOS && (from.FindItemOnLayer(Layer.OneHanded) != null || from.FindItemOnLayer(Layer.TwoHanded) != null))
+            else if (from.FindItemOnLayer(Layer.OneHanded) != null || from.FindItemOnLayer(Layer.TwoHanded) != null)
             {
                 from.SendLocalizedMessage(1040015); // Your hands must be free to use this
             }
@@ -52,18 +52,6 @@ namespace Server.Items
             else
             {
                 EtherealMount.StopMounting(from);
-
-                if (Core.AOS)
-                {
-                    Item one = from.FindItemOnLayer(Layer.OneHanded);
-                    Item two = from.FindItemOnLayer(Layer.TwoHanded);
-
-                    if (one != null)
-                        from.AddToBackpack(one);
-
-                    if (two != null)
-                        from.AddToBackpack(two);
-                }
 
                 from.Target = new BolaTarget(this);
                 from.LocalOverheadMessage(MessageType.Emote, 0x3B2, 1049632); // * You begin to swing the bola...*
@@ -97,10 +85,6 @@ namespace Server.Items
             Mobile from = (Mobile)states[0];
             Mobile to = (Mobile)states[1];
 			
-
-            if (Core.AOS)
-                new Bola().MoveToWorld(to.Location, to.Map);
-
             to.Damage(1, from);
 
             if (to is ChaosDragoon || to is ChaosDragoonElite)
@@ -130,11 +114,6 @@ namespace Server.Items
                 (to as PlayerMobile).SetMountBlock(BlockMountType.Dazed, TimeSpan.FromSeconds(Core.ML ? 10 : 3), true);
             }
 
-            if (Core.AOS && from is PlayerMobile) /* only failsafe, attacker should already be dismounted */
-            {
-                (from as PlayerMobile).SetMountBlock(BlockMountType.BolaRecovery, TimeSpan.FromSeconds(Core.ML ? 10 : 3), true);
-            }
-
             Timer.DelayCall(TimeSpan.FromSeconds(2.0), new TimerStateCallback(ReleaseBolaLock), from);
         }
 
@@ -160,7 +139,7 @@ namespace Server.Items
                     {
                         from.SendLocalizedMessage(1040019); // The bola must be in your pack to use it.
                     }
-                    else if (!Core.AOS && (from.FindItemOnLayer(Layer.OneHanded) != null || from.FindItemOnLayer(Layer.TwoHanded) != null))
+                    else if (from.FindItemOnLayer(Layer.OneHanded) != null || from.FindItemOnLayer(Layer.TwoHanded) != null)
                     {
                         from.SendLocalizedMessage(1040015); // Your hands must be free to use this
                     }
@@ -179,22 +158,7 @@ namespace Server.Items
                     {
                         EtherealMount.StopMounting(from);
 
-                        if (Core.AOS)
-                        {
-                            Item one = from.FindItemOnLayer(Layer.OneHanded);
-                            Item two = from.FindItemOnLayer(Layer.TwoHanded);
-
-                            if (one != null)
-                                from.AddToBackpack(one);
-
-                            if (two != null)
-                                from.AddToBackpack(two);
-                        }
-
                         from.DoHarmful(to);
-
-                        if (Core.AOS)
-                            BaseMount.SetMountPrevention(from, BlockMountType.BolaRecovery, TimeSpan.FromSeconds(3.0));
 
                         this.m_Bola.Consume();
 

@@ -46,11 +46,6 @@ namespace Server.Mobiles
             SetSkill(SkillName.EvalInt, 110, 120);
             SetSkill(SkillName.Meditation, 110, 120);
 			
-			for(int i = 0; i < Utility.RandomMinMax(1, 7); i++)
-            {
-                PackItem(Loot.RandomScroll(0, Loot.RegularScrollTypes.Length, SpellbookType.Regular));
-            }
-
 			PackItem( new Arrow( 35 ) );
 			PackItem( new Bolt( 25 ) );			
 			PackGem( 2 );

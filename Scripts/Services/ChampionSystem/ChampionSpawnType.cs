@@ -11,13 +11,7 @@ namespace Server.Engines.CannedEvil
         ForestLord,
         VerminHorde,
         UnholyTerror,
-        SleepingDragon,
-        Glade,
-        Corrupt,
-        #region Stygian Abyss
-        Terror,
-        Infuse
-        #endregion
+        SleepingDragon
     }
 
     public class ChampionSpawnInfo
@@ -117,44 +111,7 @@ namespace Server.Engines.CannedEvil
                 new Type[] { typeof(BoneMagi), typeof(Mummy), typeof(SkeletalMage) }, // Level 2
                 new Type[] { typeof(BoneKnight), typeof(Lich), typeof(SkeletalKnight) }, // Level 3
                 new Type[] { typeof(LichLord), typeof(RottingCorpse) }// Level 4
-            }),
-            new ChampionSpawnInfo("Sleeping Dragon", typeof(Serado), new string[] { "Rival", "Challenger", "Antagonist" }, new Type[][]
-            { // Unholy Terror
-                new Type[] { typeof(DeathwatchBeetleHatchling), typeof(Lizardman) },
-                new Type[] { typeof(DeathwatchBeetle), typeof(Kappa) },
-                new Type[] { typeof(LesserHiryu), typeof(RevenantLion) },
-                new Type[] { typeof(Hiryu), typeof(Oni) }
-            }),
-            new ChampionSpawnInfo("Glade", typeof(Twaulo), new string[] { "Banisher", "Enforcer", "Eradicator" }, new Type[][]
-            { // Glade
-                new Type[] { typeof(Pixie), typeof(ShadowWisp) },
-                new Type[] { typeof(Centaur), typeof(MLDryad) },
-                new Type[] { typeof(Satyr), typeof(CuSidhe) },
-                new Type[] { typeof(FerelTreefellow), typeof(RagingGrizzlyBear) }
-            }),
-            new ChampionSpawnInfo("Corrupt", typeof(Ilhenir), new string[] { "Cleanser", "Expunger", "Depurator" }, new Type[][]
-            { // Corrupt
-                new Type[] { typeof(PlagueSpawn), typeof(Bogling) },
-                new Type[] { typeof(PlagueBeast), typeof(BogThing) },
-                new Type[] { typeof(PlagueBeastLord), typeof(InterredGrizzle) },
-                new Type[] { typeof(FetidEssence), typeof(PestilentBandage) }
-            }),
-            #region SA
-            new ChampionSpawnInfo("Terror", typeof(AbyssalInfernal), new string[] { "Banisher", "Enforcer", "Eradicator" }, new Type[][]
-            { // Terror
-                new Type[] { typeof(HordeMinion), typeof(ChaosDaemon) }, // Level 1
-                new Type[] { typeof(StoneHarpy), typeof(ArcaneDaemon) }, // Level 2
-                new Type[] { typeof(PitFiend), typeof(Moloch) }, // Level 3
-                new Type[] { typeof(ArchDaemon), typeof(AbyssalAbomination) }// Level 4
-            }),
-            new ChampionSpawnInfo("Infuse", typeof(PrimevalLich), new string[] { "Cleanser", "Expunger", "Depurator" }, new Type[][]
-            { // Infused
-                new Type[] { typeof(GoreFiend), typeof(VampireBat) }, // Level 1
-                new Type[] { typeof(FleshGolem), typeof(DarkWisp) }, // Level 2
-                new Type[] { typeof(UndeadGargoyle), typeof(Wight) }, // Level 3
-                new Type[] { typeof(SkeletalDrake), typeof(DreamWraith) }// Level 4
             })
-            #endregion
         };
 
         public static ChampionSpawnInfo GetInfo(ChampionSpawnType type)

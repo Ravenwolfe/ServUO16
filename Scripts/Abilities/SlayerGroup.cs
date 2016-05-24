@@ -45,7 +45,7 @@ namespace Server.Items
 
             elemental.Opposition = new SlayerGroup[] { abyss };
             elemental.FoundOn = new Type[] { typeof(Balron), typeof(Daemon) };
-            elemental.Super = new SlayerEntry(SlayerName.ElementalBan, typeof(ToxicElemental), typeof(AcidElemental), typeof(AgapiteElemental), typeof(AirElemental), typeof(SummonedAirElemental), typeof(BloodElemental), typeof(BronzeElemental), typeof(CopperElemental), typeof(DullCopperElemental), typeof(EarthElemental), typeof(SummonedEarthElemental), typeof(Efreet), typeof(FireElemental), typeof(SummonedFireElemental), typeof(GoldenElemental), typeof(IceElemental), typeof(KazeKemono), typeof(PoisonElemental), typeof(SandVortex), typeof(ShadowIronElemental), typeof(SnowElemental), typeof(ValoriteElemental), typeof(VeriteElemental), typeof(WaterElemental), typeof(SummonedWaterElemental));
+            elemental.Super = new SlayerEntry(SlayerName.ElementalBan, typeof(AcidElemental), typeof(AgapiteElemental), typeof(AirElemental), typeof(SummonedAirElemental), typeof(BloodElemental), typeof(BronzeElemental), typeof(CopperElemental), typeof(DullCopperElemental), typeof(EarthElemental), typeof(SummonedEarthElemental), typeof(Efreet), typeof(FireElemental), typeof(SummonedFireElemental), typeof(GoldenElemental), typeof(IceElemental), typeof(KazeKemono), typeof(PoisonElemental), typeof(SandVortex), typeof(ShadowIronElemental), typeof(SnowElemental), typeof(ValoriteElemental), typeof(VeriteElemental), typeof(WaterElemental), typeof(SummonedWaterElemental));
             elemental.Entries = new SlayerEntry[]
             {
                 new SlayerEntry(SlayerName.BloodDrinking, typeof(BloodElemental)),
@@ -60,27 +60,14 @@ namespace Server.Items
             abyss.Opposition = new SlayerGroup[] { elemental, fey };
             abyss.FoundOn = new Type[] { typeof(BloodElemental) };
 
-            if (Core.AOS)
-            {
-                abyss.Super = new SlayerEntry(SlayerName.Exorcism,  typeof(ArcaneDaemon), typeof(Balron), typeof(BoneDemon), typeof(ChaosDaemon), typeof(Daemon), typeof(SummonedDaemon), typeof(Devourer), typeof(EnslavedGargoyle), typeof(FireGargoyle), typeof(Gargoyle), typeof(Gibberling), typeof(HordeMinion), typeof(IceFiend), typeof(Imp), typeof(Impaler), typeof(Moloch), typeof(Ravager), typeof(Semidar), typeof(StoneGargoyle), typeof(Succubus));
-	
-                abyss.Entries = new SlayerEntry[]
-                {
-                    // Daemon Dismissal & Balron Damnation have been removed and moved up to super slayer on OSI.
-                    new SlayerEntry(SlayerName.GargoylesFoe, typeof(EnslavedGargoyle), typeof(FireGargoyle), typeof(Gargoyle))
-                };
-            }
-            else
-            {
-                abyss.Super = new SlayerEntry(SlayerName.Exorcism, typeof(Balron), typeof(BoneDemon), typeof(ChaosDaemon), typeof(Daemon), typeof(SummonedDaemon), typeof(Devourer), typeof(Gargoyle), typeof(FireGargoyle), typeof(Gibberling), typeof(HordeMinion), typeof(IceFiend), typeof(Imp), typeof(Impaler), typeof(Ravager), typeof(StoneGargoyle), typeof(ArcaneDaemon), typeof(EnslavedGargoyle), typeof(Moloch));
+            abyss.Super = new SlayerEntry(SlayerName.Exorcism, typeof(Balron), typeof(BoneDemon), typeof(ChaosDaemon), typeof(Daemon), typeof(SummonedDaemon), typeof(Devourer), typeof(Gargoyle), typeof(FireGargoyle), typeof(Gibberling), typeof(HordeMinion), typeof(IceFiend), typeof(Imp), typeof(Impaler), typeof(Ravager), typeof(StoneGargoyle), typeof(ArcaneDaemon), typeof(EnslavedGargoyle), typeof(Moloch));
 
-                abyss.Entries = new SlayerEntry[]
-                {
-                    new SlayerEntry(SlayerName.DaemonDismissal, typeof(Semidar), typeof(Balron), typeof(BoneDemon), typeof(ChaosDaemon), typeof(Daemon), typeof(SummonedDaemon), typeof(Devourer), typeof(Gibberling), typeof(HordeMinion), typeof(IceFiend), typeof(Imp), typeof(Impaler), typeof(Ravager), typeof(ArcaneDaemon), typeof(Moloch)),
-                    new SlayerEntry(SlayerName.GargoylesFoe, typeof(FireGargoyle), typeof(Gargoyle), typeof(StoneGargoyle), typeof(EnslavedGargoyle)),
-                    new SlayerEntry(SlayerName.BalronDamnation, typeof(Balron))
-                };
-            }
+            abyss.Entries = new SlayerEntry[]
+            {
+                new SlayerEntry(SlayerName.DaemonDismissal, typeof(Semidar), typeof(Balron), typeof(BoneDemon), typeof(ChaosDaemon), typeof(Daemon), typeof(SummonedDaemon), typeof(Devourer), typeof(Gibberling), typeof(HordeMinion), typeof(IceFiend), typeof(Imp), typeof(Impaler), typeof(Ravager), typeof(ArcaneDaemon), typeof(Moloch)),
+                new SlayerEntry(SlayerName.GargoylesFoe, typeof(FireGargoyle), typeof(Gargoyle), typeof(StoneGargoyle), typeof(EnslavedGargoyle)),
+                new SlayerEntry(SlayerName.BalronDamnation, typeof(Balron))
+            };
 
             arachnid.Opposition = new SlayerGroup[] { reptilian };
             arachnid.FoundOn = new Type[] { typeof(AncientWyrm), typeof(GreaterDragon), typeof(Dragon), typeof(OphidianMatriarch), typeof(ShadowWyrm) };

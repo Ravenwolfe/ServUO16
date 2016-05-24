@@ -305,69 +305,19 @@ namespace Server.Items
 
         public static WeaponAbility GetCurrentAbility(Mobile m)
         {
-            if (!Core.AOS)
-            {
                 ClearCurrentAbility(m);
                 return null;
-            }
-
-            WeaponAbility a = (WeaponAbility)m_Table[m];
-
-            if (!IsWeaponAbility(m, a))
-            {
-                ClearCurrentAbility(m);
-                return null;
-            }
-
-            if (a != null && a.ValidatesDuringHit && !a.Validate(m))
-            {
-                ClearCurrentAbility(m);
-                return null;
-            }
-
-            return a;
         }
 
         public static bool SetCurrentAbility(Mobile m, WeaponAbility a)
         {
-            if (!Core.AOS)
-            {
                 ClearCurrentAbility(m);
                 return false;
-            }
-
-            if (!IsWeaponAbility(m, a))
-            {
-                ClearCurrentAbility(m);
-                return false;
-            }
-
-            if (a != null && !a.Validate(m))
-            {
-                ClearCurrentAbility(m);
-                return false;
-            }
-
-            if (a == null)
-            {
-                m_Table.Remove(m);
-            }
-            else
-            {
-                SpecialMove.ClearCurrentMove(m);
-
-                m_Table[m] = a;
-            }
-
-            return true;
         }
 
         public static void ClearCurrentAbility(Mobile m)
         {
             m_Table.Remove(m);
-
-            if (Core.AOS && m.NetState != null)
-                m.Send(ClearWeaponAbility.Instance);
         }
 
         public static void Initialize()

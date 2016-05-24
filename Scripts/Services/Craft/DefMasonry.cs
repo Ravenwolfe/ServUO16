@@ -80,12 +80,12 @@ namespace Server.Engines.Craft
             public InternalTimer(Mobile from)
                 : base(TimeSpan.FromSeconds(0.7))
             { 
-                this.m_From = from; 
+                m_From = from; 
             }
 
             protected override void OnTick() 
             { 
-                this.m_From.PlaySound(0x23D); 
+                m_From.PlaySound(0x23D); 
             }
         }
 
@@ -117,116 +117,57 @@ namespace Server.Engines.Craft
         public override void InitCraftList() 
         { 
             // Decorations
-            this.AddCraft(typeof(Vase), 1044501, 1022888, 52.5, 102.5, typeof(Granite), 1044514, 1, 1044513);
-            this.AddCraft(typeof(LargeVase), 1044501, 1022887, 52.5, 102.5, typeof(Granite), 1044514, 3, 1044513);
+            AddCraft(typeof(Vase), 1044501, 1022888, 52.5, 102.5, typeof(Granite), 1044514, 1, 1044513);
+            AddCraft(typeof(LargeVase), 1044501, 1022887, 52.5, 102.5, typeof(Granite), 1044514, 3, 1044513);
 			
             if (Core.SE)
             {
-                int index = this.AddCraft(typeof(SmallUrn), 1044501, 1029244, 82.0, 132.0, typeof(Granite), 1044514, 3, 1044513);
-                this.SetNeededExpansion(index, Expansion.SE);
+                int index = AddCraft(typeof(SmallUrn), 1044501, 1029244, 82.0, 132.0, typeof(Granite), 1044514, 3, 1044513);
+                SetNeededExpansion(index, Expansion.SE);
 
-                index = this.AddCraft(typeof(SmallTowerSculpture), 1044501, 1029242, 82.0, 132.0, typeof(Granite), 1044514, 3, 1044513);
-                this.SetNeededExpansion(index, Expansion.SE);
+                index = AddCraft(typeof(SmallTowerSculpture), 1044501, 1029242, 82.0, 132.0, typeof(Granite), 1044514, 3, 1044513);
+                SetNeededExpansion(index, Expansion.SE);
             }
 
             if (Core.SA)
             {
-                int index = this.AddCraft(typeof(GargoylePainting), 1044501, 1095317, 80.0, 130.0, typeof(Granite), 1044514, 3, 1044513);
-                this.SetNeededExpansion(index, Expansion.SA);
+                int index = AddCraft(typeof(GargoylePainting), 1044501, 1095317, 80.0, 130.0, typeof(Granite), 1044514, 3, 1044513);
+                SetNeededExpansion(index, Expansion.SA);
  
-                index = this.AddCraft(typeof(GargishSculpture), 1044501, 1095319, 82.0, 132.0, typeof(Granite), 1044514, 3, 1044513);
-                this.SetNeededExpansion(index, Expansion.SA);
+                index = AddCraft(typeof(GargishSculpture), 1044501, 1095319, 82.0, 132.0, typeof(Granite), 1044514, 3, 1044513);
+                SetNeededExpansion(index, Expansion.SA);
  
-                index = this.AddCraft(typeof(GargoyleVase), 1044501, 1095322, 76.0, 126.0, typeof(Granite), 1044514, 3, 1044513);
-                this.SetNeededExpansion(index, Expansion.SA);
+                index = AddCraft(typeof(GargoyleVase), 1044501, 1095322, 76.0, 126.0, typeof(Granite), 1044514, 3, 1044513);
+                SetNeededExpansion(index, Expansion.SA);
  
             }            
 
             // Furniture
-            this.AddCraft(typeof(StoneChair), 1044502, 1024635, 55.0, 105.0, typeof(Granite), 1044514, 4, 1044513);
-            this.AddCraft(typeof(MediumStoneTableEastDeed), 1044502, 1044508, 65.0, 115.0, typeof(Granite), 1044514, 6, 1044513);
-            this.AddCraft(typeof(MediumStoneTableSouthDeed), 1044502, 1044509, 65.0, 115.0, typeof(Granite), 1044514, 6, 1044513);
-            this.AddCraft(typeof(LargeStoneTableEastDeed), 1044502, 1044511, 75.0, 125.0, typeof(Granite), 1044514, 9, 1044513);
-            this.AddCraft(typeof(LargeStoneTableSouthDeed), 1044502, 1044512, 75.0, 125.0, typeof(Granite), 1044514, 9, 1044513);
-
-            if (Core.SA)
-            {
-                int index = this.AddCraft(typeof(LargeGargoyleBedSouthDeed), 1044502, 1111761, 76.0, 126.0, typeof(Granite), 1044514, 3, 1044513);
-                this.AddSkill(index, SkillName.Tailoring, 70.0, 75.0);
-                this.AddRes(index, typeof(Cloth), 1044286, 100, 1044287);
-                this.SetNeededExpansion(index, Expansion.SA);
- 
-                index = this.AddCraft(typeof(LargeGargoyleBedEastDeed), 1044502, 1111762, 76.0, 126.0, typeof(Granite), 1044514, 3, 1044513);
-                this.AddSkill(index, SkillName.Tailoring, 70.0, 75.0);
-                this.AddRes(index, typeof(Cloth), 1044286, 100, 1044287);
-                this.SetNeededExpansion(index, Expansion.SA);
- 
-                index = this.AddCraft(typeof(GargishCotEastDeed), 1044502, 1111921, 76.0, 126.0, typeof(Granite), 1044514, 3, 1044513);
-                this.AddSkill(index, SkillName.Tailoring, 70.0, 75.0);
-                this.AddRes(index, typeof(Cloth), 1044286, 100, 1044287);
-                this.SetNeededExpansion(index, Expansion.SA);
- 
-                index = this.AddCraft(typeof(GargishCotSouthDeed), 1044502, 1111920, 76.0, 126.0, typeof(Granite), 1044514, 3, 1044513);
-                this.AddSkill(index, SkillName.Tailoring, 70.0, 75.0);
-                this.AddRes(index, typeof(Cloth), 1044286, 100, 1044287);
-                this.SetNeededExpansion(index, Expansion.SA);
-            }            
+            AddCraft(typeof(StoneChair), 1044502, 1024635, 55.0, 105.0, typeof(Granite), 1044514, 4, 1044513);
+            AddCraft(typeof(MediumStoneTableEastDeed), 1044502, 1044508, 65.0, 115.0, typeof(Granite), 1044514, 6, 1044513);
+            AddCraft(typeof(MediumStoneTableSouthDeed), 1044502, 1044509, 65.0, 115.0, typeof(Granite), 1044514, 6, 1044513);
+            AddCraft(typeof(LargeStoneTableEastDeed), 1044502, 1044511, 75.0, 125.0, typeof(Granite), 1044514, 9, 1044513);
+            AddCraft(typeof(LargeStoneTableSouthDeed), 1044502, 1044512, 75.0, 125.0, typeof(Granite), 1044514, 9, 1044513);
 
             // Statues
-            this.AddCraft(typeof(StatueSouth), 1044503, 1044505, 60.0, 120.0, typeof(Granite), 1044514, 3, 1044513);
-            this.AddCraft(typeof(StatueNorth), 1044503, 1044506, 60.0, 120.0, typeof(Granite), 1044514, 3, 1044513);
-            this.AddCraft(typeof(StatueEast), 1044503, 1044507, 60.0, 120.0, typeof(Granite), 1044514, 3, 1044513);
-            this.AddCraft(typeof(StatuePegasus), 1044503, 1044510, 70.0, 130.0, typeof(Granite), 1044514, 4, 1044513);
-
-            #region Mondain's Legacy
-            // Misc Addons
-            if (Core.ML)
-            {
-                int index = this.AddCraft(typeof(StoneAnvilSouthDeed), 1044290, 1072876, 78.0, 128.0, typeof(Granite), 1044514, 20, 1044513);
-                this.AddRecipe(index, (int)CarpRecipes.StoneAnvilSouth);
-                this.SetNeededExpansion(index, Expansion.ML);
-				
-                index = this.AddCraft(typeof(StoneAnvilEastDeed), 1044290, 1073392, 78.0, 128.0, typeof(Granite), 1044514, 20, 1044513);
-                this.AddRecipe(index, (int)CarpRecipes.StoneAnvilEast);
-                this.SetNeededExpansion(index, Expansion.ML);
-            }
-            #endregion
+            AddCraft(typeof(StatueSouth), 1044503, 1044505, 60.0, 120.0, typeof(Granite), 1044514, 3, 1044513);
+            AddCraft(typeof(StatueNorth), 1044503, 1044506, 60.0, 120.0, typeof(Granite), 1044514, 3, 1044513);
+            AddCraft(typeof(StatueEast), 1044503, 1044507, 60.0, 120.0, typeof(Granite), 1044514, 3, 1044513);
+            AddCraft(typeof(StatuePegasus), 1044503, 1044510, 70.0, 130.0, typeof(Granite), 1044514, 4, 1044513);
 
             //Armor
-            #region Gargish Armor
-            if (Core.SA)
-            {
-                int index = this.AddCraft(typeof(GargishStoneArms), 1111705, 1020643, 52.0, 102.0, typeof(Granite), 1044514, 8, 1044513);
-                this.SetNeededExpansion(index, Expansion.SA);
- 
-                index = this.AddCraft(typeof(GargishStoneChest), 1111705, 1020645, 55.0, 105.0, typeof(Granite), 1044514, 12, 1044513);
-                this.SetNeededExpansion(index, Expansion.SA);
- 
-                index = this.AddCraft(typeof(GargishStoneKilt), 1111705, 1020647, 50.0, 100.0, typeof(Granite), 1044514, 6, 1044513);
-                this.SetNeededExpansion(index, Expansion.SA);
- 
-                index = this.AddCraft(typeof(GargishStoneLegs), 1111705, 1020649, 53.5, 103.5, typeof(Granite), 1044514, 10, 1044513);
-                this.SetNeededExpansion(index, Expansion.SA);
- 
-                index = this.AddCraft(typeof(LargeStoneShield), 1111705, 1095773, 55.0, 105.0, typeof(Granite), 1044514, 16, 1044513);
-                this.SetNeededExpansion(index, Expansion.SA);
- 
-                index = this.AddCraft(typeof(StoneWarSword), 1111705, 1112753, 55.0, 105.0, typeof(Granite), 1044514, 18, 1044513);
-                this.SetNeededExpansion(index, Expansion.SA);
-            }
-            #endregion
 
-            this.SetSubRes(typeof(Granite), 1044525);
+            SetSubRes(typeof(Granite), 1044525);
 
-            this.AddSubRes(typeof(Granite), 1044525, 00.0, 1044514, 1044526);
-            this.AddSubRes(typeof(DullCopperGranite), 1044023, 65.0, 1044514, 1044527);
-            this.AddSubRes(typeof(ShadowIronGranite), 1044024, 70.0, 1044514, 1044527);
-            this.AddSubRes(typeof(CopperGranite), 1044025, 75.0, 1044514, 1044527);
-            this.AddSubRes(typeof(BronzeGranite), 1044026, 80.0, 1044514, 1044527);
-            this.AddSubRes(typeof(GoldGranite), 1044027, 85.0, 1044514, 1044527);
-            this.AddSubRes(typeof(AgapiteGranite), 1044028, 90.0, 1044514, 1044527);
-            this.AddSubRes(typeof(VeriteGranite), 1044029, 95.0, 1044514, 1044527);
-            this.AddSubRes(typeof(ValoriteGranite), 1044030, 99.0, 1044514, 1044527);
+            AddSubRes(typeof(Granite), 1044525, 00.0, 1044514, 1044526);
+            AddSubRes(typeof(DullCopperGranite), 1044023, 65.0, 1044514, 1044527);
+            AddSubRes(typeof(ShadowIronGranite), 1044024, 70.0, 1044514, 1044527);
+            AddSubRes(typeof(CopperGranite), 1044025, 75.0, 1044514, 1044527);
+            AddSubRes(typeof(BronzeGranite), 1044026, 80.0, 1044514, 1044527);
+            AddSubRes(typeof(GoldGranite), 1044027, 85.0, 1044514, 1044527);
+            AddSubRes(typeof(AgapiteGranite), 1044028, 90.0, 1044514, 1044527);
+            AddSubRes(typeof(VeriteGranite), 1044029, 95.0, 1044514, 1044527);
+            AddSubRes(typeof(ValoriteGranite), 1044030, 99.0, 1044514, 1044527);
         }
     }
 }

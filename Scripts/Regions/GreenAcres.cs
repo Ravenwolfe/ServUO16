@@ -1,6 +1,5 @@
 using System;
 using System.Xml;
-using Server.Spells.Chivalry;
 using Server.Spells.Fourth;
 using Server.Spells.Seventh;
 using Server.Spells.Sixth;
@@ -24,7 +23,7 @@ namespace Server.Regions
 
         public override bool OnBeginSpellCast(Mobile m, ISpell s)
         {
-            if ((s is GateTravelSpell || s is RecallSpell || s is MarkSpell || s is SacredJourneySpell) && m.IsPlayer())
+            if ((s is GateTravelSpell || s is RecallSpell || s is MarkSpell) && m.IsPlayer())
             {
                 m.SendMessage("You cannot cast that spell here.");
                 return false;

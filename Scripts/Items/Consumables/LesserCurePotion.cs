@@ -33,7 +33,7 @@ namespace Server.Items
         {
             get
             {
-                return Core.AOS ? m_AosLevelInfo : m_OldLevelInfo;
+                return m_OldLevelInfo;
             }
         }
         public override void Serialize(GenericWriter writer)

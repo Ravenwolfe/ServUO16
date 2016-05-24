@@ -48,7 +48,6 @@ namespace Server.Mobiles
             this.VirtualArmor = 44;
 
             this.PackReg(5, 15);
-            this.PackNecroReg(5, 15);
         }
 
         public OphidianArchmage(Serial serial)

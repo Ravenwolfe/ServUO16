@@ -19,21 +19,21 @@ namespace Server.Items
         {
             get
             {
-                return (Core.AOS ? 13 : 6);
+                return 6;
             }
         }
         public override int MaxHeal
         {
             get
             {
-                return (Core.AOS ? 16 : 20);
+                return 20;
             }
         }
         public override double Delay
         {
             get
             {
-                return (Core.AOS ? 8.0 : 10.0);
+                return 10.0;
             }
         }
         public override void Serialize(GenericWriter writer)

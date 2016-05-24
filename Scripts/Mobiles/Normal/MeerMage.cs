@@ -242,7 +242,7 @@ namespace Server.Mobiles
                     m.PlaySound(0x00E);
                     m.PlaySound(0x1BC);
 
-                    AOS.Damage(m, this, Utility.RandomMinMax(30, 40) - (Core.AOS ? 0 : 10), 100, 0, 0, 0, 0);
+                    m.Damage(Utility.RandomMinMax(30, 40), this);
 
                     states[1] = count + 1;
 

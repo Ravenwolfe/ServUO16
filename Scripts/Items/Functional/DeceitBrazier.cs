@@ -56,7 +56,7 @@ namespace Server.Items
 
             #region Elementals
             typeof(EarthElemental), typeof(PoisonElemental), typeof(FireElemental), typeof(SnowElemental),
-            typeof(IceElemental), typeof(ToxicElemental), typeof(WaterElemental), typeof(Efreet),
+            typeof(IceElemental), typeof(WaterElemental), typeof(Efreet),
             typeof(AirElemental), typeof(Golem),
             #endregion
 

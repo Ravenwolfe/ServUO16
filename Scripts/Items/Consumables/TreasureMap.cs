@@ -47,9 +47,9 @@ namespace Server.Items
 			new Type[]{ typeof( OrcishMage ), typeof( Gargoyle ), typeof( Gazer ), typeof( HellHound ), typeof( EarthElemental ) },
 			new Type[]{ typeof( Lich ), typeof( OgreLord ), typeof( DreadSpider ), typeof( AirElemental ), typeof( FireElemental ) },
 			new Type[]{ typeof( DreadSpider ), typeof( LichLord ), typeof( Daemon ), typeof( ElderGazer ), typeof( OgreLord ) },
-			new Type[]{ typeof( ExodusOverseer ), typeof( GargoyleDestroyer ), typeof( GargoyleEnforcer ), typeof( PoisonElemental ) },
-			new Type[]{ typeof( Changeling ), typeof( ExodusMinion ), typeof( GargoyleEnforcer ), typeof( GargoyleDestroyer ), typeof( Titan ) },
-            new Type[]{ typeof( RenegadeChangeling ), typeof( ExodusMinion ), typeof( GargoyleEnforcer ), typeof( GargoyleDestroyer ), typeof( Titan ) }
+			new Type[]{ typeof( PoisonElemental ) },
+			new Type[]{ typeof( Changeling ), typeof( Titan ) },
+            new Type[]{ typeof( RenegadeChangeling ), typeof( Titan ) }
         };
         #endregion
 
@@ -725,11 +725,6 @@ namespace Server.Items
             from.LocalOverheadMessage(MessageType.Regular, 0x3B2, 503019); // You successfully decode a treasure map!
             Decoder = from;
 
-            if (Core.AOS)
-            {
-                LootType = LootType.Blessed;
-            }
-
             DisplayTo(from);
         }
 
@@ -912,10 +907,6 @@ namespace Server.Items
 
                         break;
                     }
-            }
-            if (Core.AOS && m_Decoder != null && LootType == LootType.Regular)
-            {
-                LootType = LootType.Blessed;
             }
         }
 

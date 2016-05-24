@@ -7,10 +7,6 @@ namespace Server.Mobiles
 	[CorpseName("a raptor corpse")]
 	public class Raptor : BaseCreature
 	{
-		public static Type[] VArtifacts =
-        {
-            typeof (RaptorClaw)
-        };
 		private const int MaxFriends = 2;
 
 		private bool m_IsFriend;
@@ -173,44 +169,6 @@ namespace Server.Mobiles
 
 					m_Friends.Add(friend);
 				}
-			}
-		}
-
-		public override void OnDeath(Container c)
-		{
-			base.OnDeath(c);
-
-			if (Utility.RandomDouble() < 0.25)
-			{
-				c.DropItem(new AncientPotteryFragments());
-			}
-
-			if (Utility.RandomDouble() < 0.05)
-			{
-				c.DropItem(new RaptorTeeth());
-			}
-
-			if (c != null && !c.Deleted && c is Corpse)
-			{
-				var corpse = (Corpse)c;
-				if (Utility.RandomDouble() < 0.01 && corpse.Killer != null && !corpse.Killer.Deleted)
-				{
-					GiveVArtifactTo(corpse.Killer);
-				}
-			}
-		}
-
-		public static void GiveVArtifactTo(Mobile m)
-		{
-			var item = (Item)Activator.CreateInstance(VArtifacts[Utility.Random(VArtifacts.Length)]);
-			m.PlaySound(0x5B4);
-
-			if (m.AddToBackpack(item))
-				m.SendLocalizedMessage(1062317);
-			// For your valor in combating the fallen beast, a special artifact has been bestowed on you.
-			else
-				m.SendMessage("As your backpack is full, your reward has been placed at your feet.");
-			{
 			}
 		}
 

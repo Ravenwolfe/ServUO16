@@ -10,8 +10,6 @@ using System.Collections.Generic;
 using System.IO;
 
 using Server.ContextMenus;
-using Server.Engines.Quests;
-using Server.Engines.Quests.Necro;
 using Server.Engines.XmlSpawner2;
 using Server.Factions;
 using Server.Gumps;
@@ -331,17 +329,6 @@ namespace Server.Mobiles
 				if (target is BaseCreature && ((BaseCreature)target).IsScaryToPets && m_Mobile.IsScaredOfScaryThings)
 				{
 					m_Mobile.SayTo(from, "Your pet refuses to attack this creature!");
-					return;
-				}
-
-				if ((SolenHelper.CheckRedFriendship(from) &&
-					 (target is RedSolenInfiltratorQueen || target is RedSolenInfiltratorWarrior || target is RedSolenQueen ||
-					  target is RedSolenWarrior || target is RedSolenWorker)) ||
-					(SolenHelper.CheckBlackFriendship(from) &&
-					 (target is BlackSolenInfiltratorQueen || target is BlackSolenInfiltratorWarrior || target is BlackSolenQueen ||
-					  target is BlackSolenWarrior || target is BlackSolenWorker)))
-				{
-					from.SendAsciiMessage("You can not force your pet to attack a creature you are protected from.");
 					return;
 				}
 
