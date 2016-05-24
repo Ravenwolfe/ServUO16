@@ -8,13 +8,9 @@ namespace Server.Items
         [Constructable]
         public OrcishBow()
         {
-            this.Hue = 0x497;
+            Hue = 0x497;
 
-            this.Attributes.WeaponDamage = 25;
-
-            this.WeaponAttributes.DurabilityBonus = 70;
-
-            this.Name = "an orcish bow";
+            Name = "an orcish bow";
         }
 
         public OrcishBow(Serial serial)

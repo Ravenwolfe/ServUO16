@@ -72,10 +72,6 @@ namespace Server.Misc
                         break;
                 }
             }
-            else if (m.Race == Race.Gargoyle)
-            {
-                EquipItem(new GargishClothChest(hue));
-            }
         }
 
         private static void AddPants(Mobile m, int pantsHue)

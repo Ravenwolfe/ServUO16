@@ -24,10 +24,6 @@ namespace Server
 
 			int luck = killer.Luck;
 
-            luck += FountainOfFortune.GetLuckBonus(killer);
-
-            luck += TenthAnniversarySculpture.GetLuckBonus(killer);
-
             PlayerMobile pmKiller = killer as PlayerMobile;
 			if (pmKiller != null && pmKiller.SentHonorContext != null && pmKiller.SentHonorContext.Target == victim)
 			{
@@ -572,26 +568,6 @@ namespace Server
 			return e.Map == Map.Tokuno;
 		}
 
-		#region Mondain's Legacy
-		public static bool IsMondain(IEntity e)
-		{
-            if (e == null)
-                return false;
-
-			return MondainsLegacy.IsMLRegion(Region.Find(e.Location, e.Map));
-		}
-		#endregion
-
-		#region Stygian Abyss
-		public static bool IsStygian/*Abyss*/(IEntity e)
-		{
-            if (e == null)
-                return false;
-
-            return e.Map == Map.TerMur;
-		}
-		#endregion
-
 		public Item Construct(Mobile from, int luckChance, bool spawning)
 		{
 			if (m_AtSpawnTime != spawning)
@@ -614,7 +590,7 @@ namespace Server
 
                 if (rnd < item.Chance)
                 {
-                    return Mutate(from, luckChance, item.Construct(IsInTokuno(from), IsMondain(from), IsStygian(from)));
+                    return Mutate(from, luckChance, item.Construct(false, false, false));
                 }
 
 				rnd -= item.Chance;
@@ -675,95 +651,48 @@ namespace Server
 
 				if (item is BaseWeapon || item is BaseArmor || item is BaseJewel || item is BaseHat)
 				{
-					if (Core.AOS)
+					if (item is BaseWeapon)
 					{
-                        // Try to generate a new random item based on the creature killed
-                        if (from is BaseCreature)
-                        {
-                            if (RandomItemGenerator.GenerateRandomItem(item, ((BaseCreature)from).LastKiller, (BaseCreature)from))
-                                return item;
-                        }
+						BaseWeapon weapon = (BaseWeapon)item;
 
-                        int bonusProps = GetBonusProperties();
-						int min = m_MinIntensity;
-						int max = m_MaxIntensity;
-
-						if (bonusProps < m_MaxProps && LootPack.CheckLuck(luckChance))
+						if (80 > Utility.Random(100))
 						{
-							++bonusProps;
+							weapon.AccuracyLevel = (WeaponAccuracyLevel)GetRandomOldBonus();
 						}
 
-						int props = 1 + bonusProps;
-
-						// Make sure we're not spawning items with 6 properties.
-						if (props > m_MaxProps)
+						if (60 > Utility.Random(100))
 						{
-							props = m_MaxProps;
+							weapon.DamageLevel = (WeaponDamageLevel)GetRandomOldBonus();
 						}
 
-                        // Use the older style random generation
-						if (item is BaseWeapon)
+						if (40 > Utility.Random(100))
 						{
-							BaseRunicTool.ApplyAttributesTo((BaseWeapon)item, false, luckChance, props, m_MinIntensity, m_MaxIntensity);
+							weapon.DurabilityLevel = (WeaponDurabilityLevel)GetRandomOldBonus();
 						}
-						else if (item is BaseArmor)
+
+						if (5 > Utility.Random(100))
 						{
-							BaseRunicTool.ApplyAttributesTo((BaseArmor)item, false, luckChance, props, m_MinIntensity, m_MaxIntensity);
+							weapon.Slayer = SlayerName.Silver;
 						}
-						else if (item is BaseJewel)
+
+						if (from != null && weapon.AccuracyLevel == 0 && weapon.DamageLevel == 0 && weapon.DurabilityLevel == 0 &&
+							weapon.Slayer == SlayerName.None && 5 > Utility.Random(100))
 						{
-							BaseRunicTool.ApplyAttributesTo((BaseJewel)item, false, luckChance, props, m_MinIntensity, m_MaxIntensity);
-						}
-						else if (item is BaseHat)
-						{
-							BaseRunicTool.ApplyAttributesTo((BaseHat)item, false, luckChance, props, m_MinIntensity, m_MaxIntensity);
+							weapon.Slayer = SlayerGroup.GetLootSlayerType(from.GetType());
 						}
 					}
-					else // not aos
+					else if (item is BaseArmor)
 					{
-						if (item is BaseWeapon)
+						BaseArmor armor = (BaseArmor)item;
+
+						if (80 > Utility.Random(100))
 						{
-							BaseWeapon weapon = (BaseWeapon)item;
-
-							if (80 > Utility.Random(100))
-							{
-								weapon.AccuracyLevel = (WeaponAccuracyLevel)GetRandomOldBonus();
-							}
-
-							if (60 > Utility.Random(100))
-							{
-								weapon.DamageLevel = (WeaponDamageLevel)GetRandomOldBonus();
-							}
-
-							if (40 > Utility.Random(100))
-							{
-								weapon.DurabilityLevel = (WeaponDurabilityLevel)GetRandomOldBonus();
-							}
-
-							if (5 > Utility.Random(100))
-							{
-								weapon.Slayer = SlayerName.Silver;
-							}
-
-							if (from != null && weapon.AccuracyLevel == 0 && weapon.DamageLevel == 0 && weapon.DurabilityLevel == 0 &&
-								weapon.Slayer == SlayerName.None && 5 > Utility.Random(100))
-							{
-								weapon.Slayer = SlayerGroup.GetLootSlayerType(from.GetType());
-							}
+							armor.ProtectionLevel = (ArmorProtectionLevel)GetRandomOldBonus();
 						}
-						else if (item is BaseArmor)
+
+						if (40 > Utility.Random(100))
 						{
-							BaseArmor armor = (BaseArmor)item;
-
-							if (80 > Utility.Random(100))
-							{
-								armor.ProtectionLevel = (ArmorProtectionLevel)GetRandomOldBonus();
-							}
-
-							if (40 > Utility.Random(100))
-							{
-								armor.Durability = (ArmorDurabilityLevel)GetRandomOldBonus();
-							}
+							armor.Durability = (ArmorDurabilityLevel)GetRandomOldBonus();
 						}
 					}
 				}
@@ -771,14 +700,7 @@ namespace Server
 				{
 					SlayerName slayer = SlayerName.None;
 
-					if (Core.AOS)
-					{
-						slayer = BaseRunicTool.GetRandomSlayer();
-					}
-					else
-					{
-						slayer = SlayerGroup.GetLootSlayerType(from.GetType());
-					}
+					slayer = SlayerGroup.GetLootSlayerType(from.GetType());
 
 					if (slayer == SlayerName.None)
 					{
@@ -940,24 +862,7 @@ namespace Server
 
 		private static readonly Type[] m_BlankTypes = new[] {typeof(BlankScroll)};
 
-		private static readonly Type[][] m_NecroTypes = new[]
-		{
-			new[] // low
-			{
-				typeof(AnimateDeadScroll), typeof(BloodOathScroll), typeof(CorpseSkinScroll), typeof(CurseWeaponScroll),
-				typeof(EvilOmenScroll), typeof(HorrificBeastScroll), typeof(MindRotScroll), typeof(PainSpikeScroll),
-				typeof(SummonFamiliarScroll), typeof(WraithFormScroll)
-			},
-			new[] // med
-			{typeof(LichFormScroll), typeof(PoisonStrikeScroll), typeof(StrangleScroll), typeof(WitherScroll)},
-			((Core.SE)
-				 ? new[] // high
-				 {typeof(VengefulSpiritScroll), typeof(VampiricEmbraceScroll), typeof(ExorcismScroll)}
-				 : new[] // high
-				 {typeof(VengefulSpiritScroll), typeof(VampiricEmbraceScroll)})
-		};
-
-        private static readonly SpellbookType[] m_BookTypes = new[]
+		private static readonly SpellbookType[] m_BookTypes = new[]
         {
             SpellbookType.Regular, SpellbookType.Necromancer, SpellbookType.Mystic
         };
@@ -1002,7 +907,7 @@ namespace Server
                 ++maxIndex;
             spellBookType = m_BookTypes[rnd];
 
-            return Loot.RandomScroll(minIndex, maxIndex, spellBookType);
+            return Loot.RandomScroll(minIndex, maxIndex);
 		}
 
 		public Item Construct(bool inTokuno, bool isMondain, bool isStygian)
@@ -1013,23 +918,23 @@ namespace Server
 
 				if (m_Type == typeof(BaseRanged))
 				{
-					item = Loot.RandomRangedWeapon(inTokuno, isMondain, isStygian );
+					item = Loot.RandomRangedWeapon();
 				}
 				else if (m_Type == typeof(BaseWeapon))
 				{
-					item = Loot.RandomWeapon(inTokuno, isMondain, isStygian );
+					item = Loot.RandomWeapon();
 				}
 				else if (m_Type == typeof(BaseArmor))
 				{
-					item = Loot.RandomArmorOrHat(inTokuno, isMondain, isStygian);
+					item = Loot.RandomArmorOrHat();
 				}
 				else if (m_Type == typeof(BaseShield))
 				{
-					item = Loot.RandomShield(isStygian);
+					item = Loot.RandomShield();
 				}
 				else if (m_Type == typeof(BaseJewel))
 				{
-					item = Core.AOS ? Loot.RandomJewelry(isStygian) : Loot.RandomArmorOrShieldOrWeapon(isStygian);
+					item = Core.AOS ? Loot.RandomJewelry() : Loot.RandomArmorOrShieldOrWeapon();
 				}
 				else if (m_Type == typeof(BaseInstrument))
 				{

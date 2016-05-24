@@ -12,8 +12,6 @@ using Server.Items;
 using Server.Mobiles;
 using Server.Network;
 using Server.Spells;
-using Server.Spells.Necromancy;
-using Server.Spells.Ninjitsu;
 #endregion
 
 namespace Server
@@ -168,26 +166,6 @@ namespace Server
 
 			protected override void OnTick()
 			{
-				#region Mondain's Legacy
-				if ((Core.AOS && m_Poison.RealLevel < 4 &&
-					 TransformationSpellHelper.UnderTransformation(m_Mobile, typeof(VampiricEmbraceSpell))) ||
-					(m_Poison.RealLevel < 3 && OrangePetals.UnderEffect(m_Mobile)) ||
-					AnimalForm.UnderTransformation(m_Mobile, typeof(Unicorn)))
-				{
-					if (m_Mobile.CurePoison(m_Mobile))
-					{
-						m_Mobile.LocalOverheadMessage(
-							MessageType.Emote, 0x3F, true, "* You feel yourself resisting the effects of the poison *");
-
-						m_Mobile.NonlocalOverheadMessage(
-							MessageType.Emote, 0x3F, true, String.Format("* {0} seems resistant to the poison *", m_Mobile.Name));
-
-						Stop();
-						return;
-					}
-				}
-				#endregion
-
 				if (m_Index++ == m_Poison.m_Count)
 				{
 					m_Mobile.SendLocalizedMessage(502136); // The poison seems to have worn off.
@@ -230,30 +208,7 @@ namespace Server
 					honorTarget.ReceivedHonorContext.OnTargetPoisoned();
 				}
 
-				#region Mondain's Legacy
-				if (Core.ML)
-				{
-					if (m_From != null && m_Mobile != m_From && !m_From.InRange(m_Mobile.Location, 1) && m_Poison.m_Level >= 10 &&
-						m_Poison.m_Level <= 13) // darkglow
-					{
-						m_From.SendLocalizedMessage(1072850); // Darkglow poison increases your damage!                    
-
-						Stop();
-
-						new DarkglowTimer(m_Mobile, m_From, m_Poison, m_Index).Start();
-					}
-
-					if (m_From != null && m_Mobile != m_From && m_From.InRange(m_Mobile.Location, 1) && m_Poison.m_Level >= 14 &&
-						m_Poison.m_Level <= 18) // parasitic
-					{
-						Stop();
-
-						new ParasiticTimer(m_Mobile, m_From, m_Poison, m_Index).Start();
-					}
-				}
-				#endregion
-
-				AOS.Damage(m_Mobile, m_From, damage, 0, 0, 0, 100, 0);
+				m_Mobile.Damage(damage, m_From);
 
 				if (0.60 <= Utility.RandomDouble())
 				// OSI: randomly revealed between first and third damage tick, guessing 60% chance
@@ -321,7 +276,7 @@ namespace Server
 				}
 
 				if (m_Mobile != null)
-					AOS.Damage(m_Mobile, m_From, m_Damage, 0, 0, 0, 100, 0);
+					m_Mobile.Damage(m_Damage, m_From);
 
 				if (0.60 <= Utility.RandomDouble())
 				// OSI: randomly revealed between first and third damage tick, guessing 60% chance
@@ -381,7 +336,7 @@ namespace Server
 					MessageType.Emote, 0x3F, true, String.Format("* {0} stumbles around in confusion and pain *", m_Mobile.Name));
 
 				if (m_Mobile != null)
-					AOS.Damage(m_Mobile, m_From, m_Damage, 0, 0, 0, 100, 0);
+					m_Mobile.Damage(m_Damage, m_From);
 
 				if (0.60 <= Utility.RandomDouble())
 				// OSI: randomly revealed between first and third damage tick, guessing 60% chance

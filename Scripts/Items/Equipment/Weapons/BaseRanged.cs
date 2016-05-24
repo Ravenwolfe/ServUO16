@@ -68,8 +68,7 @@ namespace Server.Items
 			//WeaponAbility a = WeaponAbility.GetCurrentAbility(attacker);
 
 			// Make sure we've been standing still for .25/.5/1 second depending on Era
-			if (Core.TickCount - attacker.LastMoveTime >= (Core.SE ? 250 : Core.AOS ? 500 : 1000) ||
-				(Core.AOS && WeaponAbility.GetCurrentAbility(attacker) is MovingShot))
+			if (Core.TickCount - attacker.LastMoveTime >= 1000)
 			{
 				bool canSwing = true;
 
@@ -133,26 +132,6 @@ namespace Server.Items
 				defender.AddToBackpack(Ammo);
 			}
 
-			if (Core.ML && m_Velocity > 0)
-			{
-				int bonus = (int)attacker.GetDistanceToSqrt(defender);
-
-				if (bonus > 0 && m_Velocity > Utility.Random(100))
-				{
-					AOS.Damage(defender, attacker, bonus * 3, 100, 0, 0, 0, 0);
-
-					if (attacker.Player)
-					{
-						attacker.SendLocalizedMessage(1072794); // Your arrow hits its mark with velocity!
-					}
-
-					if (defender.Player)
-					{
-						defender.SendLocalizedMessage(1072795); // You have been hit by an arrow with velocity!
-					}
-				}
-			}
-
 			base.OnHit(attacker, defender, damageBonus);
 		}
 
@@ -212,32 +191,6 @@ namespace Server.Items
 				return true;
 			}
 
-			if (attacker.Player)
-			{
-				BaseQuiver quiver = attacker.FindItemOnLayer(Layer.Cloak) as BaseQuiver;
-				Container pack = attacker.Backpack;
-
-                int lowerAmmo = AosAttributes.GetValue(attacker, AosAttribute.LowerAmmoCost);
-
-                if (quiver == null || Utility.Random(100) >= lowerAmmo)
-				{
-					// consume ammo
-					if (quiver != null && quiver.ConsumeTotal(AmmoType, 1))
-					{
-						quiver.InvalidateWeight();
-					}
-					else if (pack == null || !pack.ConsumeTotal(AmmoType, 1))
-					{
-						return false;
-					}
-				}
-				else if (quiver.FindItemByType(AmmoType) == null && (pack == null || pack.FindItemByType(AmmoType) == null))
-				{
-					// lower ammo cost should not work when we have no ammo at all
-					return false;
-				}
-			}
-
 			attacker.MovingEffect(defender, EffectID, 18, 1, false, false);
 
 			return true;
@@ -279,12 +232,6 @@ namespace Server.Items
 						reader.ReadInt();
 						break;
 					}
-			}
-
-			if (version < 2)
-			{
-				WeaponAttributes.MageWeapon = 0;
-				WeaponAttributes.UseBestSkill = 0;
 			}
 		}
 	}

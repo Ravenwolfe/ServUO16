@@ -741,9 +741,6 @@
     <Compile Include="Items\Resource\AbyssalCloth.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Internal\AbyssBarrier.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Internal\AcidSlime.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -820,9 +817,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Resource\ChagaMushroom.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Internal\CitadelTeleporters.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Resource\ClockworkAssembly.cs">
@@ -1054,9 +1048,6 @@
     <Compile Include="Items\Resource\PrimalLichDust.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Functional\PrimevalLichPuzzle.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Quest\CrystallineFragments.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -1084,9 +1075,6 @@
     <Compile Include="Items\Resource\ReflectiveWolfEye.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Internal\SanctuaryTele.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Tools\Scales.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -1094,9 +1082,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Resource\SeedRenewal.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Functional\SerpentNest.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Functional\SerpentPillar.cs">
@@ -1251,9 +1236,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Tools\StaffOrb.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Jewelry\StaffRing.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Equipment\Clothing\StaffRobe.cs">
@@ -2208,7 +2190,6 @@
     <Compile Include="Items\Books\BookOfCircles.cs" />
     <Compile Include="Mobiles\Normal\GargoyleGuardian.cs" />
     <Compile Include="Items\Books\ShrineMantra.cs" />
-    <Compile Include="Items\Functional\ShrineOfSingularity.cs" />
     <Compile Include="Mobiles\NPCs\Agralem.cs" />
     <Compile Include="Mobiles\NPCs\Aliabeth.cs" />
     <Compile Include="Mobiles\NPCs\Axem.cs" />
@@ -3237,9 +3218,6 @@
     <Compile Include="Items\Containers\UnknownSkeletons.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Functional\StealableArtifactsSpawner.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Consumables\BarkeepContract.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -3468,40 +3446,16 @@
     <Compile Include="Items\Equipment\Jewelry\Beads.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Equipment\Jewelry\BlueDiamondRing.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Equipment\Jewelry\Bracelet.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Jewelry\BrilliantAmberBracelet.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Jewelry\DarkSapphireBracelet.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Equipment\Jewelry\Earrings.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Equipment\Jewelry\EcruCitrineRing.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Jewelry\FireRubyBracelet.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Equipment\Jewelry\Necklace.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Equipment\Jewelry\PerfectEmeraldRing.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Equipment\Jewelry\Ring.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Jewelry\TurqouiseRing.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Jewelry\WhitePearlBracelet.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Decorative\Brazier.cs">
@@ -5271,102 +5225,6 @@
     <Compile Include="Items\Addons\TormentedMinotaurStatuette.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Equipment\Suits\BaseCostume.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Suits\BloodwormCostume.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Suits\CentaurCostume.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Suits\CyclopsCostume.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Suits\DrakeCostume.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Suits\DreamWraithCostume.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Suits\EtherealWarriorCostume.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Suits\ExodusMinionCostume.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Suits\FireElementalCostume.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Suits\GazerCostume.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Suits\GiantPixieCostume.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Suits\GiantToadCostume.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Suits\GoreFiendCostume.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Suits\LadyOfTheSnowCostume.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Suits\MaddeningHorrorCostume.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Suits\MinotaurCostume.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Suits\MongbatCostume.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Suits\OniCostume.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Suits\OphidianMatriarchCostume.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Suits\OphidianWarriorCostume.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Suits\PixieCostume.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Suits\SatyrCostume.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Suits\ShadowWyrmCostume.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Suits\SkeletonCostume.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Suits\SkitteringHopperCostume.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Suits\SolenWarriorCostume.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Suits\TerathanWarriorCostume.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Suits\TitanCostume.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Suits\VoidWandererCostume.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Suits\WispCostume.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Suits\WolfSpiderCostume.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Suits\ZombieCostume.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Equipment\Suits\DeathShroud.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -5673,9 +5531,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Equipment\Weapons\BoneHarvester.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\BoneMachete.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Equipment\Weapons\Broadsword.cs">
@@ -6425,9 +6280,6 @@
     <Compile Include="Services\Craft\DefTinkering.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Functional\DespiseAnkh.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Internal\DespiseTeleporter.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -7052,16 +6904,10 @@
     <Compile Include="Quests\BaseQuest.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Functional\BedlamAltar.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Mobiles\Bosses\LadyMelisande.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Mobiles\Bosses\MonstrousInterredGrizzle.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Functional\BlightedGroveAltar.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Mobiles\IFreezable.cs">
@@ -7076,9 +6922,6 @@
     <Compile Include="Items\Resource\MedusaDarkScales.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Functional\MedusaLairAltar.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Resource\MedusaLightScales.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -7088,13 +6931,7 @@
     <Compile Include="Mobiles\Normal\StoneMonster.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Functional\ParoxysmusAltar.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Mobiles\Bosses\ChiefParoxysmus.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Functional\PrismOfLightAltar.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Mobiles\Bosses\ShimmeringEffusion.cs">
@@ -7109,12 +6946,6 @@
     <Compile Include="Mobiles\Bosses\StygianDragon.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Functional\StygianDragonAltar.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Functional\CitadelAltar.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Mobiles\Normal\DragonsFlameMage.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -7125,9 +6956,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Mobiles\Bosses\Travesty.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Functional\TwistedWealdAltar.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Mobiles\Bosses\DreadHorn.cs">

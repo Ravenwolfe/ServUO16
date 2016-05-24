@@ -444,7 +444,7 @@ namespace Server.Items
 		[CommandProperty(AccessLevel.GameMaster)]
 		public int StrRequirement
 		{
-            get { return Math.Min(110, (int)((double)(m_StrReq == -1 ? Core.AOS ? AosStrengthReq : OldStrengthReq : m_StrReq) * (m_NegativeAttributes.Massive > 0 ? 1.5 : 1))); }
+            get { return Math.Min(110, (int)((double)(m_StrReq == -1 ? Core.AOS ? AosStrengthReq : OldStrengthReq : m_StrReq))); }
 			set
 			{
 				m_StrReq = value;
@@ -652,7 +652,7 @@ namespace Server.Items
 				from.SendMessage("You are not nimble enough to equip that.");
 				return false;
 			}
-			else if (from.Str < AOS.Scale(StrRequirement, 100 - GetLowerStatReq()))
+			else if (from.Str < StrRequirement)
 			{
 				from.SendLocalizedMessage(500213); // You are not strong enough to equip that.
 				return false;
@@ -792,7 +792,7 @@ namespace Server.Items
 		{
 			SkillName sk;
 
-			if (checkSkillAttrs && m_AosWeaponAttributes.UseBestSkill != 0)
+			if (checkSkillAttrs)
 			{
 				double swrd = m.Skills[SkillName.Swords].Value;
 				double fenc = m.Skills[SkillName.Fencing].Value;
@@ -811,17 +811,6 @@ namespace Server.Items
 				{
 					sk = SkillName.Macing;
 					val = mcng;
-				}
-			}
-			else if (m_AosWeaponAttributes.MageWeapon != 0)
-			{
-				if (m.Skills[SkillName.Magery].Value > m.Skills[Skill].Value)
-				{
-					sk = SkillName.Magery;
-				}
-				else
-				{
-					sk = Skill;
 				}
 			}
 			else
@@ -1550,11 +1539,11 @@ namespace Server.Items
 				{
 					if (m_Hits > 0)
 					{
-                        HitPoints -= NegativeAttributes.Antique > 0 ? 2 : 1;
+                        HitPoints -= 1;
 					}
 					else if (m_MaxHits > 1)
 					{
-                        MaxHitPoints -= NegativeAttributes.Antique > 0 ? 2 : 1;
+                        MaxHitPoints -= 1;
 
 						if (Parent is Mobile)
 						{

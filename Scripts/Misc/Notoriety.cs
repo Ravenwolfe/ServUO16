@@ -433,23 +433,9 @@ namespace Server.Misc
                     return Notoriety.Enemy;
             }
 
-            if (target.Kills >= 5 || (target.Body.IsMonster && IsSummoned(target as BaseCreature) && !(target is BaseFamiliar) && !(target is ArcaneFey) && !(target is Golem)) || (target is BaseCreature && (((BaseCreature)target).AlwaysMurderer || ((BaseCreature)target).IsAnimatedDead)))
+            if (target.Kills >= 5 || (target.Body.IsMonster && IsSummoned(target as BaseCreature) && !(target is BaseFamiliar) && !(target is Golem)) || (target is BaseCreature && (((BaseCreature)target).AlwaysMurderer || ((BaseCreature)target).IsAnimatedDead)))
                 return Notoriety.Murderer;
 				
-            #region Mondain's Legacy
-            if (target is Gregorio)
-            {
-                Gregorio gregorio = (Gregorio)target;
-
-                if (Gregorio.IsMurderer(source))
-                    return Notoriety.Murderer;
-				
-                return Notoriety.Innocent;
-            }
-            else if (source.Player && target is Engines.Quests.BaseEscort)
-                return Notoriety.Innocent;
-            #endregion
-
             if (target.Criminal)
                 return Notoriety.Criminal;
 

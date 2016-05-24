@@ -257,7 +257,7 @@ namespace Server.Items
                             from.PlaySound(0x23E);
                         }
                     }
-                    else if ((item is BaseArmor && (((BaseArmor)item).MaterialType == ArmorMaterialType.Leather || ((BaseArmor)item).MaterialType == ArmorMaterialType.Studded) || item is ElvenBoots || item is WoodlandBelt) && this.m_Tub.AllowLeather)
+                    else if ((item is BaseArmor && (((BaseArmor)item).MaterialType == ArmorMaterialType.Leather || ((BaseArmor)item).MaterialType == ArmorMaterialType.Studded)) && this.m_Tub.AllowLeather)
                     {
                         if (!from.InRange(this.m_Tub.GetWorldLocation(), 1) || !from.InRange(item.GetWorldLocation(), 1))
                         {

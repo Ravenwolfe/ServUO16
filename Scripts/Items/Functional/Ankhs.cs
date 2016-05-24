@@ -87,12 +87,6 @@ namespace Server.Items
 
                 this.Enabled = this.m_Mobile.Alive;
             }
-
-            public override void OnClick()
-            {
-                if (this.m_Mobile.CheckAlive())
-                    this.m_Mobile.SendGump(new TithingGump(this.m_Mobile, 0));
-            }
         }
     }
 
