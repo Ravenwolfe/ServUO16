@@ -137,10 +137,7 @@ namespace Server.Items
 
             for (int i = 0; i < 3; i++)
             {
-                if (0.25 >= Utility.RandomDouble())
-                    item = Loot.RandomScroll(0, Loot.NecromancyScrollTypes.Length, SpellbookType.Necromancer);
-                else
-                    item = Loot.RandomScroll(0, Loot.RegularScrollTypes.Length, SpellbookType.Regular);
+                item = Loot.RandomScroll(0, Loot.RegularScrollTypes.Length);
 
                 item.Amount = Utility.RandomMinMax(1, 2);
                 DropItem(item);

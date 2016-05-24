@@ -19,7 +19,6 @@ using Server.Items;
 using Server.Network;
 using Server.Regions;
 using Server.Spells;
-using Server.Spells.Spellweaving;
 using Server.Targets;
 
 using MoveImpl = Server.Movement.MovementImpl;
@@ -231,7 +230,7 @@ namespace Server.Mobiles
 					list.Add(new InternalEntry(from, 6112, 14, m_Mobile, this, OrderType.Stop)); // Command: Stop
 					list.Add(new InternalEntry(from, 6114, 14, m_Mobile, this, OrderType.Stay)); // Command: Stay
 
-					if (!m_Mobile.Summoned && !(m_Mobile is GrizzledMare))
+					if (!m_Mobile.Summoned)
 					{
 						list.Add(new InternalEntry(from, 6110, 14, m_Mobile, this, OrderType.Friend)); // Add Friend
 						list.Add(new InternalEntry(from, 6099, 14, m_Mobile, this, OrderType.Unfriend)); // Remove Friend
@@ -681,7 +680,7 @@ namespace Server.Mobiles
 
 									if (WasNamed(speech) && m_Mobile.CheckControlChance(e.Mobile))
 									{
-										if (m_Mobile.Summoned || (m_Mobile is GrizzledMare))
+										if (m_Mobile.Summoned)
 										{
 											e.Mobile.SendLocalizedMessage(1005481); // Summoned creatures are loyal only to their summoners.
 										}
@@ -794,7 +793,7 @@ namespace Server.Mobiles
 
 									if (!m_Mobile.IsDeadPet && WasNamed(speech) && m_Mobile.CheckControlChance(e.Mobile))
 									{
-										if (m_Mobile.Summoned || (m_Mobile is GrizzledMare))
+										if (m_Mobile.Summoned)
 										{
 											e.Mobile.SendLocalizedMessage(1005487); // You cannot transfer ownership of a summoned creature.
 										}
@@ -1328,35 +1327,6 @@ namespace Server.Mobiles
 			if (target == null)
 			{
 				return false; // Creature is not being herded
-			}
-
-			double distance = m_Mobile.GetDistanceToSqrt(target);
-
-			if (distance < 1 || distance > 15)
-			{
-				if (distance < 1 && target.X == 1076 && target.Y == 450 && (m_Mobile is HordeMinionFamiliar))
-				{
-					PlayerMobile pm = m_Mobile.ControlMaster as PlayerMobile;
-
-					if (pm != null)
-					{
-						QuestSystem qs = pm.Quest;
-
-						if (qs is DarkTidesQuest)
-						{
-							QuestObjective obj = qs.FindObjective(typeof(FetchAbraxusScrollObjective));
-
-							if (obj != null && !obj.Completed)
-							{
-								m_Mobile.AddToBackpack(new ScrollOfAbraxus());
-								obj.Complete();
-							}
-						}
-					}
-				}
-
-				m_Mobile.TargetLocation = null;
-				return false; // At the target or too far away
 			}
 
 			DoMove(m_Mobile.GetDirectionTo(target));
@@ -2820,12 +2790,6 @@ namespace Server.Mobiles
 
 					// If we only want faction friends, make sure it's one.
 					if (bFacFriend && !m_Mobile.IsFriend(m))
-					{
-						continue;
-					}
-
-					//Ignore anyone under EtherealVoyage
-					if (TransformationSpellHelper.UnderTransformation(m, typeof(EtherealVoyageSpell)))
 					{
 						continue;
 					}

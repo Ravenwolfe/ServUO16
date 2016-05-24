@@ -182,19 +182,6 @@ namespace Server.Mobiles
                 if (message)
                     dismounted.SendLocalizedMessage(1040023); // You have been knocked off of your mount!
             }
-            else if (dismounted.Flying)
-            {
-                if (!OnFlightPath(dismounted))
-                {
-                    dismounted.Flying = false;
-                    dismounted.Freeze(TimeSpan.FromSeconds(1));
-                    dismounted.Animate(61, 10, 1, true, false, 0);
-                }
-            }
-            else if (Spells.Ninjitsu.AnimalForm.UnderTransformation(dismounted))
-            {
-                Spells.Ninjitsu.AnimalForm.RemoveContext(dismounted, true);
-            }
         }
 
         public static bool OnFlightPath(Mobile m)

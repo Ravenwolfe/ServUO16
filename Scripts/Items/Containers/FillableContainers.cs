@@ -1137,7 +1137,6 @@ namespace Server.Items
             new Type[]
             {
                 typeof(Mage),
-                typeof(HolyMage),
                 typeof(MageGuildmaster)
             },
             new FillableEntry[]

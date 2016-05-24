@@ -23,9 +23,6 @@ namespace Server.Mobiles
         }
 		public override bool CanBeParagon { get { return false; } }
         public abstract ChampionSkullType SkullType { get; }
-        public abstract Type[] UniqueList { get; }
-        public abstract Type[] SharedList { get; }
-        public abstract Type[] DecorativeList { get; }
         public abstract MonsterStatuetteType[] StatueTypes { get; }
         public virtual bool NoGoodies
         {
@@ -111,38 +108,6 @@ namespace Server.Mobiles
             base.Deserialize(reader);
 
             int version = reader.ReadInt();
-        }
-
-        public Item GetArtifact()
-        {
-            double random = Utility.RandomDouble();
-            if (0.05 >= random)
-                return this.CreateArtifact(this.UniqueList);
-            else if (0.15 >= random)
-                return this.CreateArtifact(this.SharedList);
-            else if (0.30 >= random)
-                return this.CreateArtifact(this.DecorativeList);
-            return null;
-        }
-
-        public Item CreateArtifact(Type[] list)
-        {
-            if (list.Length == 0)
-                return null;
-
-            int random = Utility.Random(list.Length);
-			
-            Type type = list[random];
-
-            Item artifact = Loot.Construct(type);
-
-            if (artifact is MonsterStatuette && this.StatueTypes.Length > 0)
-            {
-                ((MonsterStatuette)artifact).Type = this.StatueTypes[Utility.Random(this.StatueTypes.Length)];
-                ((MonsterStatuette)artifact).LootType = LootType.Regular;
-            }
-
-            return artifact;
         }
 
         public void GivePowerScrolls()

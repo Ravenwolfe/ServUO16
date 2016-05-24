@@ -40,26 +40,6 @@ namespace Server.Engines.Craft
 
 	public class CraftItem
 	{
-		#region Mondain's Legacy
-		/*public static void Initialize()
-		{
-			CraftSystem sys;
-
-			sys = DefAlchemy.CraftSystem;
-			sys = DefBlacksmithy.CraftSystem;
-			sys = DefBowFletching.CraftSystem;
-			sys = DefCarpentry.CraftSystem;
-			sys = DefCartography.CraftSystem;
-			sys = DefCooking.CraftSystem;
-			sys = DefGlassblowing.CraftSystem;
-			sys = DefInscription.CraftSystem;
-			sys = DefMasonry.CraftSystem;
-			sys = DefTailoring.CraftSystem;
-			sys = DefTinkering.CraftSystem;
-			sys = DefBasketweaving.CraftSystem;
-		}*/
-		#endregion
-
 		private readonly CraftResCol m_arCraftRes;
 		private readonly CraftSkillCol m_arCraftSkill;
 		private readonly Type m_Type;
@@ -125,42 +105,6 @@ namespace Server.Engines.Craft
 				{
 					itemId = 4517;
 				}
-					#region Mondain's Legacy
-				else if (type == typeof(ArcaneBookshelfSouthDeed))
-				{
-					itemId = 0x2DEF;
-				}
-				else if (type == typeof(ArcaneBookshelfEastDeed))
-				{
-					itemId = 0x2DF0;
-				}
-				else if (type == typeof(OrnateElvenChestSouthDeed))
-				{
-					itemId = 0x2DE9;
-				}
-				else if (type == typeof(OrnateElvenChestEastDeed))
-				{
-					itemId = 0x2DEA;
-				}
-				else if (type == typeof(ElvenWashBasinSouthDeed) ||
-					type == typeof(ElvenWashBasinSouthAddonWithDrawer))
-				{
-					itemId = 0x2D0B;
-				}
-				else if (type == typeof(ElvenWashBasinEastDeed) ||
-					type == typeof(ElvenWashBasinEastAddonWithDrawer))
-				{
-					itemId = 0x2D0C;
-				}
-				else if (type == typeof(ElvenDresserSouthDeed))
-				{
-					itemId = 0x2D09;
-				}
-				else if (type == typeof(ElvenDresserEastDeed))
-				{
-					itemId = 0x2D0A;
-				}
-				#endregion
 
 				if (itemId == 0)
 				{
@@ -361,24 +305,13 @@ namespace Server.Engines.Craft
 
 		private static readonly Type[] m_ColoredItemTable = new[]
 		{
-			#region Mondain's Legacy
-			typeof(BaseContainer), typeof(ParrotPerchAddonDeed),
-			#endregion
-
 			typeof(BaseWeapon), typeof(BaseArmor), typeof(BaseClothing), typeof(BaseJewel), typeof(DragonBardingDeed),
 			typeof(BaseAddonDeed), typeof(BaseAddon),
 
-            #region Stygian Abyss
-            typeof(PlantPigment), typeof(SoftenedReeds), typeof(DryReeds), typeof(PlantClippings),
-            typeof(MedusaLightScales), typeof(MedusaDarkScales)
-            #endregion
 		};
 
 		private static readonly Type[] m_ColoredResourceTable = new[]
 		{
-			#region Mondain's Legacy
-			typeof(Board), typeof(Log),
-			#endregion
 			typeof(BaseIngot), typeof(BaseOre), typeof(BaseLeather), typeof(BaseHides), typeof(AbyssalCloth), typeof(UncutCloth), typeof(Cloth),
 			typeof(BaseGranite), typeof(BaseScales), typeof(PlantClippings), typeof(DryReeds), typeof(SoftenedReeds),
 			typeof(PlantPigment), typeof(BaseContainer)
@@ -386,12 +319,6 @@ namespace Server.Engines.Craft
 
 		private static readonly Type[] m_MarkableTable = new[]
 		{
-			#region Mondain's Legacy
-			typeof(BlueDiamondRing), typeof(BrilliantAmberBracelet), typeof(DarkSapphireBracelet), typeof(EcruCitrineRing),
-			typeof(FireRubyBracelet), typeof(PerfectEmeraldRing), typeof(TurqouiseRing), typeof(WhitePearlBracelet),
-			typeof(BaseContainer), typeof(CraftableFurniture),
-			#endregion
-
 			typeof(BaseArmor), typeof(BaseWeapon), typeof(BaseClothing), typeof(BaseInstrument), typeof(BaseTool),
 			typeof(BaseHarvestTool), typeof(BaseQuiver), typeof(DragonBardingDeed), typeof(Fukiya), typeof(FukiyaDarts),
 			typeof(Shuriken), typeof(Spellbook), typeof(Runebook), typeof(ShortMusicStand), typeof(TallMusicStand),
@@ -1377,53 +1304,8 @@ namespace Server.Engines.Craft
 					AncientSmithyHammer hammer = from.FindItemOnLayer(Layer.OneHanded) as AncientSmithyHammer;
 					if (hammer != null && hammer != tool)
 					{
-						#region Mondain's Legacy
-						if (hammer is HammerOfHephaestus)
-						{
-							if (hammer.UsesRemaining > 0)
-							{
-								hammer.UsesRemaining--;
-							}
-
-							if (hammer.UsesRemaining < 1)
-							{
-								from.PlaceInBackpack(hammer);
-							}
-						}
-						else
-						{
-							hammer.UsesRemaining--;
-
-							if (hammer.UsesRemaining < 1)
-							{
-								hammer.Delete();
-							}
-						}
-						#endregion
 					}
 				}
-
-				#region Mondain's Legacy
-				if (tool is HammerOfHephaestus)
-				{
-					if (tool.UsesRemaining < 1)
-					{
-						tool.UsesRemaining = 0;
-					}
-				}
-				else
-				{
-					if (tool.UsesRemaining < 1)
-					{
-						toolBroken = true;
-					}
-
-					if (toolBroken)
-					{
-						tool.Delete();
-					}
-				}
-				#endregion
 
 				int num = 0;
 
@@ -1444,45 +1326,6 @@ namespace Server.Engines.Craft
 
 				if (item != null)
 				{
-					#region Mondain's Legacy
-					if (item is Board)
-					{
-						Type resourceType = typeRes;
-
-						if (resourceType == null)
-						{
-							resourceType = Resources.GetAt(0).ItemType;
-						}
-
-						CraftResource thisResource = CraftResources.GetFromType(resourceType);
-
-						switch (thisResource)
-						{
-							case CraftResource.OakWood:
-								item = new OakBoard();
-								break;
-							case CraftResource.AshWood:
-								item = new AshBoard();
-								break;
-							case CraftResource.YewWood:
-								item = new YewBoard();
-								break;
-							case CraftResource.Heartwood:
-								item = new HeartwoodBoard();
-								break;
-							case CraftResource.Bloodwood:
-								item = new BloodwoodBoard();
-								break;
-							case CraftResource.Frostwood:
-								item = new FrostwoodBoard();
-								break;
-							default:
-								item = new Board();
-								break;
-						}
-					}
-					#endregion
-
 					if (item is ICraftable)
 					{
 						endquality = ((ICraftable)item).OnCraft(quality, makersMark, from, craftSystem, typeRes, tool, this, resHue);

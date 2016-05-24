@@ -741,41 +741,7 @@ namespace Server.Items
             Quality = 0x00000200,
             StrReq = 0x00000400,
             NegativeAttributes  = 0x00000800,
-            #region Imbuing
-            //TimesImbued = 0x12000000,
-            #endregion
         }
-
-        #region Mondain's Legacy Sets
-        private static void SetSaveFlag(ref SetFlag flags, SetFlag toSet, bool setIf)
-        {
-            if (setIf)
-                flags |= toSet;
-        }
-
-        private static bool GetSaveFlag(SetFlag flags, SetFlag toGet)
-        {
-            return ((flags & toGet) != 0);
-        }
-
-        [Flags]
-        private enum SetFlag
-        {
-            None = 0x00000000,
-            Attributes = 0x00000001,
-            ArmorAttributes = 0x00000002,
-            SkillBonuses = 0x00000004,
-            PhysicalBonus = 0x00000008,
-            FireBonus = 0x00000010,
-            ColdBonus = 0x00000020,
-            PoisonBonus = 0x00000040,
-            EnergyBonus = 0x00000080,
-            SetHue = 0x00000100,
-            LastEquipped = 0x00000200,
-            SetEquipped = 0x00000400,
-            SetSelfRepair = 0x00000800,
-        }
-        #endregion
 
         public override void Serialize(GenericWriter writer)
         {
@@ -978,25 +944,6 @@ namespace Server.Items
 
             if (makersMark)
                 this.Crafter = from;
-
-            #region Mondain's Legacy
-            if (!craftItem.ForceNonExceptional)
-            {
-                if (this.DefaultResource != CraftResource.None)
-                {
-                    Type resourceType = typeRes;
-
-                    if (resourceType == null)
-                        resourceType = craftItem.Resources.GetAt(0).ItemType;
-
-                    this.Resource = CraftResources.GetFromType(resourceType);
-                }
-                else
-                {
-                    this.Hue = resHue;
-                }
-            }
-            #endregion
 
             this.PlayerConstructed = true;
 

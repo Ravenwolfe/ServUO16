@@ -153,11 +153,6 @@ namespace Server.Items
                     this.m_Post.EndStable(from, (Chicken)targeted);
                     from.SendLocalizedMessage(1112559); // Which chicken do you wish to stable?
                 }
-                else if (targeted is BattleChickenLizard)
-                {
-                    this.m_Post.EndStable(from, (BattleChickenLizard)targeted);
-                    from.SendLocalizedMessage(1112559); // Which chicken do you wish to stable?
-                }
                 else if (targeted == from)
                 {
                     from.SendLocalizedMessage(502672); // HA HA HA! Sorry, I am not an inn.
@@ -262,12 +257,6 @@ namespace Server.Items
             {
                 from.SendLocalizedMessage(502673); // I can not stable summoned creatures.
             }
-            #region Mondain's Legacy
-            else if (pet.Allured)
-            {
-                from.SendLocalizedMessage(1048053); // You can't stable that!
-            }
-            #endregion
             else if (pet.Body.IsHuman)
             {
                 from.SendLocalizedMessage(502672); // HA HA HA! Sorry, I am not an inn.

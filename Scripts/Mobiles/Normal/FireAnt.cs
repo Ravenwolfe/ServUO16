@@ -100,19 +100,6 @@ namespace Server.Mobiles
             return new HotGoo(TimeSpan.FromSeconds(10), 5, 10);
         }
 
-        public override void OnDeath(Container c)
-        {
-            base.OnDeath(c);
-
-            SARegionDrops.GetSADrop(c);
-
-            if (Utility.RandomDouble() < 0.25)
-            {
-                c.DropItem(new SearedFireAntGoo());
-            }
-
-        }
-
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);

@@ -911,7 +911,7 @@ namespace Server.Items
         {
             int bonus = 0;
 
-            if (m_Quality == ArmorQuality.Exceptional &&!(this is GargishLeatherWingArmor))
+            if (m_Quality == ArmorQuality.Exceptional)
                 bonus += 20;
 
             switch ( m_Durability )
@@ -1113,37 +1113,6 @@ namespace Server.Items
             NegativeAttributes  = 0x08000000,
         }
 
-        #region Mondain's Legacy Sets
-        private static void SetSaveFlag(ref SetFlag flags, SetFlag toSet, bool setIf)
-        {
-            if (setIf)
-                flags |= toSet;
-        }
-
-        private static bool GetSaveFlag(SetFlag flags, SetFlag toGet)
-        {
-            return ((flags & toGet) != 0);
-        }
-
-        [Flags]
-        private enum SetFlag
-        {
-            None = 0x00000000,
-            Attributes = 0x00000001,
-            ArmorAttributes = 0x00000002,
-            SkillBonuses = 0x00000004,
-            PhysicalBonus = 0x00000008,
-            FireBonus = 0x00000010,
-            ColdBonus = 0x00000020,
-            PoisonBonus = 0x00000040,
-            EnergyBonus = 0x00000080,
-            Hue = 0x00000100,
-            LastEquipped = 0x00000200,
-            SetEquipped = 0x00000400,
-            SetSelfRepair = 0x00000800,
-        }
-        #endregion
-
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
@@ -1152,10 +1121,6 @@ namespace Server.Items
 
             // Version 9
             writer.Write((Mobile)m_BlessedBy);
-
-            SetFlag sflags = SetFlag.None;
-
-            writer.WriteEncodedInt((int)sflags);
 
             // Version 7
             SaveFlag flags = SaveFlag.None;
@@ -1958,16 +1923,6 @@ namespace Server.Items
             if (makersMark)
                 Crafter = from;
 
-            #region Mondain's Legacy
-            if (!craftItem.ForceNonExceptional)
-            {
-				if (typeRes == null)
-					typeRes = craftItem.Resources.GetAt(0).ItemType;
-
-				Resource = CraftResources.GetFromType(typeRes);
-            }
-            #endregion
-
 			if (typeRes == null)
 				typeRes = craftItem.Resources.GetAt(0).ItemType;
 
@@ -1978,44 +1933,6 @@ namespace Server.Items
 
             if (context != null && context.DoNotColor)
                 Hue = 0;
-
-            if (Quality == ArmorQuality.Exceptional)
-            {
-                if (!(Core.ML && this is BaseShield))		// Guessed Core.ML removed exceptional resist bonuses from crafted shields
-                    DistributeBonuses((tool is BaseRunicTool ? 6 : Core.SE ? 15 : 14)); // Not sure since when, but right now 15 points are added, not 14.
-
-                if (Core.ML && !(this is BaseShield) && !(this is GargishLeatherWingArmor))
-                {
-                    int bonus = (int)(from.Skills.ArmsLore.Value / 20);
-
-                    for (int i = 0; i < bonus; i++)
-                    {
-                        switch( Utility.Random(5) )
-                        {
-                            case 0:
-                                m_PhysicalBonus++;
-                                break;
-                            case 1:
-                                m_FireBonus++;
-                                break;
-                            case 2:
-                                m_ColdBonus++;
-                                break;
-                            case 3:
-                                m_EnergyBonus++;
-                                break;
-                            case 4:
-                                m_PoisonBonus++;
-                                break;
-                        }
-                    }
-
-                    from.CheckSkill(SkillName.ArmsLore, 0, 100);
-                }
-            }
-
-            if (Core.AOS && tool is BaseRunicTool)
-                ((BaseRunicTool)tool).ApplyAttributesTo(this);
 
             return quality;
         }

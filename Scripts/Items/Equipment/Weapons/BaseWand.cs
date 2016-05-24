@@ -21,7 +21,7 @@ namespace Server.Items
         ManaDraining
     }
 
-    public abstract class BaseWand : BaseBashing, ITokunoDyable
+    public abstract class BaseWand : BaseBashing
     {
         private WandEffect m_WandEffect;
         private int m_Charges;

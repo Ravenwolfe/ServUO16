@@ -78,40 +78,29 @@ namespace Server.Misc
         {
             int hue = Utility.ClipDyedHue(pantsHue & 0x3FFF);
 
-            if (m.Race == Race.Elf)
+            if (m.Female)
             {
-                EquipItem(new ElvenPants(hue), true);
-            }
-            else if (m.Race == Race.Human)
-            {
-                if (m.Female)
+                switch ( Utility.Random(2) )
                 {
-                    switch ( Utility.Random(2) )
-                    {
-                        case 0:
-                            EquipItem(new Skirt(hue), true);
-                            break;
-                        case 1:
-                            EquipItem(new Kilt(hue), true);
-                            break;
-                    }
-                }
-                else
-                {
-                    switch ( Utility.Random(2) )
-                    {
-                        case 0:
-                            EquipItem(new LongPants(hue), true);
-                            break;
-                        case 1:
-                            EquipItem(new ShortPants(hue), true);
-                            break;
-                    }
+                    case 0:
+                        EquipItem(new Skirt(hue), true);
+                        break;
+                    case 1:
+                        EquipItem(new Kilt(hue), true);
+                        break;
                 }
             }
-            else if (m.Race == Race.Gargoyle)
+            else
             {
-                EquipItem(new GargishClothKilt(hue));
+                switch ( Utility.Random(2) )
+                {
+                    case 0:
+                        EquipItem(new LongPants(hue), true);
+                        break;
+                    case 1:
+                        EquipItem(new ShortPants(hue), true);
+                        break;
+                }
             }
         }
 
@@ -544,15 +533,7 @@ namespace Server.Misc
             {
                 case 1: // Warrior
                     {
-                        if (elf)
-                            EquipItem(new LeafChest());
-                        else if (human)
-                            EquipItem(new LeatherChest());
-                        else if (gargoyle)
-                        {
-                            EquipItem(new GargishLeatherChest());
-                        }
-
+                        EquipItem(new LeatherChest());
                         break;
                     }
                 case 4: // Necromancer
@@ -907,17 +888,7 @@ namespace Server.Misc
 
                         int hue = Utility.RandomYellowHue();
 
-                        if (elf)
-                        {
-                            Item i = new Circlet();
-                            i.Hue = hue;
-                            EquipItem(i);
-                        }
-                        else if (human)
-                        {
-                            EquipItem(new FloppyHat(hue));
-                        }
-
+                        EquipItem(new FloppyHat(hue));
                         break;
                     }
                 case SkillName.Healing:
@@ -991,23 +962,8 @@ namespace Server.Misc
                         book.LootType = LootType.Blessed;
                         EquipItem(book);
 
-                        if (elf)
-                        {
-                            EquipItem(new Circlet());
-
-                            if (m.Female)
-                                EquipItem(new FemaleElvenRobe(Utility.RandomBlueHue()));
-                            else
-                                EquipItem(new MaleElvenRobe(Utility.RandomBlueHue()));
-                        }
-                        else
-                        {
-                            if (human)
-                                EquipItem(new WizardsHat());
-
-                            EquipItem(new Robe(Utility.RandomBlueHue()));
-                        }
-
+                        EquipItem(new WizardsHat());
+                        EquipItem(new Robe(Utility.RandomBlueHue()));
                         break;
                     }
                 case SkillName.Mining:
@@ -1128,16 +1084,7 @@ namespace Server.Misc
                     }
                 case SkillName.Wrestling:
                     {
-                        if (elf)
-                            EquipItem(new LeafGloves());
-                        else if (human)
-                            EquipItem(new LeatherGloves());
-                        else if (gargoyle)
-                        {
-                            // Why not give them arm armor?
-                            EquipItem(new GargishLeatherArms());
-                        }
-
+                        EquipItem(new LeatherGloves());
                         break;
                     }
                 case SkillName.Throwing:

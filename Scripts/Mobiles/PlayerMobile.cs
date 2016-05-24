@@ -842,7 +842,7 @@ namespace Server.Mobiles
 						{
 							drop = true;
 						}
-						else if (str < AOS.Scale(weapon.StrRequirement, 100 - weapon.GetLowerStatReq()))
+						else if (str < MathHelper.Scale(weapon.StrRequirement, 100 - weapon.GetLowerStatReq()))
 						{
 							drop = true;
 						}
@@ -2551,13 +2551,6 @@ namespace Server.Mobiles
 				Timer.DelayCall(TimeSpan.FromSeconds(10), ((PlayerMobile)@from).RecoverAmmo);
 			}
 
-			#region Mondain's Legacy
-			if (InvisibilityPotion.HasTimer(this))
-			{
-				InvisibilityPotion.Iterrupt(this);
-			}
-			#endregion
-
 			base.OnDamage(amount, from, willKill);
 		}
 
@@ -3561,40 +3554,6 @@ namespace Server.Mobiles
 				m_RecentlyReported = new List<Mobile>();
 			}
 
-			#region QueensLoyaltySystem
-			if (version < 29)
-			{
-				m_Exp = 0;
-			}
-			#endregion
-
-			#region Mondain's Legacy
-			if (m_Quests == null)
-			{
-				m_Quests = new List<BaseQuest>();
-			}
-
-			if (m_Chains == null)
-			{
-				m_Chains = new Dictionary<QuestChain, BaseChain>();
-			}
-
-			if (m_DoneQuests == null)
-			{
-				m_DoneQuests = new List<QuestRestartInfo>();
-			}
-
-			if (m_Collections == null)
-			{
-				m_Collections = new Dictionary<Collection, int>();
-			}
-
-			if (m_CollectionTitles == null)
-			{
-				m_CollectionTitles = new List<object>();
-			}
-			#endregion
-
 			// Professions weren't verified on 1.0 RC0
 			if (!CharacterCreation.VerifyProfession(m_Profession))
 			{
@@ -4140,14 +4099,6 @@ namespace Server.Mobiles
 					RevealingAction();
 				}
 			}
-
-			#region Mondain's Legacy
-			if (InvisibilityPotion.HasTimer(this))
-			{
-				InvisibilityPotion.Iterrupt(this);
-			}
-			#endregion
-
 			return true;
 		}
 
@@ -5035,14 +4986,6 @@ namespace Server.Mobiles
 
 			[CommandProperty(AccessLevel.GameMaster)]
 			public int Harrower { get { return m_Harrower; } set { m_Harrower = value; } }
-
-			#region Mondain's Legacy Peerless Champion
-			[CommandProperty(AccessLevel.GameMaster)]
-			public int Glade { get { return GetValue(ChampionSpawnType.Glade); } set { SetValue(ChampionSpawnType.Glade, value); } }
-
-			[CommandProperty(AccessLevel.GameMaster)]
-			public int Corrupt { get { return GetValue(ChampionSpawnType.Corrupt); } set { SetValue(ChampionSpawnType.Corrupt, value); } }
-			#endregion
 
 			public ChampionTitleInfo()
 			{ }

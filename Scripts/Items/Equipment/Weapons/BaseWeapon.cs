@@ -13,6 +13,7 @@ using Server.Engines.Craft;
 using Server.Engines.XmlSpawner2;
 using Server.Ethics;
 using Server.Factions;
+using Server.Misc;
 using Server.Mobiles;
 using Server.Network;
 using Server.SkillHandlers;
@@ -1370,107 +1371,6 @@ namespace Server.Items
 
 			int damage = ComputeDamage(attacker, defender);
 
-			#region Damage Multipliers
-			/*
-            * The following damage bonuses multiply damage by a factor.
-            * Capped at x3 (300%).
-            */
-			int percentageBonus = 0;
-
-			WeaponAbility a = WeaponAbility.GetCurrentAbility(attacker);
-			SpecialMove move = SpecialMove.GetCurrentMove(attacker);
-
-			if (a != null)
-			{
-				percentageBonus += (int)(a.DamageScalar * 100) - 100;
-			}
-
-			if (move != null)
-			{
-				percentageBonus += (int)(move.GetDamageScalar(attacker, defender) * 100) - 100;
-			}
-
-            percentageBonus += (int)(damageBonus * 100) - 100;
-
-			CheckSlayerResult cs = CheckSlayers(attacker, defender);
-
-			if (cs != CheckSlayerResult.None)
-			{
-				if (cs == CheckSlayerResult.Slayer)
-					defender.FixedEffect(0x37B9, 10, 5);
-
-                if (Core.SA && cs == CheckSlayerResult.Slayer  && cs != CheckSlayerResult.Opposition)
-				    percentageBonus += 200;
-                else
-                    percentageBonus += 100;
-
-            }
-
-			if (!attacker.Player)
-			{
-				if (defender is PlayerMobile)
-				{
-					PlayerMobile pm = (PlayerMobile)defender;
-
-					if (pm.EnemyOfOneType != null && pm.EnemyOfOneType != attacker.GetType())
-					{
-						percentageBonus += 100;
-					}
-				}
-			}
-			else if (!defender.Player)
-			{
-				if (attacker is PlayerMobile)
-				{
-					PlayerMobile pm = (PlayerMobile)attacker;
-
-					if (pm.WaitingForEnemy)
-					{
-						pm.EnemyOfOneType = defender.GetType();
-						pm.WaitingForEnemy = false;
-					}
-
-					if (pm.EnemyOfOneType == defender.GetType())
-					{
-						defender.FixedEffect(0x37B9, 10, 5, 1160, 0);
-
-						percentageBonus += 50;
-					}
-				}
-			}
-
-			int packInstinctBonus = GetPackInstinctBonus(attacker, defender);
-
-			if (packInstinctBonus != 0)
-			{
-				percentageBonus += packInstinctBonus;
-			}
-
-			if (m_InDoubleStrike)
-			{
-				percentageBonus -= 10;
-			}
-
-			if (attacker is PlayerMobile && !(Core.ML && defender is PlayerMobile))
-			{
-				PlayerMobile pmAttacker = (PlayerMobile)attacker;
-
-				if (pmAttacker.HonorActive && pmAttacker.InRange(defender, 1))
-				{
-					percentageBonus += 25;
-				}
-
-				if (pmAttacker.SentHonorContext != null && pmAttacker.SentHonorContext.Target == defender)
-				{
-					percentageBonus += pmAttacker.SentHonorContext.PerfectionDamageBonus;
-				}
-			}
-
-			percentageBonus = Math.Min(percentageBonus, 300);
-
-			damage = AOS.Scale(damage, 100 + percentageBonus);
-			#endregion
-
 			if (attacker is BaseCreature)
 			{
 				((BaseCreature)attacker).AlterMeleeDamageTo(defender, ref damage);
@@ -1490,23 +1390,7 @@ namespace Server.Items
 
 			AddBlood(attacker, defender, damage);
 
-			int phys, fire, cold, pois, nrgy, chaos, direct;
-
-			GetDamageTypes(attacker, out phys, out fire, out cold, out pois, out nrgy, out chaos, out direct);
-
 			int damageGiven = damage;
-
-			if (a != null && !a.OnBeforeDamage(attacker, defender))
-			{
-				WeaponAbility.ClearCurrentAbility(attacker);
-				a = null;
-			}
-
-			if (move != null && !move.OnBeforeDamage(attacker, defender))
-			{
-				SpecialMove.ClearCurrentMove(attacker);
-				move = null;
-			}
 
 			damageGiven = AOS.Damage(
 				defender,
@@ -1607,7 +1491,7 @@ namespace Server.Items
 				damageBonus += (attacker.Int / 10);
 			}
 
-			damage = AOS.Scale(damage, 100 + damageBonus);
+			damage = MathHelper.Scale(damage, 100 + damageBonus);
 
 			return damage / 100;
 		}
@@ -2230,7 +2114,7 @@ namespace Server.Items
 				scale = 50 + ((50 * m_Hits) / m_MaxHits);
 			}
 
-			return AOS.Scale(damage, scale);
+			return MathHelper.Scale(damage, scale);
 		}
 
 		public virtual int ComputeDamage(Mobile attacker, Mobile defender)
@@ -3193,27 +3077,6 @@ namespace Server.Items
 					oreType = 1060815;
 					break; // blue
 
-					#region Mondain's Legacy
-				case CraftResource.OakWood:
-					oreType = 1072533;
-					break; // oak
-				case CraftResource.AshWood:
-					oreType = 1072534;
-					break; // ash
-				case CraftResource.YewWood:
-					oreType = 1072535;
-					break; // yew
-				case CraftResource.Heartwood:
-					oreType = 1072536;
-					break; // heartwood
-				case CraftResource.Bloodwood:
-					oreType = 1072538;
-					break; // bloodwood
-				case CraftResource.Frostwood:
-					oreType = 1072539;
-					break; // frostwood
-					#endregion
-
 				default:
 					oreType = 0;
 					break;
@@ -3420,7 +3283,7 @@ namespace Server.Items
 				list.Add(1061169, MaxRange.ToString()); // range ~1_val~
 			}
 
-			int strReq = AOS.Scale(StrRequirement, 100 - GetLowerStatReq());
+			int strReq = StrRequirement;
 
 			if (strReq > 0)
 			{
@@ -3441,12 +3304,6 @@ namespace Server.Items
 			if (m_Hits >= 0 && m_MaxHits > 0)
 			{
 				list.Add(1060639, "{0}\t{1}", m_Hits, m_MaxHits); // durability ~1_val~ / ~2_val~
-			}
-
-			if (IsSetItem && !m_SetEquipped)
-			{
-				list.Add(1072378); // <br>Only when full set is present:				
-				GetSetProperties(list);
 			}
         }
 
@@ -3586,105 +3443,6 @@ namespace Server.Items
 				if (context != null && context.DoNotColor)
 				{
 					Hue = 0;
-				}
-
-				if (Quality == WeaponQuality.Exceptional)
-				{
-					Attributes.WeaponDamage += 35;
-				}
-
-				if (!craftItem.ForceNonExceptional)
-				{
-					if (tool is BaseRunicTool)
-					{
-						((BaseRunicTool)tool).ApplyAttributesTo(this);
-					}
-				}
-
-			}
-			else if (tool is BaseRunicTool)
-			{
-				if (craftItem != null && !craftItem.ForceNonExceptional)
-				{
-					CraftResource thisResource = CraftResources.GetFromType(typeRes);
-
-					if (thisResource == ((BaseRunicTool)tool).Resource)
-					{
-						Resource = thisResource;
-
-						CraftContext context = craftSystem.GetContext(from);
-
-						if (context != null && context.DoNotColor)
-						{
-							Hue = 0;
-						}
-
-						switch (thisResource)
-						{
-							case CraftResource.DullCopper:
-								{
-									Identified = true;
-									DurabilityLevel = WeaponDurabilityLevel.Durable;
-									AccuracyLevel = WeaponAccuracyLevel.Accurate;
-									break;
-								}
-							case CraftResource.ShadowIron:
-								{
-									Identified = true;
-									DurabilityLevel = WeaponDurabilityLevel.Durable;
-									DamageLevel = WeaponDamageLevel.Ruin;
-									break;
-								}
-							case CraftResource.Copper:
-								{
-									Identified = true;
-									DurabilityLevel = WeaponDurabilityLevel.Fortified;
-									DamageLevel = WeaponDamageLevel.Ruin;
-									AccuracyLevel = WeaponAccuracyLevel.Surpassingly;
-									break;
-								}
-							case CraftResource.Bronze:
-								{
-									Identified = true;
-									DurabilityLevel = WeaponDurabilityLevel.Fortified;
-									DamageLevel = WeaponDamageLevel.Might;
-									AccuracyLevel = WeaponAccuracyLevel.Surpassingly;
-									break;
-								}
-							case CraftResource.Gold:
-								{
-									Identified = true;
-									DurabilityLevel = WeaponDurabilityLevel.Indestructible;
-									DamageLevel = WeaponDamageLevel.Force;
-									AccuracyLevel = WeaponAccuracyLevel.Eminently;
-									break;
-								}
-							case CraftResource.Agapite:
-								{
-									Identified = true;
-									DurabilityLevel = WeaponDurabilityLevel.Indestructible;
-									DamageLevel = WeaponDamageLevel.Power;
-									AccuracyLevel = WeaponAccuracyLevel.Eminently;
-									break;
-								}
-							case CraftResource.Verite:
-								{
-									Identified = true;
-									DurabilityLevel = WeaponDurabilityLevel.Indestructible;
-									DamageLevel = WeaponDamageLevel.Power;
-									AccuracyLevel = WeaponAccuracyLevel.Exceedingly;
-									break;
-								}
-							case CraftResource.Valorite:
-								{
-									Identified = true;
-									DurabilityLevel = WeaponDurabilityLevel.Indestructible;
-									DamageLevel = WeaponDamageLevel.Vanq;
-									AccuracyLevel = WeaponAccuracyLevel.Supremely;
-									break;
-								}
-						}
-					}
 				}
 			}
 

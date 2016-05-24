@@ -122,7 +122,7 @@ namespace Server.Mobiles
                     }
                 case 2:
                     {
-                        AOS.Damage(defender, this, Utility.Random(10, 5), 100, 0, 0, 0, 0);
+                        defender.Damage(Utility.Random(10, 5), this);
                         defender.SendAsciiMessage("You have been hit by a critical strike!");
                         break;
                     }

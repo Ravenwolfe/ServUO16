@@ -12,16 +12,6 @@ namespace Server.Items
             }
         }
 
-        #region Mondain's Legacy
-        public override bool RetainDeedHue
-        {
-            get
-            {
-                return true;
-            }
-        }
-        #endregion
-
         [Constructable]
         public LargeGargoyleBedEastAddon()
         { 

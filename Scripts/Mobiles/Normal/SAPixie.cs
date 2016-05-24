@@ -64,10 +64,6 @@ namespace Server.Mobiles
                     case 0: c.DropItem(new EssenceFeeling()); break;
                     case 1: c.DropItem(new FaeryDust()); break;
                 }
-                #region Mondain's Legacy
-                if (Utility.RandomDouble() < 0.3)
-                    c.DropItem(new PixieLeg());
-                #endregion
             }
         }
 

@@ -237,7 +237,7 @@ namespace Server.Items
             to.LocalOverheadMessage(MessageType.Regular, 0xC9, true, "* Your body convulses from electric shock *");
             to.NonlocalOverheadMessage(MessageType.Regular, 0xC9, true, string.Format("* {0} spasms from electric shock *", to.Name));
 
-            AOS.Damage(to, to, 60, 0, 0, 0, 0, 100);
+            to.Damage(60);
 
             if (!to.Alive)
                 return;
@@ -585,7 +585,7 @@ namespace Server.Items
                 this.m_To.LocalOverheadMessage(MessageType.Regular, 0xC9, true, "* Your body convulses from electric shock *");
                 this.m_To.NonlocalOverheadMessage(MessageType.Regular, 0xC9, true, string.Format("* {0} spasms from electric shock *", this.m_To.Name));
 
-                AOS.Damage(this.m_To, this.m_To, 20, 0, 0, 0, 0, 100);
+                m_To.Damage(20);
 
                 if (++this.m_Step >= 3 || !this.m_To.Alive)
                 {

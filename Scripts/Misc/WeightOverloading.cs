@@ -67,8 +67,6 @@ namespace Server.Misc
 
             if (!from.Player)
             {
-                // Else it won't work on monsters.
-                Spells.Ninjitsu.DeathStrike.AddStep(from);
                 return;
             }
 
@@ -105,8 +103,6 @@ namespace Server.Misc
                 if ((++pm.StepsTaken % amt) == 0)
                     --from.Stam;
             }
-
-            Spells.Ninjitsu.DeathStrike.AddStep(from);
         }
 
         public static int GetStamLoss(Mobile from, int overWeight, bool running)

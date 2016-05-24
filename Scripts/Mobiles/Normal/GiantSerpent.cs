@@ -215,16 +215,6 @@ namespace Server.Mobiles
             this.AddLoot(LootPack.Average);
         }
 
-        public override void OnDeath(Container c)
-        {
-            base.OnDeath(c);
-
-            if (Utility.RandomDouble() < 0.10)
-            {
-                c.DropItem(new RareSerpentEgg1());
-            }
-        }
-
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
@@ -338,16 +328,6 @@ namespace Server.Mobiles
         public override void GenerateLoot()
         {
             this.AddLoot(LootPack.Average);
-        }
-
-        public override void OnDeath(Container c)
-        {
-            base.OnDeath(c);
-
-            if (Utility.RandomDouble() < 0.10)
-            {
-                c.DropItem(new RareSerpentEgg2());
-            }
         }
 
         public override void Serialize(GenericWriter writer)
@@ -465,16 +445,6 @@ namespace Server.Mobiles
             this.AddLoot(LootPack.Average);
         }
 
-        public override void OnDeath(Container c)
-        {
-            base.OnDeath(c);
-
-            if (Utility.RandomDouble() < 0.10)
-            {
-                c.DropItem(new RareSerpentEgg3());
-            }
-        }
-
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
@@ -588,16 +558,6 @@ namespace Server.Mobiles
         public override void GenerateLoot()
         {
             this.AddLoot(LootPack.Average);
-        }
-
-        public override void OnDeath(Container c)
-        {
-            base.OnDeath(c);
-
-            if (Utility.RandomDouble() < 0.10)
-            {
-                c.DropItem(new RareSerpentEgg4());
-            }
         }
 
         public override void Serialize(GenericWriter writer)

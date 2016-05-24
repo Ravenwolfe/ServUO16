@@ -130,7 +130,7 @@ namespace Server.Items
                         {
                             Mobile parent = (Mobile)this.RootParent;
                             parent.SendLocalizedMessage(1060583); // The firebomb explodes in your hand!
-                            AOS.Damage(parent, Utility.Random(3) + 4, 0, 100, 0, 0, 0);
+                            parent.Damage(Utility.Random(3) + 4);
                         }
                         else if (this.RootParent == null)
                         {
@@ -153,7 +153,7 @@ namespace Server.Items
                                     if (this.m_LitBy != null)
                                         this.m_LitBy.DoHarmful(victim);
 
-                                    AOS.Damage(victim, this.m_LitBy, Utility.Random(3) + 4, 0, 100, 0, 0, 0);
+                                    victim.Damage(Utility.Random(3) + 4, m_LitBy);
                                 }
                             }
                             (new FirebombField(this.m_LitBy, toDamage)).MoveToWorld(this.Location, this.Map);
@@ -265,7 +265,7 @@ namespace Server.Items
                 if (this.m_LitBy != null)
                     this.m_LitBy.DoHarmful(m);
 
-                AOS.Damage(m, this.m_LitBy, 2, 0, 100, 0, 0, 0);
+                m.Damage(2, m_LitBy);
                 m.PlaySound(0x208);
 
                 if (!this.m_Burning.Contains(m))
@@ -299,7 +299,7 @@ namespace Server.Items
                     if (this.m_LitBy != null)
                         this.m_LitBy.DoHarmful(victim);
 
-                    AOS.Damage(victim, this.m_LitBy, Utility.Random(3) + 4, 0, 100, 0, 0, 0);
+                    victim.Damage(Utility.Random(3), m_LitBy);
                     ++i;
                 }
                 else

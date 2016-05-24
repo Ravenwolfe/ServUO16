@@ -73,8 +73,6 @@ namespace Server
                 typeof(SkeletalKnight),
                 typeof(Skeleton),
                 typeof(Zombie),
-                typeof(ShadowKnight),
-                typeof(DarknightCreeper),
                 typeof(RevenantLion),
                 typeof(LadyOfTheSnow),
                 typeof(RottingCorpse),

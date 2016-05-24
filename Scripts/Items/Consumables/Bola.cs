@@ -2,7 +2,6 @@ using System;
 using Server.Mobiles;
 using Server.Network;
 using Server.Targeting;
-using Server.Spells.Ninjitsu;
 
 namespace Server.Items
 {
@@ -50,14 +49,6 @@ namespace Server.Items
             {
                 from.SendLocalizedMessage(1040016); // You cannot use this while riding a mount
             }
-            else if (Server.Spells.Ninjitsu.AnimalForm.UnderTransformation(from))
-            {
-                from.SendLocalizedMessage(1070902); // You can't use this while in an animal form!
-            }
-			else if (from.Flying)
-			{
-				from.SendLocalizedMessage(1113414); // You cannot use this while flying!
-			}
             else
             {
                 EtherealMount.StopMounting(from);
@@ -116,7 +107,6 @@ namespace Server.Items
                 from.SendLocalizedMessage(1042047); // You fail to knock the rider from its mount.
 
             IMount mt = to.Mount;
-			AnimalFormContext context = AnimalForm.GetContext( to );
             
 			if ( mt != null && !( to is ChaosDragoon || to is ChaosDragoonElite ) )
 			{
@@ -128,11 +118,7 @@ namespace Server.Items
 
             if (to is PlayerMobile)
             {
-                if (Server.Spells.Ninjitsu.AnimalForm.UnderTransformation(to))
-                {
-                    to.SendLocalizedMessage(1114066, from.Name); // ~1_NAME~ knocked you out of animal form!
-                }
-                else if (to.Mounted)
+                if (to.Mounted)
                 {
                     to.SendLocalizedMessage(1040023); // You have been knocked off of your mount!
                 }
@@ -181,10 +167,6 @@ namespace Server.Items
                     else if (from.Mounted)
                     {
                         from.SendLocalizedMessage(1040016); // You cannot use this while riding a mount
-                    }
-                    else if (Server.Spells.Ninjitsu.AnimalForm.UnderTransformation(from))
-                    {
-                        from.SendLocalizedMessage(1070902); // You can't use this while in an animal form!
                     }
                     else if (!to.Mounted)
                     {

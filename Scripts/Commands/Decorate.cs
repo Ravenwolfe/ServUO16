@@ -2,8 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using Server.Engines.Quests.Haven;
-using Server.Engines.Quests.Necro;
 using Server.Items;
 
 namespace Server.Commands
@@ -53,34 +51,10 @@ namespace Server.Commands
             {
                 ArrayList list = DecorationList.ReadAll(files[i]);
 
-                #region Mondain's Legacy
-                m_List = list;
-                #endregion
-
                 for (int j = 0; j < list.Count; ++j)
                     m_Count += ((DecorationList)list[j]).Generate(maps);
             }
         }
-
-        #region Mondain's Legacy
-        public static Item FindByID(int id)
-        {
-            if (m_List == null)
-                return null;
-
-            for (int j = 0; j < m_List.Count; ++j)
-            {
-                DecorationList list = (DecorationList)m_List[j];
-
-                if (list.ID == id)
-                    return list.Constructed;
-            }
-
-            return null;
-        }
-
-        private static ArrayList m_List;
-        #endregion
 
         private static Mobile m_Mobile;
         private static int m_Count;
@@ -138,9 +112,7 @@ namespace Server.Commands
         private static readonly Type typeofMarkContainer = typeof(MarkContainer);
         private static readonly Type typeofWarningItem = typeof(WarningItem);
         private static readonly Type typeofHintItem = typeof(HintItem);
-        private static readonly Type typeofCannon = typeof(Cannon);
         private static readonly Type typeofSerpentPillar = typeof(SerpentPillar);
-        private static readonly Type typeofSutekQuestResource = typeof(SutekQuestResource);
 
         public Item Construct()
         {
@@ -155,58 +127,6 @@ namespace Server.Commands
                 {
                     item = new Static(this.m_ItemID);
                 }
-                #region Mondain's Legacy
-                else if (this.m_Type == typeof(SecretSwitch))
-                {
-                    int id = 0;
-					
-                    for (int i = 0; i < this.m_Params.Length; ++i)
-                    {
-                        if (this.m_Params[i].StartsWith("SecretWall"))
-                        {
-                            int indexOf = this.m_Params[i].IndexOf('=');
-
-                            if (indexOf >= 0)
-                            {
-                                id = Utility.ToInt32(this.m_Params[i].Substring(++indexOf));
-                                break;
-                            }
-                        }
-                    }
-					
-                    Item wall = Decorate.FindByID(id);
-					
-                    item = new SecretSwitch(this.m_ItemID, wall as SecretWall);
-                }
-                else if (this.m_Type == typeof(SecretWall))
-                {
-                    SecretWall wall = new SecretWall(this.m_ItemID);
-				
-                    for (int i = 0; i < this.m_Params.Length; ++i)
-                    {
-                        if (this.m_Params[i].StartsWith("MapDest"))
-                        {
-                            int indexOf = this.m_Params[i].IndexOf('=');
-	
-                            if (indexOf >= 0)
-                                wall.MapDest = Map.Parse(this.m_Params[i].Substring(++indexOf));
-                        }
-                        else if (this.m_Params[i].StartsWith("PointDest"))
-                        {
-                            int indexOf = this.m_Params[i].IndexOf('=');
-	
-                            if (indexOf >= 0)
-                                wall.PointDest = Point3D.Parse(this.m_Params[i].Substring(++indexOf));
-                        }
-                        else if (this.m_Params[i].StartsWith("Unlocked"))
-                        {
-                            wall.Locked = false;
-                        }
-                    }
-					
-                    item = wall;					
-                }
-                #endregion
                 else if (this.m_Type == typeofLocalizedStatic)
                 {
                     int labelNumber = 0;
@@ -400,23 +320,6 @@ namespace Server.Commands
 
                     item = wi;
                 }
-                else if (this.m_Type == typeofCannon)
-                {
-                    CannonDirection direction = CannonDirection.North;
-
-                    for (int i = 0; i < this.m_Params.Length; ++i)
-                    {
-                        if (this.m_Params[i].StartsWith("CannonDirection"))
-                        {
-                            int indexOf = this.m_Params[i].IndexOf('=');
-
-                            if (indexOf >= 0)
-                                direction = (CannonDirection)Enum.Parse(typeof(CannonDirection), this.m_Params[i].Substring(++indexOf), true);
-                        }
-                    }
-
-                    item = new Cannon(direction);
-                }
                 else if (this.m_Type == typeofSerpentPillar)
                 {
                     string word = null;
@@ -473,33 +376,6 @@ namespace Server.Commands
                     else
                         item = (Item)Activator.CreateInstance(this.m_Type);
                 }
-                else if (typeofSutekQuestResource.IsAssignableFrom(this.m_Type))
-                {
-                    SutekResourceType type = SutekResourceType.BarrelHoops;
-                    bool fill = false;
-
-                    for (int i = 0; !fill && i < this.m_Params.Length; ++i)
-                    {
-                        if (this.m_Params[i].StartsWith("ResourceType"))
-                        {
-                            int indexOf = this.m_Params[i].IndexOf('=');
-
-                            if (indexOf >= 0)
-                            {
-                                type = (SutekResourceType)Enum.Parse(typeof(SutekResourceType), this.m_Params[i].Substring(++indexOf), true);
-                                fill = true;
-                            }
-                        }
-                    }
-
-                    if (fill)
-                        item = (Item)Activator.CreateInstance(this.m_Type, new object[] { type });
-                    else
-                        item = (Item)Activator.CreateInstance(this.m_Type);
-
-                    if (0 != this.m_ItemID)
-                        item.ItemID = this.m_ItemID;
-                }
                 else if (this.m_Type.IsSubclassOf(typeofBaseDoor))
                 {
                     DoorFacing facing = DoorFacing.WestCW;
@@ -532,22 +408,7 @@ namespace Server.Commands
 
             if (item is BaseAddon)
             {
-                if (item is MaabusCoffin)
-                {
-                    MaabusCoffin coffin = (MaabusCoffin)item;
-
-                    for (int i = 0; i < this.m_Params.Length; ++i)
-                    {
-                        if (this.m_Params[i].StartsWith("SpawnLocation"))
-                        {
-                            int indexOf = this.m_Params[i].IndexOf('=');
-
-                            if (indexOf >= 0)
-                                coffin.SpawnLocation = Point3D.Parse(this.m_Params[i].Substring(++indexOf));
-                        }
-                    }
-                }
-                else if (this.m_ItemID > 0)
+                if (this.m_ItemID > 0)
                 {
                     List<AddonComponent> comps = ((BaseAddon)item).Components;
 
@@ -1153,10 +1014,6 @@ namespace Server.Commands
                 {
                     if (item == null)
                         item = this.Construct();
-
-                    #region Mondain's Legacy
-                    this.m_Constructed = item;
-                    #endregion
 
                     if (item == null)
                         continue;

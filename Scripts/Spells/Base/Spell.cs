@@ -206,14 +206,14 @@ namespace Server.Spells
 				damageBonus += ((ReaperFormSpell)context.Spell).SpellDamageBonus;
 			}
 
-			damage = AOS.Scale(damage, 100 + damageBonus);
+			damage = MathHelper.Scale(damage, 100 + damageBonus);
 
 			int evalSkill = GetDamageFixed(m_Caster);
 			int evalScale = 30 + ((9 * evalSkill) / 100);
 
-			damage = AOS.Scale(damage, evalScale);
+			damage = MathHelper.Scale(damage, evalScale);
 
-			damage = AOS.Scale(damage, (int)(scalar * 100));
+			damage = MathHelper.Scale(damage, (int)(scalar * 100));
 
 			return damage / 100;
 		}

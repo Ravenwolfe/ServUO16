@@ -42,8 +42,6 @@ namespace Server.Mobiles
             this.Karma = -9500;
 
             this.VirtualArmor = 44;
-
-            this.PackNecroReg(24, 45);
         }
 
         public Devourer(Serial serial)

@@ -45,26 +45,6 @@ namespace Server.Engines.Quests.Samurai
         {
         }
 
-        public override void AggressiveAction(Mobile aggressor, bool criminal)
-        {
-            base.AggressiveAction(aggressor, criminal);
-
-            PlayerMobile player = aggressor as PlayerMobile;
-            if (player != null)
-            {
-                QuestSystem qs = player.Quest;
-                if (qs is HaochisTrialsQuest)
-                {
-                    QuestObjective obj = qs.FindObjective(typeof(SecondTrialAttackObjective));
-                    if (obj != null && !obj.Completed)
-                    {
-                        obj.Complete();
-                        qs.AddObjective(new SecondTrialReturnObjective(false));
-                    }
-                }
-            }
-        }
-
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);

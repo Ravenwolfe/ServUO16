@@ -11,9 +11,6 @@ using System.Threading.Tasks;
 
 using Server.ContextMenus;
 using Server.Engines.PartySystem;
-using Server.Engines.Quests;
-using Server.Engines.Quests.Doom;
-using Server.Engines.Quests.Haven;
 using Server.Engines.XmlSpawner2;
 using Server.Ethics;
 using Server.Factions;
@@ -24,10 +21,7 @@ using Server.Network;
 using Server.Regions;
 using Server.SkillHandlers;
 using Server.Spells;
-using Server.Spells.Bushido;
-using Server.Spells.Necromancy;
 using Server.Spells.Sixth;
-using Server.Spells.Spellweaving;
 using Server.Targeting;
 using System.Linq;
 #endregion
@@ -716,45 +710,7 @@ namespace Server.Mobiles
 
         public virtual void BreathDealDamage(Mobile target)
         {
-            if (!Evasion.CheckSpellEvasion(target))
-            {
-                int physDamage = BreathPhysicalDamage;
-                int fireDamage = BreathFireDamage;
-                int coldDamage = BreathColdDamage;
-                int poisDamage = BreathPoisonDamage;
-                int nrgyDamage = BreathEnergyDamage;
-
-                if (BreathChaosDamage > 0)
-                {
-                    switch (Utility.Random(5))
-                    {
-                        case 0:
-                            physDamage += BreathChaosDamage;
-                            break;
-                        case 1:
-                            fireDamage += BreathChaosDamage;
-                            break;
-                        case 2:
-                            coldDamage += BreathChaosDamage;
-                            break;
-                        case 3:
-                            poisDamage += BreathChaosDamage;
-                            break;
-                        case 4:
-                            nrgyDamage += BreathChaosDamage;
-                            break;
-                    }
-                }
-
-                if (physDamage == 0 && fireDamage == 0 && coldDamage == 0 && poisDamage == 0 && nrgyDamage == 0)
-                {
-                    target.Damage(BreathComputeDamage(), this); // Unresistable damage even in AOS
-                }
-                else
-                {
-                    AOS.Damage(target, this, BreathComputeDamage(), physDamage, fireDamage, coldDamage, poisDamage, nrgyDamage);
-                }
-            }
+            target.Damage(BreathComputeDamage(), this); // Unresistable damage even in AOS
         }
 
         public virtual int BreathComputeDamage()
@@ -1001,14 +957,9 @@ namespace Server.Mobiles
                 return false;
             }
 
-            if (!(m is BaseCreature) || m is MilitiaFighter)
+            if (!(m is BaseCreature))
             {
                 return true;
-            }
-
-            if (TransformationSpellHelper.UnderTransformation(m, typeof(EtherealVoyageSpell)))
-            {
-                return false;
             }
 
             BaseCreature c = (BaseCreature)m;
@@ -1030,7 +981,7 @@ namespace Server.Mobiles
             {
                 suffix = customtitle.Data;
             }
-            else if (IsParagon && !GivesMLMinorArtifact)
+            else if (IsParagon)
             {
                 if (suffix.Length == 0)
                 {
@@ -1158,7 +1109,7 @@ namespace Server.Mobiles
         {
             typeof(MoundOfMaggots), typeof(HellSteed), typeof(SkeletalMount), typeof(WailingBanshee), typeof(Wraith),
             typeof(SkeletalDragon), typeof(LichLord), typeof(FleshGolem), typeof(Lich), typeof(SkeletalKnight),
-            typeof(BoneKnight), typeof(Mummy), typeof(SkeletalMage), typeof(BoneMagi), typeof(PatchworkSkeleton)
+            typeof(BoneKnight), typeof(Mummy), typeof(SkeletalMage), typeof(BoneMagi)
         };
 
         public virtual bool IsAnimatedDead
@@ -1183,24 +1134,6 @@ namespace Server.Mobiles
             }
         }
 
-        public virtual bool IsNecroFamiliar
-        {
-            get
-            {
-                if (!Summoned)
-                {
-                    return false;
-                }
-
-                if (m_ControlMaster != null && SummonFamiliarSpell.Table.Contains(m_ControlMaster))
-                {
-                    return SummonFamiliarSpell.Table[m_ControlMaster] == this;
-                }
-
-                return false;
-            }
-        }
-
         public override void Damage(int amount, Mobile from)
         {
             Damage(amount, from, false, false);
@@ -1218,19 +1151,6 @@ namespace Server.Mobiles
             if (Core.AOS && !Summoned && Controlled && 0.2 > Utility.RandomDouble())
             {
                 amount = (int)(amount * BonusPetDamageScalar);
-            }
-
-            if (EvilOmenSpell.TryEndEffect(this))
-            {
-                amount = (int)(amount * 1.25);
-            }
-
-            Mobile oath = BloodOathSpell.GetBloodOath(from);
-
-            if (oath == this)
-            {
-                amount = (int)(amount * 1.1);
-                from.Damage(amount, from);
             }
 
             base.Damage(amount, from, informMount, checkDisrupt);
@@ -1271,11 +1191,6 @@ namespace Server.Mobiles
             if (!Alive || IsDeadPet)
             {
                 return ApplyPoisonResult.Immune;
-            }
-
-            if (EvilOmenSpell.TryEndEffect(this))
-            {
-                poison = PoisonImpl.IncreaseLevel(poison);
             }
 
             ApplyPoisonResult result = base.ApplyPoison(from, poison);
@@ -1537,11 +1452,6 @@ namespace Server.Mobiles
                 }
             }
 
-            if (Confidence.IsRegenerating(this))
-            {
-                Confidence.StopRegenerating(this);
-            }
-
             WeightOverloading.FatigueOnDamage(this, amount);
 
             InhumanSpeech speechType = SpeechType;
@@ -1603,24 +1513,7 @@ namespace Server.Mobiles
         { }
 
         public virtual void AlterMeleeDamageFrom(Mobile from, ref int damage)
-        {
-            #region Mondain's Legacy
-            if (from != null && from.Talisman is BaseTalisman)
-            {
-                BaseTalisman talisman = (BaseTalisman)from.Talisman;
-
-                if (talisman.Killer != null && talisman.Killer.Type != null)
-                {
-                    Type type = talisman.Killer.Type;
-
-                    if (type.IsAssignableFrom(GetType()))
-                    {
-                        damage = (int)(damage * (1 + (double)talisman.Killer.Amount / 100));
-                    }
-                }
-            }
-            #endregion
-        }
+        { }
 
         public virtual void AlterMeleeDamageTo(Mobile to, ref int damage)
         { }
@@ -1703,62 +1596,24 @@ namespace Server.Mobiles
 
                 if (hides != 0)
                 {
-                    Item holding = from.Weapon as Item;
-
-                    if (Core.AOS && (holding is SkinningKnife || with is ButchersWarCleaver))
+                    if (HideType == HideType.Regular)
                     {
-                        Item leather = null;
-
-                        switch (HideType)
-                        {
-                            case HideType.Regular:
-                                leather = new Leather(hides);
-                                break;
-                            case HideType.Spined:
-                                leather = new SpinedLeather(hides);
-                                break;
-                            case HideType.Horned:
-                                leather = new HornedLeather(hides);
-                                break;
-                            case HideType.Barbed:
-                                leather = new BarbedLeather(hides);
-                                break;
-                        }
-
-                        if (leather != null)
-                        {
-                            if (!from.PlaceInBackpack(leather))
-                            {
-                                corpse.DropItem(leather);
-                                from.SendLocalizedMessage(500471); // You skin it, and the hides are now in the corpse.
-                            }
-                            else
-                            {
-                                from.SendLocalizedMessage(1073555); // You skin it and place the cut-up hides in your backpack.
-                            }
-                        }
+                        corpse.DropItem(new Hides(hides));
                     }
-                    else
+                    else if (HideType == HideType.Spined)
                     {
-                        if (HideType == HideType.Regular)
-                        {
-                            corpse.DropItem(new Hides(hides));
-                        }
-                        else if (HideType == HideType.Spined)
-                        {
-                            corpse.DropItem(new SpinedHides(hides));
-                        }
-                        else if (HideType == HideType.Horned)
-                        {
-                            corpse.DropItem(new HornedHides(hides));
-                        }
-                        else if (HideType == HideType.Barbed)
-                        {
-                            corpse.DropItem(new BarbedHides(hides));
-                        }
-
-                        from.SendLocalizedMessage(500471); // You skin it, and the hides are now in the corpse.
+                        corpse.DropItem(new SpinedHides(hides));
                     }
+                    else if (HideType == HideType.Horned)
+                    {
+                        corpse.DropItem(new HornedHides(hides));
+                    }
+                    else if (HideType == HideType.Barbed)
+                    {
+                        corpse.DropItem(new BarbedHides(hides));
+                    }
+
+                    from.SendLocalizedMessage(500471); // You skin it, and the hides are now in the corpse.
                 }
 
                 if (scales != 0)
@@ -2017,12 +1872,6 @@ namespace Server.Mobiles
 
             // Version 18
             writer.Write(m_CorpseNameOverride);
-
-            // Mondain's Legacy version 19
-            writer.Write(m_Allured);
-
-            //Version 20 Queens Loyalty
-            writer.Write(m_QLPoints);
         }
 
         private static readonly double[] m_StandardActiveSpeeds = new[] { 0.175, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6, 0.8 };
@@ -2289,16 +2138,6 @@ namespace Server.Mobiles
                 m_CorpseNameOverride = reader.ReadString();
             }
 
-            if (version >= 19)
-            {
-                m_Allured = reader.ReadBool();
-            }
-
-            if (version >= 20)
-            {
-                m_QLPoints = reader.ReadInt();
-            }
-
             if (version <= 14 && m_Paragon && Hue == 0x31)
             {
                 Hue = Paragon.Hue; //Paragon hue fixed, should now be 0x501.
@@ -2315,10 +2154,6 @@ namespace Server.Mobiles
 
             AddFollowers();
 
-            if (IsAnimatedDead)
-            {
-                AnimateDeadSpell.Register(m_SummonMaster, this);
-            }
         }
 
         public virtual bool IsHumanInTown()
@@ -2671,26 +2506,8 @@ namespace Server.Mobiles
                 case AIType.AI_Thief:
                     m_AI = new ThiefAI(this);
                     break;
-                case AIType.AI_NecroMage:
-                    m_AI = new NecroMageAI(this);
-                    break;
                 case AIType.AI_OrcScout:
                     m_AI = new OrcScoutAI(this);
-                    break;
-                case AIType.AI_Spellbinder:
-                    m_AI = new SpellbinderAI(this);
-                    break;
-                case AIType.AI_Samurai:
-                    m_AI = new SamuraiAI(this);
-                    break;
-                case AIType.AI_Ninja:
-                    m_AI = new NinjaAI(this);
-                    break;
-                case AIType.AI_Spellweaving:
-                    m_AI = new SpellweavingAI(this);
-                    break;
-                case AIType.AI_Mystic:
-                    m_AI = new MysticAI(this);
                     break;
             }
         }
@@ -2920,18 +2737,6 @@ namespace Server.Mobiles
             {
                 m_ControlOrder = value;
 
-                if (m_Allured)
-                {
-                    if (m_ControlOrder == OrderType.Release)
-                    {
-                        Say(502003); // Sorry, but no.
-                    }
-                    else if (m_ControlOrder != OrderType.None)
-                    {
-                        Say(1079120); // Very well.
-                    }
-                }
-
                 if (m_AI != null)
                 {
                     m_AI.OnCurrentOrderChanged();
@@ -3090,11 +2895,6 @@ namespace Server.Mobiles
             }
 
             FocusMob = null;
-
-            if (IsAnimatedDead)
-            {
-                AnimateDeadSpell.Unregister(m_SummonMaster, this);
-            }
 
             base.OnAfterDelete();
         }
@@ -4505,29 +4305,6 @@ namespace Server.Mobiles
             PackItem(gem);
         }
 
-        public void PackNecroReg(int min, int max)
-        {
-            PackNecroReg(Utility.RandomMinMax(min, max));
-        }
-
-        public void PackNecroReg(int amount)
-        {
-            for (int i = 0; i < amount; ++i)
-            {
-                PackNecroReg();
-            }
-        }
-
-        public void PackNecroReg()
-        {
-            if (!Core.AOS)
-            {
-                return;
-            }
-
-            PackItem(Loot.RandomNecromancyReagent());
-        }
-
         public void PackReg(int min, int max)
         {
             PackReg(Utility.RandomMinMax(min, max));
@@ -4588,17 +4365,6 @@ namespace Server.Mobiles
                 }
             }
 
-            if (DeathAdderCharmable && from.CanBeHarmful(this, false))
-            {
-                DeathAdder da = SummonFamiliarSpell.Table[from] as DeathAdder;
-
-                if (da != null && !da.Deleted)
-                {
-                    from.SendAsciiMessage("You charm the snake.  Select a target to attack.");
-                    from.Target = new DeathAdderCharmTarget(this);
-                }
-            }
-
             base.OnDoubleClick(from);
         }
 
@@ -4615,12 +4381,6 @@ namespace Server.Mobiles
             protected override void OnTarget(Mobile from, object targeted)
             {
                 if (!m_Charmed.DeathAdderCharmable || m_Charmed.Combatant != null || !from.CanBeHarmful(m_Charmed, false))
-                {
-                    return;
-                }
-
-                DeathAdder da = SummonFamiliarSpell.Table[from] as DeathAdder;
-                if (da == null || da.Deleted)
                 {
                     return;
                 }
@@ -4660,7 +4420,7 @@ namespace Server.Mobiles
                 }
             }
 
-            if (Summoned && !IsAnimatedDead && !IsNecroFamiliar && !(this is Clone))
+            if (Summoned && !IsAnimatedDead)
             {
                 list.Add(1049646); // (summoned)
             }
@@ -4740,20 +4500,6 @@ namespace Server.Mobiles
                     }
                 }
 
-                if (Karma < 0 && LastKiller is PlayerMobile)
-                {
-                    if (((PlayerMobile)LastKiller).HumilityHunt)
-                    {
-                        bool gainedPath = false;
-                        VirtueHelper.Award(LastKiller, VirtueName.Humility, 30, ref gainedPath);
-
-                        if (gainedPath)
-                            LastKiller.SendLocalizedMessage(1155811); // You have gained a path in Humility!
-                        else
-                            LastKiller.SendLocalizedMessage(1052070); // You have gained in Humility!
-                    }
-                }
-
                 if (m_Paragon && Paragon.ChocolateIngredientChance > Utility.RandomDouble())
                 {
                     switch (Utility.Random(4))
@@ -4778,16 +4524,6 @@ namespace Server.Mobiles
             {
                 m_HasGeneratedLoot = true;
                 GenerateLoot(false);
-            }
-
-            if (!NoKillAwards && Region.IsPartOf("Doom"))
-            {
-                int bones = TheSummoningQuest.GetDaemonBonesFor(this);
-
-                if (bones > 0)
-                {
-                    PackItem(new DaemonBone(bones));
-                }
             }
 
             if (IsAnimatedDead)
@@ -4996,99 +4732,6 @@ namespace Server.Mobiles
             return rights;
         }
 
-        #region Mondain's Legacy
-        private bool m_Allured;
-
-        [CommandProperty(AccessLevel.GameMaster)]
-        public bool Allured { get { return m_Allured; } set { m_Allured = value; } }
-
-        public virtual bool GivesMLMinorArtifact { get { return false; } }
-        #endregion
-
-        private static readonly Type[] m_Artifacts = new[]
-        {
-            typeof(AegisOfGrace), typeof(BladeDance), typeof(Bonesmasher), typeof(FeyLeggings), typeof(FleshRipper),
-            typeof(HelmOfSwiftness), typeof(PadsOfTheCuSidhe), typeof(RaedsGlory), typeof(RighteousAnger),
-            typeof(RobeOfTheEclipse), typeof(RobeOfTheEquinox), typeof(SoulSeeker), typeof(TalonBite), typeof(BloodwoodSpirit),
-            typeof(TotemOfVoid), typeof(QuiverOfRage), typeof(QuiverOfElements), typeof(BrightsightLenses), typeof(Boomstick),
-            typeof(WildfireBow), typeof(Windsong)
-        };
-
-        public static void GiveMinorArtifact(Mobile m)
-        {
-            Item item = Activator.CreateInstance(m_Artifacts[Utility.Random(m_Artifacts.Length)]) as Item;
-            m.PlaySound(0x5B4);
-
-            if (item == null)
-            {
-                return;
-            }
-
-            if (m.AddToBackpack(item))
-            {
-                m.SendLocalizedMessage(1062317);
-                // For your valor in combating the fallen beast, a special artifact has been bestowed on you.
-                m.SendLocalizedMessage(1072223); // An item has been placed in your backpack.
-            }
-            else if (m.BankBox != null && m.BankBox.TryDropItem(m, item, false))
-            {
-                m.SendLocalizedMessage(1062317);
-                // For your valor in combating the fallen beast, a special artifact has been bestowed on you.
-                m.SendLocalizedMessage(1072224); // An item has been placed in your bank box.
-            }
-            else
-            {
-                item.MoveToWorld(m.Location, m.Map);
-                m.SendLocalizedMessage(1072523); // You find an artifact, but your backpack and bank are too full to hold it.
-            }
-        }
-
-        public virtual bool GivesSAArtifact { get { return false; } }
-
-        private static readonly Type[] m_SAArtifacts = new[]
-        {
-            typeof(AxesOfFury), typeof(BreastplateOfTheBerserker), typeof(EternalGuardianStaff), typeof(LegacyOfDespair),
-            typeof(GiantSteps), typeof(StaffOfShatteredDreams), typeof(PetrifiedSnake), typeof(StoneDragonsTooth),
-            typeof(TokenOfHolyFavor), typeof(SwordOfShatteredHopes), typeof(Venom), typeof(StormCaller)
-        };
-
-        public static void GiveSAArtifact(Mobile m)
-        {
-            Item item = Activator.CreateInstance(m_SAArtifacts[Utility.Random(m_SAArtifacts.Length)]) as Item;
-            m.PlaySound(0x5B4);
-
-            if (item == null)
-            {
-                return;
-            }
-
-            if (m.AddToBackpack(item))
-            {
-                m.SendLocalizedMessage(1062317);
-                // For your valor in combating the fallen beast, a special artifact has been bestowed on you.
-                m.SendLocalizedMessage(1072223); // An item has been placed in your backpack.
-            }
-            else if (m.BankBox != null && m.BankBox.TryDropItem(m, item, false))
-            {
-                m.SendLocalizedMessage(1062317);
-                // For your valor in combating the fallen beast, a special artifact has been bestowed on you.
-                m.SendLocalizedMessage(1072224); // An item has been placed in your bank box.
-            }
-            else
-            {
-                item.MoveToWorld(m.Location, m.Map);
-                m.SendLocalizedMessage(1072523); // You find an artifact, but your backpack and bank are too full to hold it.
-            }
-        }
-
-        public virtual void OnRelease(Mobile from)
-        {
-            if (m_Allured)
-            {
-                Timer.DelayCall(TimeSpan.FromSeconds(2), Delete);
-            }
-        }
-
         public override void OnItemLifted(Mobile from, Item item)
         {
             base.OnItemLifted(from, item);
@@ -5101,28 +4744,6 @@ namespace Server.Mobiles
             if (m_Paragon && XmlParagon.CheckArtifactChance(mob, this))
             {
                 XmlParagon.GiveArtifactTo(mob, this);
-            }
-
-            #region Mondain's Legacy
-            if (GivesMLMinorArtifact)
-            {
-                if (MondainsLegacy.CheckArtifactChance(mob, this))
-                {
-                    MondainsLegacy.GiveArtifactTo(mob);
-                }
-            }
-            #endregion
-
-            if (GivesSAArtifact && Paragon.CheckArtifactChance(mob, this))
-            {
-                GiveSAArtifact(mob);
-            }
-
-            if (mob is PlayerMobile && mob.Map == Map.TerMur && m_QLPoints > 0)
-            {
-                PlayerMobile pm = mob as PlayerMobile;
-                pm.Exp += m_QLPoints;
-                pm.SendMessage("You have been awarded {0} points for your loyalty to the Queen of TerMur!", m_QLPoints);
             }
 
             EventSink.InvokeOnKilledBy(new OnKilledByEventArgs(this, mob));
@@ -5196,8 +4817,6 @@ namespace Server.Mobiles
                 {
                     OwnerAbandonTime = DateTime.MinValue;
                 }
-
-                GiftOfLifeSpell.HandleDeath(this);
 
                 CheckStatTimers();
             }
@@ -5281,46 +4900,6 @@ namespace Server.Mobiles
                         {
                             givenFactionKill = true;
                             Faction.HandleDeath(this, ds.m_Mobile);
-                        }
-
-                        Region region = ds.m_Mobile.Region;
-
-                        if (!givenToTKill &&
-                            (Map == Map.Tokuno || region.IsPartOf("Yomotsu Mines") || region.IsPartOf("Fan Dancer's Dojo")))
-                        {
-                            givenToTKill = true;
-                            TreasuresOfTokuno.HandleKill(this, ds.m_Mobile);
-                        }
-                        if (!givenVASKill &&
-                            (Map == Map.Felucca || region.IsPartOf("Covetous") || region.IsPartOf("Deceit") || region.IsPartOf("Despise")
-                            || region.IsPartOf("Destard") || region.IsPartOf("Hythloth") || region.IsPartOf("Shame") || region.IsPartOf("Wrong")))
-                        {
-                            givenVASKill = true;
-                            VirtueArtifactsSystem.HandleKill(this, ds.m_Mobile);
-                        }
-                        if (region.IsPartOf("Doom Gauntlet") || region.Name == "GauntletRegion")
-                        {
-                            DemonKnight.HandleKill(this, ds.m_Mobile);
-                        }
-
-                        PlayerMobile pm = ds.m_Mobile as PlayerMobile;
-
-                        if (pm != null)
-                        {
-                            QuestHelper.CheckCreature(pm, this); // This line moved up...
-
-                            if (givenQuestKill)
-                            {
-                                continue;
-                            }
-
-                            QuestSystem qs = pm.Quest;
-
-                            if (qs != null)
-                            {
-                                qs.OnKill(this, c);
-                                givenQuestKill = true;
-                            }
                         }
                     }
 
@@ -5486,8 +5065,7 @@ namespace Server.Mobiles
         public double GetDispelDifficulty()
         {
             double dif = DispelDifficulty;
-            if (SummonMaster != null)
-                dif += ArcaneEmpowermentSpell.GetDispellBonus(SummonMaster);
+
             return dif;
         }
 
@@ -5537,8 +5115,7 @@ namespace Server.Mobiles
                 }
             }
 
-            creature.SetHits(
-                (int)Math.Floor(creature.HitsMax * (1 + ArcaneEmpowermentSpell.GetSpellBonus(caster, false) / 100.0)));
+            creature.SetHits(creature.HitsMax);
 
             new UnsummonTimer(caster, creature, duration).Start();
             creature.m_SummonEnd = DateTime.UtcNow + duration;
@@ -5551,17 +5128,6 @@ namespace Server.Mobiles
 
             return true;
         }
-
-        private static readonly Type[] m_MinorArtifactsMl = new[]
-        {
-            typeof(AegisOfGrace), typeof(BladeDance), typeof(Bonesmasher), typeof(Boomstick), typeof(FeyLeggings),
-            typeof(FleshRipper), typeof(HelmOfSwiftness), typeof(PadsOfTheCuSidhe), typeof(QuiverOfRage),
-            typeof(QuiverOfElements), typeof(RaedsGlory), typeof(RighteousAnger), typeof(RobeOfTheEclipse),
-            typeof(RobeOfTheEquinox), typeof(SoulSeeker), typeof(TalonBite), typeof(WildfireBow), typeof(Windsong),
-			// TODO: Brightsight lenses, Bloodwood spirit, Totem of the void
-		};
-
-        public static Type[] MinorArtifactsMl { get { return m_MinorArtifactsMl; } }
 
         private static bool EnableRummaging = true;
 
@@ -5577,86 +5143,6 @@ namespace Server.Mobiles
 
         public virtual bool CanBreath { get { return HasBreath && !Summoned; } }
         public virtual bool IsDispellable { get { return Summoned && !IsAnimatedDead; } }
-
-        #region Animate Dead
-        public virtual bool CanAnimateDead { get { return false; } }
-        public virtual double AnimateChance { get { return 0.05; } }
-        public virtual int AnimateScalar { get { return 50; } }
-        public virtual TimeSpan AnimateDelay { get { return TimeSpan.FromSeconds(10); } }
-        public virtual BaseCreature Animates { get { return null; } }
-
-        private DateTime m_NextAnimateDead = DateTime.UtcNow;
-
-        public virtual void AnimateDead()
-        {
-            Corpse best = null;
-
-            foreach (Item item in Map.GetItemsInRange(Location, 12))
-            {
-                Corpse c = null;
-
-                if (item is Corpse)
-                {
-                    c = (Corpse)item;
-                }
-                else
-                {
-                    continue;
-                }
-
-                if (c.ItemID != 0x2006 || c.Channeled || c.Owner.GetType() == typeof(PlayerMobile) || c.Owner.GetType() == null ||
-                    (c.Owner != null && c.Owner.Fame < 100) ||
-                    ((c.Owner != null) && (c.Owner is BaseCreature) &&
-                     (((BaseCreature)c.Owner).Summoned || ((BaseCreature)c.Owner).IsBonded)))
-                {
-                    continue;
-                }
-
-                best = c;
-                break;
-            }
-
-            if (best != null)
-            {
-                BaseCreature animated = Animates;
-
-                if (animated != null)
-                {
-                    animated.Tamable = false;
-                    animated.MoveToWorld(best.Location, Map);
-                    Scale(animated, AnimateScalar);
-                    Effects.PlaySound(best.Location, Map, 0x1FB);
-                    Effects.SendLocationParticles(
-                        EffectItem.Create(best.Location, Map, EffectItem.DefaultDuration), 0x3789, 1, 40, 0x3F, 3, 9907, 0);
-                }
-
-                best.ProcessDelta();
-                best.SendRemovePacket();
-                best.ItemID = Utility.Random(0xECA, 9); // bone graphic
-                best.Hue = 0;
-                best.ProcessDelta();
-            }
-
-            m_NextAnimateDead = DateTime.UtcNow + AnimateDelay;
-        }
-
-        public static void Scale(BaseCreature bc, int scalar)
-        {
-            int toScale;
-
-            toScale = bc.RawStr;
-            bc.RawStr = AOS.Scale(toScale, scalar);
-
-            toScale = bc.HitsMaxSeed;
-
-            if (toScale > 0)
-            {
-                bc.HitsMaxSeed = AOS.Scale(toScale, scalar);
-            }
-
-            bc.Hits = bc.Hits; // refresh hits
-        }
-        #endregion
 
         #region Area Poison
         public virtual bool CanAreaPoison { get { return false; } }
@@ -5880,11 +5366,6 @@ namespace Server.Mobiles
                     }
                 }
             }
-            else if (BleedAttack.IsBleeding(patient))
-            {
-                patient.SendLocalizedMessage(1060167); // The bleeding wounds have healed, you are no longer bleeding!
-                BleedAttack.EndBleed(patient, false);
-            }
             else
             {
                 double healing = Skills.Healing.Value;
@@ -5989,16 +5470,7 @@ namespace Server.Mobiles
 
             foreach (Mobile m in list)
             {
-                AOS.Damage(
-                    m,
-                    this,
-                    AuraBaseDamage,
-                    AuraPhysicalDamage,
-                    AuraFireDamage,
-                    AuraColdDamage,
-                    AuraPoisonDamage,
-                    AuraEnergyDamage,
-                    AuraChaosDamage);
+                m.Damage(AuraBaseDamage, this);
                 AuraEffect(m);
             }
         }

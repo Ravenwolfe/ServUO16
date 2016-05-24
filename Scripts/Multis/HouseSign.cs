@@ -165,10 +165,6 @@ namespace Server.Multis
             {
                 if (this.m_Owner.IsFriend(m) && m.AccessLevel < AccessLevel.GameMaster)
                 {
-                    #region Mondain's Legacy
-                    if ((Core.ML && this.m_Owner.IsOwner(m)) || !Core.ML)
-                        this.m_Owner.RefreshDecay();
-                    #endregion
                     if (!Core.AOS)
                         m.SendLocalizedMessage(501293); // Welcome back to the house, friend!
                 }

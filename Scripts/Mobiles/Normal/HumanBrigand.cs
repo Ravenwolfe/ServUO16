@@ -110,14 +110,6 @@ namespace Server.Mobiles
                 return false;
             }
         }
-        public override void OnDeath(Container c)
-        {
-            base.OnDeath(c);
-
-            if (Utility.RandomDouble() < 0.75)
-                c.DropItem(new SeveredHumanEars());
-        }
-
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);

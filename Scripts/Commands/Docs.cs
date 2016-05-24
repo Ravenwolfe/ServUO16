@@ -1135,13 +1135,6 @@ namespace Server.Commands
 						rewards[4] = true;
 					}
 				}
-				else if (item is RunicSewingKit)
-				{
-					var rkit = (RunicSewingKit)item;
-
-					rewards[16 + CraftResources.GetIndex(rkit.Resource)] = true;
-				}
-
 				item.Delete();
 			}
 
@@ -1366,7 +1359,7 @@ namespace Server.Commands
 			string amt,
 			BulkMaterialType material)
 		{
-			var rewards = new bool[24];
+			var rewards = new bool[12];
 
 			foreach (var item in items)
 			{
@@ -1374,33 +1367,17 @@ namespace Server.Commands
 				{
 					rewards[0] = true;
 				}
-				else if (item is LeatherGlovesOfMining)
+				else if (item is GargoylesPickaxe)
 				{
 					rewards[1] = true;
 				}
-				else if (item is StuddedGlovesOfMining)
+				else if (item is ProspectorsTool)
 				{
 					rewards[2] = true;
 				}
-				else if (item is RingmailGlovesOfMining)
-				{
-					rewards[3] = true;
-				}
-				else if (item is GargoylesPickaxe)
-				{
-					rewards[4] = true;
-				}
-				else if (item is ProspectorsTool)
-				{
-					rewards[5] = true;
-				}
-				else if (item is PowderOfTemperament)
-				{
-					rewards[6] = true;
-				}
 				else if (item is ColoredAnvil)
 				{
-					rewards[7] = true;
+					rewards[3] = true;
 				}
 				else if (item is PowerScroll)
 				{
@@ -1408,26 +1385,20 @@ namespace Server.Commands
 
 					if (ps.Value == 105.0)
 					{
-						rewards[8] = true;
+						rewards[4] = true;
 					}
 					else if (ps.Value == 110.0)
 					{
-						rewards[9] = true;
+						rewards[5] = true;
 					}
 					else if (ps.Value == 115.0)
 					{
-						rewards[10] = true;
+						rewards[6] = true;
 					}
 					else if (ps.Value == 120.0)
 					{
-						rewards[11] = true;
+						rewards[7] = true;
 					}
-				}
-				else if (item is RunicHammer)
-				{
-					var rh = (RunicHammer)item;
-
-					rewards[11 + CraftResources.GetIndex(rh.Resource)] = true;
 				}
 				else if (item is AncientSmithyHammer)
 				{
@@ -1435,19 +1406,19 @@ namespace Server.Commands
 
 					if (ash.Bonus == 10)
 					{
-						rewards[20] = true;
+						rewards[8] = true;
 					}
 					else if (ash.Bonus == 15)
 					{
-						rewards[21] = true;
+						rewards[9] = true;
 					}
 					else if (ash.Bonus == 30)
 					{
-						rewards[22] = true;
+						rewards[10] = true;
 					}
 					else if (ash.Bonus == 60)
 					{
-						rewards[23] = true;
+						rewards[11] = true;
 					}
 				}
 
@@ -1505,7 +1476,7 @@ namespace Server.Commands
 
 			var index = 0;
 
-			while (index < 24)
+			while (index < 12)
 			{
 				if (rewards[index])
 				{
@@ -1516,7 +1487,7 @@ namespace Server.Commands
 				{
 					var count = 0;
 
-					while (index < 24 && !rewards[index])
+					while (index < 12 && !rewards[index])
 					{
 						++count;
 						++index;
@@ -1529,7 +1500,7 @@ namespace Server.Commands
 
 					html.WriteLine(
 						"            <td style=\"width: {0}px;\"{1} class=\"entry\">&nbsp;</td>",
-						count * 25,
+						count * 13,
 						count == 1 ? "" : String.Format(" colspan=\"{0}\"", count));
 				}
 			}

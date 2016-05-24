@@ -208,43 +208,19 @@ namespace Server.Items
                 m.Animate(34, 5, 1, true, false, 0);
         }
 
-        public static int EnhancePotions(Mobile m)
-        {
-            int EP = AosAttributes.GetValue(m, AosAttribute.EnhancePotions);
-            int skillBonus = m.Skills.Alchemy.Fixed / 330 * 10;
-
-            if (Core.ML && EP > 50 && m.IsPlayer())
-                EP = 50;
-
-            return (EP + skillBonus);
-        }
-
         public static TimeSpan Scale(Mobile m, TimeSpan v)
         {
-            if (!Core.AOS)
-                return v;
-
-            double scalar = 1.0 + (0.01 * EnhancePotions(m));
-
-            return TimeSpan.FromSeconds(v.TotalSeconds * scalar);
+            return v;
         }
 
         public static double Scale(Mobile m, double v)
         {
-            if (!Core.AOS)
-                return v;
-
-            double scalar = 1.0 + (0.01 * EnhancePotions(m));
-
-            return v * scalar;
+            return v;
         }
 
         public static int Scale(Mobile m, int v)
         {
-            if (!Core.AOS)
-                return v;
-
-            return AOS.Scale(v, 100 + EnhancePotions(m));
+            return v;
         }
 
         public override bool StackWith(Mobile from, Item dropped, bool playSound)

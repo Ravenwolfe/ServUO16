@@ -145,8 +145,7 @@ namespace Server.Items
                 typeof(StrongMongbat), typeof(Imp), typeof(Scorpion), typeof(GiantSpider),
                 typeof(Snake), typeof(LavaLizard), typeof(Drake), typeof(Dragon),
                 typeof(Kirin), typeof(Unicorn), typeof(GiantRat), typeof(Slime),
-                typeof(DireWolf), typeof(HellHound), typeof(DeathwatchBeetle),
-                typeof(LesserHiryu), typeof(Hiryu)
+                typeof(DireWolf), typeof(HellHound)
             };
             public HerdingTarget()
                 : base(10, false, TargetFlags.None)

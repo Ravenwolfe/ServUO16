@@ -24,28 +24,6 @@ namespace Server.Items
 
     public abstract class BaseAddon : Item, IChopable, IAddon
     {
-        #region Mondain's Legacy
-        private CraftResource m_Resource;
-
-        [CommandProperty(AccessLevel.Decorator)]
-        public CraftResource Resource
-        {
-            get
-            {
-                return this.m_Resource;
-            }
-            set
-            {
-                if (this.m_Resource != value)
-                {
-                    this.m_Resource = value;
-                    this.Hue = CraftResources.GetHue(this.m_Resource);
-					
-                    this.InvalidateProperties();
-                }
-            }
-        }
-        #endregion
         private List<AddonComponent> m_Components;
 
         public void AddComponent(AddonComponent c, int x, int y, int z)

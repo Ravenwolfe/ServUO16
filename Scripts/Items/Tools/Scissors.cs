@@ -84,7 +84,7 @@ namespace Server.Items
 				}
 				else if (targeted is Item && !((Item)targeted).Movable)
 				{
-					if (targeted is IScissorable && (targeted is PlagueBeastInnard || targeted is PlagueBeastMutationCore))
+					if (targeted is IScissorable)
 					{
 						IScissorable obj = (IScissorable)targeted;
 
@@ -111,7 +111,7 @@ namespace Server.Items
 
 			protected override void OnNonlocalTarget(Mobile from, object targeted)
 			{
-				if (targeted is IScissorable && (targeted is PlagueBeastInnard || targeted is PlagueBeastMutationCore))
+				if (targeted is IScissorable)
 				{
 					IScissorable obj = (IScissorable)targeted;
 

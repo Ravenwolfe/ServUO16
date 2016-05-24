@@ -58,7 +58,6 @@ namespace Server.Mobiles
             this.m_Timer.Start();
 
             this.PackReg(50);
-            this.PackNecroReg(15, 75);
 
 			switch (Utility.Random(3))
             {

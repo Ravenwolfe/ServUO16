@@ -1150,14 +1150,6 @@ namespace Server.Gumps
                                             // You cannot perform this action while you still have vendors rented out in this house.
                                             from.SendGump(new NoticeGump(1060637, 30720, 1062395, 32512, 320, 180, new NoticeGumpCallback(CustomizeNotice_Callback), this.m_House));
                                         }
-                                        #region Mondain's Legacy
-                                        else if (this.m_House.HasAddonContainers)
-                                        {
-                                            // The house can not be customized when add-on containers such as aquariums, elven furniture containers, vanities, and boiling cauldrons 
-                                            // are present in the house.  Please re-deed the add-on containers before customizing the house.
-                                            from.SendGump(new NoticeGump(1060637, 30720, 1074863, 32512, 320, 180, new NoticeGumpCallback(CustomizeNotice_Callback), this.m_House));
-                                        }
-                                        #endregion
                                         else
                                         {
                                             foundation.BeginCustomize(from);

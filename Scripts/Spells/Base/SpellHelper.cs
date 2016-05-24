@@ -1142,7 +1142,7 @@ namespace Server.Spells
                 if (context.Type == typeof(WraithFormSpell))
                 {
                     int wraithLeech = (5 + (int)((15 * from.Skills.SpiritSpeak.Value) / 100)); // Wraith form gives 5-20% mana leech
-                    int manaLeech = AOS.Scale(damageGiven, wraithLeech);
+                    int manaLeech = MathHelper.Scale(damageGiven, wraithLeech);
                     if (manaLeech != 0)
                     {
                         from.Mana += manaLeech;
@@ -1154,13 +1154,13 @@ namespace Server.Spells
                     #region High Seas
                     if (target is BaseCreature && ((BaseCreature)target).TaintedLifeAura)
                     {
-                        AOS.Damage(from, target, AOS.Scale(damageGiven, 20), false, 0, 0, 0, 0, 0, 0, 100, false, false, false);
+                        AOS.Damage(from, target, MathHelper.Scale(damageGiven, 20), false, 0, 0, 0, 0, 0, 0, 100, false, false, false);
                         from.SendLocalizedMessage(1116778); //The tainted life force energy damages you as your body tries to absorb it.
                     }
                     #endregion
                     else
                     {
-                        from.Hits += AOS.Scale(damageGiven, 20);
+                        from.Hits += MathHelper.Scale(damageGiven, 20);
                         from.PlaySound(0x44D);
                     }
                 }

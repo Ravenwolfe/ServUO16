@@ -62,11 +62,6 @@ namespace Server.Items
             if (!this.CheckMana(attacker, true))
                 return;
 
-            if (Core.ML && attacker is LesserHiryu && 0.8 >= Utility.RandomDouble())
-            {
-                return; //Lesser Hiryu have an 80% chance of missing this attack
-            }
-
             attacker.SendLocalizedMessage(1060082); // The force of your attack has dislodged them from their mount!
 
             if (defender.Flying)

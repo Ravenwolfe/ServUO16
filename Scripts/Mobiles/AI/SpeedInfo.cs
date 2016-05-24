@@ -119,8 +119,8 @@ namespace Server
                 typeof(Quagmire), typeof(Rat), typeof(RottingCorpse),
                 typeof(Sewerrat), typeof(Skeleton), typeof(Slime),
                 typeof(Zombie), typeof(Walrus), typeof(RestlessSoul),
-                typeof(CrystalElemental), typeof(DarknightCreeper), typeof(MoundOfMaggots),
-                typeof(Juggernaut), typeof(Yamandon), typeof(Serado)
+                typeof(MoundOfMaggots),
+                typeof(Serado)
             }),
             /* Fast */
             new SpeedInfo(0.2, 0.4, new Type[]
@@ -133,33 +133,24 @@ namespace Server
                 typeof(OphidianKnight), typeof(PoisonElemental), typeof(Revenant),
                 typeof(SandVortex), typeof(SavageRider), typeof(SavageShaman),
                 typeof(SnowElemental), typeof(WhiteWyrm), typeof(Wisp),
-                typeof(DemonKnight), typeof(GiantBlackWidow), typeof(SummonedAirElemental),
-                typeof(LesserHiryu), typeof(Hiryu), typeof(LadyOfTheSnow),
-                typeof(RaiJu), typeof(Ronin), typeof(RuneBeetle),
-                typeof(Changeling),
-                #region ML named mobs - before Paragon speedboost
-                typeof(LadyJennifyr), typeof(LadyMarai), typeof(MasterJonath),
-                typeof(MasterMikael), typeof(MasterTheophilus), typeof(RedDeath),
-                typeof(SirPatrick), typeof(Miasma), typeof(Rend),
-                typeof(Grobu), typeof(Gnaw), typeof(Guile),
-                typeof(Irk), typeof(Spite), typeof(LadyLissith),
-                typeof(LadySabrix), typeof(Malefic), typeof(Silk),
-                typeof(Virulent)
-                // TODO: Where to put Lurg, Putrefier, Swoop and Pyre? They seem slower.
-                #endregion
+                typeof(GiantBlackWidow), typeof(SummonedAirElemental),
+                typeof(LadyOfTheSnow),
+                typeof(RuneBeetle),
+                typeof(Changeling)
+
             }),
             /* Very Fast */
             new SpeedInfo(0.175, 0.350, new Type[]
             {
                 typeof(Barracoon), typeof(Mephitis), typeof(Neira),
                 typeof(Rikktor), typeof(Semidar), typeof(EnergyVortex),
-                typeof(EliteNinja), typeof(Pixie), typeof(SilverSerpent),
-                typeof(VorpalBunny), typeof(FleshRenderer), typeof(KhaldunRevenant),
+                typeof(Pixie), typeof(SilverSerpent),
+                typeof(VorpalBunny), typeof(KhaldunRevenant),
                 typeof(FactionDragoon), typeof(FactionKnight), typeof(FactionPaladin),
                 typeof(FactionHenchman), typeof(FactionMercenary), typeof(FactionNecromancer),
                 typeof(FactionSorceress), typeof(FactionWizard), typeof(FactionBerserker),
-                typeof(FactionPaladin), typeof(Leviathan), typeof(FireBeetle),
-                typeof(FanDancer), typeof(FactionDeathKnight)
+                typeof(FactionPaladin), typeof(FireBeetle),
+                typeof(FactionDeathKnight)
             }),
             /* Medium */
             new SpeedInfo(0.25, 0.5, new Type[]
@@ -220,21 +211,16 @@ namespace Server
                 typeof(SummonedEarthElemental), typeof(SummonedWaterElemental), typeof(SummonedFireElemental),
                 typeof(MeerWarrior), typeof(MeerEternal), typeof(MeerMage),
                 typeof(MeerCaptain), typeof(JukaLord), typeof(JukaMage),
-                typeof(JukaWarrior), typeof(AbysmalHorror), typeof(BoneDemon),
+                typeof(JukaWarrior), typeof(BoneDemon),
                 typeof(Devourer), typeof(FleshGolem), typeof(Gibberling),
-                typeof(GoreFiend), typeof(Impaler), typeof(PatchworkSkeleton),
-                typeof(Ravager), typeof(ShadowKnight), typeof(SkitteringHopper),
+                typeof(GoreFiend), typeof(Impaler),
+                typeof(Ravager), typeof(SkitteringHopper),
                 typeof(Treefellow), typeof(VampireBat), typeof(WailingBanshee),
-                typeof(WandererOfTheVoid), typeof(Cursed), typeof(GrimmochDrummel),
-                typeof(LysanderGathenwale), typeof(MorgBergen), typeof(ShadowFiend),
-                typeof(SpectralArmour), typeof(TavaraSewel), typeof(ArcaneDaemon),
-                typeof(Doppleganger), typeof(EnslavedGargoyle), typeof(ExodusMinion),
-                typeof(ExodusOverseer), typeof(GargoyleDestroyer), typeof(GargoyleEnforcer),
-                typeof(Moloch), typeof(BakeKitsune), typeof(DeathwatchBeetleHatchling),
-                typeof(Kappa), typeof(KazeKemono), typeof(DeathwatchBeetle),
-                typeof(TsukiWolf), typeof(YomotsuElder), typeof(YomotsuPriest),
-                typeof(YomotsuWarrior), typeof(RevenantLion), typeof(Oni),
-                typeof(Gaman), typeof(Crane), typeof(Beetle)
+                typeof(WandererOfTheVoid), typeof(Cursed),
+                typeof(ShadowFiend),
+                typeof(SpectralArmour), typeof(ArcaneDaemon),
+                typeof(EnslavedGargoyle),
+                typeof(Moloch), typeof(Crane), typeof(Beetle)
             })
         };
     }

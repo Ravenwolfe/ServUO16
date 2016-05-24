@@ -1,5 +1,6 @@
 using System;
 using Server.Items;
+using Server.Misc;
 using Server.Spells;
 
 namespace Server.Mobiles
@@ -155,21 +156,21 @@ namespace Server.Mobiles
 
                         if (toScale > 0)
                         {
-                            toBuff.HitsMaxSeed += AOS.Scale(toScale, 75);
-                            toBuff.Hits += AOS.Scale(toScale, 75);
+                            toBuff.HitsMaxSeed += MathHelper.Scale(toScale, 75);
+                            toBuff.Hits += MathHelper.Scale(toScale, 75);
                         }
 
                         toScale = toBuff.RawStr;
 
                         if (toScale > 0)
-                            toBuff.RawStr += AOS.Scale(toScale, 50);
+                            toBuff.RawStr += MathHelper.Scale(toScale, 50);
 
                         toScale = toBuff.RawDex;
 
                         if (toScale > 0)
                         {
-                            toBuff.RawDex += AOS.Scale(toScale, 50);
-                            toBuff.Stam += AOS.Scale(toScale, 50);
+                            toBuff.RawDex += MathHelper.Scale(toScale, 50);
+                            toBuff.Stam += MathHelper.Scale(toScale, 50);
                         }
 
                         toBuff.Hits = toBuff.Hits;

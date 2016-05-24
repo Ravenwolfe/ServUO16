@@ -144,7 +144,7 @@ namespace Server.Items
 			}
 			if (Utility.RandomBool()) //50% chance
 				for (int i = Utility.Random(8) + 1; i > 0; i--)
-					DropItem(Loot.RandomScroll(0, 39, SpellbookType.Regular));
+					DropItem(Loot.RandomScroll(0, 39));
 
 			if (Utility.RandomBool()) //50% chance
 				for (int i = Utility.Random(6) + 1; i > 0; i--)
@@ -201,7 +201,7 @@ namespace Server.Items
 
 			if ( 0.67 > Utility.RandomDouble() ) //67% chance = 2/3
 				for (int i = Utility.Random(12) + 1; i > 0; i--)
-					DropItem(Loot.RandomScroll(0, 47, SpellbookType.Regular));
+					DropItem(Loot.RandomScroll(0, 47));
 
 			if ( 0.67 > Utility.RandomDouble() ) //67% chance = 2/3
 				for (int i = Utility.Random(9) + 1; i > 0; i--)
@@ -296,7 +296,7 @@ namespace Server.Items
 			
 			if ( 0.75 > Utility.RandomDouble() ) //75% chance = 3/4
 				for (int i = Utility.RandomMinMax(8,16); i > 0; i--)
-					DropItem(Loot.RandomScroll(0, 47, SpellbookType.Regular));
+					DropItem(Loot.RandomScroll(0, 47));
 
 			if ( 0.75 > Utility.RandomDouble() ) //75% chance = 3/4
 				for (int i = Utility.RandomMinMax(6,12) + 1; i > 0; i--)

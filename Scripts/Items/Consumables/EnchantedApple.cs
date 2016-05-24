@@ -1,6 +1,5 @@
 using System;
 using Server.Spells.Fourth;
-using Server.Spells.Necromancy;
 
 namespace Server.Items
 {
@@ -59,9 +58,6 @@ namespace Server.Items
                 from.Paralyzed = false;
                 from.Asleep = false;
 
-                EvilOmenSpell.TryEndEffect(from);
-                StrangleSpell.RemoveCurse(from);
-                CorpseSkinSpell.RemoveCurse(from);
                 CurseSpell.RemoveEffect(from);
 
                 BuffInfo.RemoveBuff(from, BuffIcon.Clumsy);

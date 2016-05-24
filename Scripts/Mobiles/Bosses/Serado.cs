@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Server.Engines.CannedEvil;
+using Server.Engines.Plants;
 using Server.Items;
 
 namespace Server.Mobiles
@@ -11,40 +12,40 @@ namespace Server.Mobiles
         public Serado()
             : base(AIType.AI_Melee)
         {
-            this.Name = "Serado";
-            this.Title = "the awakened";
+            Name = "Serado";
+            Title = "the awakened";
 
-            this.Body = 249;
-            this.Hue = 0x96C;
+            Body = 249;
+            Hue = 0x96C;
 
-            this.SetStr(1000);
-            this.SetDex(150);
-            this.SetInt(300);
+            SetStr(1000);
+            SetDex(150);
+            SetInt(300);
 
-            this.SetHits(9000);
-            this.SetMana(300);
+            SetHits(9000);
+            SetMana(300);
 
-            this.SetDamage(29, 35);
+            SetDamage(29, 35);
 
-            this.SetDamageType(ResistanceType.Physical, 70);
-            this.SetDamageType(ResistanceType.Poison, 20);
-            this.SetDamageType(ResistanceType.Energy, 10);
+            SetDamageType(ResistanceType.Physical, 70);
+            SetDamageType(ResistanceType.Poison, 20);
+            SetDamageType(ResistanceType.Energy, 10);
 
-            this.SetResistance(ResistanceType.Physical, 30);
-            this.SetResistance(ResistanceType.Fire, 60);
-            this.SetResistance(ResistanceType.Cold, 60);
-            this.SetResistance(ResistanceType.Poison, 90);
-            this.SetResistance(ResistanceType.Energy, 50);
+            SetResistance(ResistanceType.Physical, 30);
+            SetResistance(ResistanceType.Fire, 60);
+            SetResistance(ResistanceType.Cold, 60);
+            SetResistance(ResistanceType.Poison, 90);
+            SetResistance(ResistanceType.Energy, 50);
 
-            this.SetSkill(SkillName.MagicResist, 120.0);
-            this.SetSkill(SkillName.Tactics, 120.0);
-            this.SetSkill(SkillName.Wrestling, 70.0);
-            this.SetSkill(SkillName.Poisoning, 150.0);
+            SetSkill(SkillName.MagicResist, 120.0);
+            SetSkill(SkillName.Tactics, 120.0);
+            SetSkill(SkillName.Wrestling, 70.0);
+            SetSkill(SkillName.Poisoning, 150.0);
 
-            this.Fame = 22500;
-            this.Karma = -22500;
+            Fame = 22500;
+            Karma = -22500;
 
-            this.PackItem(Engines.Plants.Seed.RandomBonsaiSeed());
+            PackItem(Seed.RandomBonsaiSeed());
         }
 
         public Serado(Serial serial)
@@ -57,33 +58,6 @@ namespace Server.Mobiles
             get
             {
                 return ChampionSkullType.Power;
-            }
-        }
-        public override Type[] UniqueList
-        {
-            get
-            {
-                return new Type[] { typeof(Pacify) };
-            }
-        }
-        public override Type[] SharedList
-        {
-            get
-            {
-                return new Type[]
-                {
-                    typeof(BraveKnightOfTheBritannia),
-                    typeof(DetectiveBoots),
-                    typeof(EmbroideredOakLeafCloak),
-                    typeof(LieutenantOfTheBritannianRoyalGuard)
-                };
-            }
-        }
-        public override Type[] DecorativeList
-        {
-            get
-            {
-                return new Type[] { typeof(Futon), typeof(SwampTile) };
             }
         }
         public override MonsterStatuetteType[] StatueTypes
@@ -149,9 +123,9 @@ namespace Server.Mobiles
 
         public override void GenerateLoot()
         {
-            this.AddLoot(LootPack.UltraRich, 4);
-            this.AddLoot(LootPack.FilthyRich);
-            this.AddLoot(LootPack.Gems, 6);
+            AddLoot(LootPack.UltraRich, 4);
+            AddLoot(LootPack.FilthyRich);
+            AddLoot(LootPack.Gems, 6);
         }
 
         // TODO: Hit Lightning Area
@@ -159,16 +133,16 @@ namespace Server.Mobiles
         {
             base.OnDamagedBySpell(attacker);
 
-            this.ScaleResistances();
-            this.DoCounter(attacker);
+            ScaleResistances();
+            DoCounter(attacker);
         }
 
         public override void OnGotMeleeAttack(Mobile attacker)
         {
             base.OnGotMeleeAttack(attacker);
 
-            this.ScaleResistances();
-            this.DoCounter(attacker);
+            ScaleResistances();
+            DoCounter(attacker);
         }
 
         public override void Serialize(GenericWriter writer)
@@ -187,18 +161,18 @@ namespace Server.Mobiles
 
         private void ScaleResistances()
         {
-            double hitsLost = (this.HitsMax - this.Hits) / (double)this.HitsMax;
+            double hitsLost = (HitsMax - Hits) / (double)HitsMax;
 
-            this.SetResistance(ResistanceType.Physical, 30 + (int)(hitsLost * (95 - 30)));
-            this.SetResistance(ResistanceType.Fire, 60 + (int)(hitsLost * (95 - 60)));
-            this.SetResistance(ResistanceType.Cold, 60 + (int)(hitsLost * (95 - 60)));
-            this.SetResistance(ResistanceType.Poison, 90 + (int)(hitsLost * (95 - 90)));
-            this.SetResistance(ResistanceType.Energy, 50 + (int)(hitsLost * (95 - 50)));
+            SetResistance(ResistanceType.Physical, 30 + (int)(hitsLost * (95 - 30)));
+            SetResistance(ResistanceType.Fire, 60 + (int)(hitsLost * (95 - 60)));
+            SetResistance(ResistanceType.Cold, 60 + (int)(hitsLost * (95 - 60)));
+            SetResistance(ResistanceType.Poison, 90 + (int)(hitsLost * (95 - 90)));
+            SetResistance(ResistanceType.Energy, 50 + (int)(hitsLost * (95 - 50)));
         }
 
         private void DoCounter(Mobile attacker)
         {
-            if (this.Map == null || (attacker is BaseCreature && ((BaseCreature)attacker).BardProvoked))
+            if (Map == null || (attacker is BaseCreature && ((BaseCreature)attacker).BardProvoked))
                 return;
 
             if (0.2 > Utility.RandomDouble())
@@ -222,16 +196,16 @@ namespace Server.Mobiles
                 if (target == null || !target.InRange(this, 25))
                     target = attacker;
 
-                this.Animate(10, 4, 1, true, false, 0);
+                Animate(10, 4, 1, true, false, 0);
 
                 ArrayList targets = new ArrayList();
 
                 foreach (Mobile m in target.GetMobilesInRange(8))
                 {
-                    if (m == this || !this.CanBeHarmful(m))
+                    if (m == this || !CanBeHarmful(m))
                         continue;
 
-                    if (m is BaseCreature && (((BaseCreature)m).Controlled || ((BaseCreature)m).Summoned || ((BaseCreature)m).Team != this.Team))
+                    if (m is BaseCreature && (((BaseCreature)m).Controlled || ((BaseCreature)m).Summoned || ((BaseCreature)m).Team != Team))
                         targets.Add(m);
                     else if (m.Player)
                         targets.Add(m);
@@ -241,9 +215,9 @@ namespace Server.Mobiles
                 {
                     Mobile m = (Mobile)targets[i];
 
-                    this.DoHarmful(m);
+                    DoHarmful(m);
 
-                    AOS.Damage(m, this, Utility.RandomMinMax(20, 25), true, 0, 0, 0, 100, 0);
+                    m.Damage(Utility.RandomMinMax(20, 25), this);
 
                     m.FixedParticles(0x36BD, 1, 10, 0x1F78, 0xA6, 0, (EffectLayer)255);
                     m.ApplyPoison(this, Poison.Lethal);

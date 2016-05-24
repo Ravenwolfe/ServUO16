@@ -113,10 +113,6 @@ namespace Server.Items
 
         public static void Fill(LockableContainer cont, int luck, int level, bool isSos)
         {
-			// Apply Felucca luck bonus
-			if (cont.Map == Map.Felucca)
-				luck += Mobiles.RandomItemGenerator.FeluccaLuckBonus;
-
             cont.Movable = false;
             cont.Locked = true;
             int numberItems;
@@ -167,7 +163,7 @@ namespace Server.Items
                 cont.DropItem(new Gold(level * 5000));
 
                 for (int i = 0; i < level * 5; ++i)
-                    cont.DropItem(Loot.RandomScroll(0, 63, SpellbookType.Regular));
+                    cont.DropItem(Loot.RandomScroll(0, 63));
 
 				double propsScale = 1.0;
                 if (Core.SE)
@@ -219,21 +215,9 @@ namespace Server.Items
                     {
                         BaseWeapon weapon = (BaseWeapon)item;
 
-                        if (Core.AOS)
-                        {
-                            int attributeCount;
-                            int min, max;
-
-                            GetRandomAOSStats(out attributeCount, out min, out max);
-
-                            BaseRunicTool.ApplyAttributesTo(weapon, attributeCount, min, max);
-                        }
-                        else
-                        {
-                            weapon.DamageLevel = (WeaponDamageLevel)Utility.Random(6);
-                            weapon.AccuracyLevel = (WeaponAccuracyLevel)Utility.Random(6);
-                            weapon.DurabilityLevel = (WeaponDurabilityLevel)Utility.Random(6);
-                        }
+                        weapon.DamageLevel = (WeaponDamageLevel)Utility.Random(6);
+                        weapon.AccuracyLevel = (WeaponAccuracyLevel)Utility.Random(6);
+                        weapon.DurabilityLevel = (WeaponDurabilityLevel)Utility.Random(6);
 
                         cont.DropItem(item);
                     }
@@ -241,20 +225,8 @@ namespace Server.Items
                     {
                         BaseArmor armor = (BaseArmor)item;
 
-                        if (Core.AOS)
-                        {
-                            int attributeCount;
-                            int min, max;
-
-                            GetRandomAOSStats(out attributeCount, out min, out max);
-
-                            BaseRunicTool.ApplyAttributesTo(armor, attributeCount, min, max);
-                        }
-                        else
-                        {
-                            armor.ProtectionLevel = (ArmorProtectionLevel)Utility.Random(6);
-                            armor.Durability = (ArmorDurabilityLevel)Utility.Random(6);
-                        }
+                        armor.ProtectionLevel = (ArmorProtectionLevel)Utility.Random(6);
+                        armor.Durability = (ArmorDurabilityLevel)Utility.Random(6);
 
                         cont.DropItem(item);
                     }
@@ -262,27 +234,10 @@ namespace Server.Items
                     {
                         BaseHat hat = (BaseHat)item;
 
-                        if (Core.AOS)
-                        {
-                            int attributeCount;
-                            int min, max;
-
-                            GetRandomAOSStats(out attributeCount, out min, out max);
-
-                            BaseRunicTool.ApplyAttributesTo(hat, attributeCount, min, max);
-                        }
-
                         cont.DropItem(item);
                     }
                     else if (item is BaseJewel)
                     {
-                        int attributeCount;
-                        int min, max;
-
-                        GetRandomAOSStats(out attributeCount, out min, out max);
-
-                        BaseRunicTool.ApplyAttributesTo((BaseJewel)item, attributeCount, min, max);
-
                         cont.DropItem(item);
                     }
                 }
@@ -296,7 +251,7 @@ namespace Server.Items
 
             for (int i = 0; i < reagents; i++)
             {
-                Item item = Loot.RandomPossibleReagent();
+                Item item = Loot.RandomReagent();
                 item.Amount = Utility.RandomMinMax(40, 60);
                 cont.DropItem(item);
             }
@@ -313,24 +268,12 @@ namespace Server.Items
                 cont.DropItem(item);
             }
 
-            if (level > 1)
-            {
-                Item item = Loot.Construct(m_ImbuingIngreds[Utility.Random(m_ImbuingIngreds.Length)]);
-
-                item.Amount = level;
-                cont.DropItem(item);
-            }
-
             Item arty = null;
             Item special = null;
 
             if (isSos)
             {
-                if (0.004 * level > Utility.RandomDouble())
-                    arty = Loot.Construct(m_SOSArtifacts);
-                if (0.006 * level > Utility.RandomDouble())
-                    special = Loot.Construct(m_SOSDecor);
-                else if (0.009 * level > Utility.RandomDouble())
+                if (0.009 * level > Utility.RandomDouble())
                     special = new TreasureMap(Utility.RandomMinMax(level, Math.Min(7, level + 1)), cont.Map);
 
             }
@@ -338,44 +281,25 @@ namespace Server.Items
             {
                 if (level >= 7)
                 {
-                    if (0.025 > Utility.RandomDouble())
-                        special = Loot.Construct(m_LevelSevenOnly);
-                    else if (0.10 > Utility.RandomDouble())
-                        special = Loot.Construct(m_LevelFiveToSeven);
-                    else if (0.25 > Utility.RandomDouble())
+                    if (0.25 > Utility.RandomDouble())
                         special = GetRandomSpecial(level, cont.Map);
 
-                    arty = Loot.Construct(m_Artifacts);
                 }
                 else if (level >= 6)
                 {
-                    if (0.025 > Utility.RandomDouble())
-                        special = Loot.Construct(m_LevelFiveToSeven);
-                    else if (0.10 > Utility.RandomDouble())
+                    if (0.10 > Utility.RandomDouble())
                         special = GetRandomSpecial(level, cont.Map);
 
-                    arty = Loot.Construct(m_Artifacts);
                 }
                 else if (level >= 5)
                 {
-                    if (0.05 > Utility.RandomDouble())
-                        special = Loot.Construct(m_LevelFiveToSeven);
-                    else if (0.25 > Utility.RandomDouble())
+                    if (0.25 > Utility.RandomDouble())
                         special = GetRandomSpecial(level, cont.Map);
                 }
                 else if (.10 > Utility.RandomDouble())
                 {
                     special = GetRandomSpecial(level, cont.Map);
                 }
-            }
-
-            if (arty != null)
-            {
-                Container pack = new Backpack();
-                pack.Hue = 1278;
-
-                pack.DropItem(arty);
-                cont.DropItem(pack);
             }
 
             if (special != null)
@@ -386,17 +310,15 @@ namespace Server.Items
         {
             Item special;
 
-            switch (Utility.Random(8))
+            switch (Utility.Random(6))
             {
                 default:
-                case 0: special = new CreepingVine(); break;
-                case 1: special = new MessageInABottle(); break;
-                case 2: special = new ScrollofAlacrity(PowerScroll.Skills[Utility.Random(PowerScroll.Skills.Count)]); break;
-                case 3: special = new Skeletonkey(); break;
-                case 4: special = new TastyTreat(5); break;
-                case 5: special = new TreasureMap(Utility.RandomMinMax(level, Math.Min(7, level + 1)), map); break;
-                case 6: special = GetRandomRecipe(); break;
-                case 7: special = ScrollofTranscendence.CreateRandom(1, 5); break;
+                case 0: special = new MessageInABottle(); break;
+                case 1: special = new ScrollofAlacrity(PowerScroll.Skills[Utility.Random(PowerScroll.Skills.Count)]); break;
+                case 2: special = new Skeletonkey(); break;
+                case 3: special = new TreasureMap(Utility.RandomMinMax(level, Math.Min(7, level + 1)), map); break;
+                case 4: special = GetRandomRecipe(); break;
+                case 5: special = ScrollofTranscendence.CreateRandom(1, 5); break;
             }
 
             return special;

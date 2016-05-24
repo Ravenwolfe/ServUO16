@@ -332,8 +332,7 @@ namespace Server.Items
                     typeof(OrnateWoodenChest), typeof(GildedWoodenChest), typeof(WoodenFootLocker),
                     typeof(FinishedWoodenChest), typeof(TallCabinet), typeof(ShortCabinet),
                     typeof(RedArmoire), typeof(CherryArmoire), typeof(MapleArmoire),
-                    typeof(ElegantArmoire), typeof(Keg), typeof(SimpleElvenArmoire),
-                    typeof(DecorativeBox), typeof(FancyElvenArmoire), typeof(RarewoodChest),
+                    typeof(ElegantArmoire), typeof(Keg), typeof(DecorativeBox), typeof(RarewoodChest),
                 };
             }
         }

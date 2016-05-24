@@ -12,8 +12,6 @@ using Server.Engines.Quests.Haven;
 using Server.Engines.Quests.Necro;
 using Server.Mobiles;
 using Server.Network;
-
-using CashBankCheckObjective = Server.Engines.Quests.Necro.CashBankCheckObjective;
 #endregion
 
 namespace Server.Items
@@ -284,33 +282,6 @@ namespace Server.Items
 
 			// Gold was deposited in your account:
 			from.SendLocalizedMessage(1042672, true, deposited.ToString("#,0"));
-
-			var pm = from as PlayerMobile;
-
-			if (pm != null)
-			{
-				var qs = pm.Quest;
-
-				if (qs is DarkTidesQuest)
-				{
-					var obj = qs.FindObjective(typeof(CashBankCheckObjective));
-
-					if (obj != null && !obj.Completed)
-					{
-						obj.Complete();
-					}
-				}
-
-				if (qs is UzeraanTurmoilQuest)
-				{
-					var obj = qs.FindObjective(typeof(Engines.Quests.Haven.CashBankCheckObjective));
-
-					if (obj != null && !obj.Completed)
-					{
-						obj.Complete();
-					}
-				}
-			}
 		}
 	}
 }

@@ -79,31 +79,6 @@ namespace Server.Mobiles
             this.AddLoot(LootPack.Poor);
             this.AddLoot(LootPack.Gems);
         }
-        public override void OnDeath(Container c)
-        {
-            base.OnDeath(c);
-            if (Utility.Random(10) == 0)
-            {
-                Item item = null;
-
-                switch (Utility.Random(3))
-                {
-                    case 0: item = new GelatanousSkull(); break;
-                    case 1: item = new CoagulatedLegs(); break;
-                    case 2: item = new PartiallyDigestedTorso(); break;
-                }
-				if (item != null)
-					c.DropItem(item);
-
-                Region reg = Region.Find(c.GetWorldLocation(), c.Map);
-                if (0.25 > Utility.RandomDouble() && reg.Name == "Passage of Tears")
-                {
-                    if (Utility.RandomDouble() < 0.6)
-                        c.DropItem(new EssenceSingularity());
-
-                }
-            }
-        }
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);

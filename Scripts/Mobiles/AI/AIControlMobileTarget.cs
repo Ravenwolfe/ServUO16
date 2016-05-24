@@ -44,13 +44,6 @@ namespace Server.Targets
                 for (int i = 0; i < this.m_List.Count; ++i)
                     this.m_List[i].EndPickTarget(from, m, this.m_Order);
             }
-            else if ( o is MoonglowDonationBox && m_Order == OrderType.Transfer && from is PlayerMobile )
-            {
-            	PlayerMobile pm = (PlayerMobile)from;
-            	MoonglowDonationBox box = (MoonglowDonationBox)o;
-            	
-            	pm.SendGump( new ConfirmTransferPetGump( box, from.Location, m_Mobile ) );
-            }
         }
     }
 }

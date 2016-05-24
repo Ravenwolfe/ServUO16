@@ -54,11 +54,6 @@ namespace Server.Engines.Craft
             if (craftItem == null || craftItem.Resources.Count == 0)
                 return EnhanceResult.BadItem;
 
-            #region Mondain's Legacy
-            if (craftItem.ForceNonExceptional)
-                return EnhanceResult.BadItem;
-            #endregion
-
             bool allRequiredSkills = false;
             if (craftItem.GetSuccessChance(from, resType, craftSystem, false, ref allRequiredSkills) <= 0.0)
                 return EnhanceResult.NoSkill;
@@ -213,134 +208,13 @@ namespace Server.Engines.Craft
 
                             w.Resource = resource;
 
-                            #region Mondain's Legacy
-                            if (resource != CraftResource.Heartwood)
-                            {
-                                w.Attributes.WeaponDamage += attributes.WeaponDamage;
-                                w.Attributes.WeaponSpeed += attributes.WeaponSwingSpeed;
-                                w.Attributes.AttackChance += attributes.WeaponHitChance;
-                                w.Attributes.RegenHits += attributes.WeaponRegenHits;			
-                                w.WeaponAttributes.HitLeechHits += attributes.WeaponHitLifeLeech;
-                            }
-                            else
-                            {
-                                switch ( Utility.Random(6) )
-                                {
-                                    case 0:
-                                        w.Attributes.WeaponDamage += attributes.WeaponDamage;
-                                        break;
-                                    case 1:
-                                        w.Attributes.WeaponSpeed += attributes.WeaponSwingSpeed;
-                                        break;
-                                    case 2:
-                                        w.Attributes.AttackChance += attributes.WeaponHitChance;
-                                        break;
-                                    case 3:
-                                        w.Attributes.Luck += attributes.WeaponLuck;
-                                        break;
-                                    case 4:
-                                        w.WeaponAttributes.LowerStatReq += attributes.WeaponLowerRequirements;
-                                        break;
-                                    case 5:
-                                        w.WeaponAttributes.HitLeechHits += attributes.WeaponHitLifeLeech;
-                                        break;
-                                }
-                            }
-                            #endregion
-
                             int hue = w.GetElementalDamageHue();
                             if (hue > 0)
                                 w.Hue = hue;
                         }
-                        #region Mondain's Legacy
-                        else if (item is BaseShield)
-                        {
-                            BaseShield shield = (BaseShield)item;
-
-                            shield.Resource = resource;
-
-                            switch ( resource )
-                            {
-                                case CraftResource.AshWood: 
-                                    shield.ArmorAttributes.LowerStatReq += 20; 
-                                    break;
-                                case CraftResource.YewWood: 
-                                    shield.Attributes.RegenHits += 1; 
-                                    break;
-                                case CraftResource.Heartwood:
-                                    switch ( Utility.Random(7) )
-                                    {
-                                        case 0:
-                                            shield.Attributes.BonusDex += 2;
-                                            break;
-                                        case 1:
-                                            shield.Attributes.BonusStr += 2;
-                                            break; 
-                                        case 2:
-                                            shield.Attributes.ReflectPhysical += 5;
-                                            break;
-                                        case 3:
-                                            shield.Attributes.SpellChanneling = 1;
-                                            shield.Attributes.CastSpeed = -1;
-                                            break;
-                                        case 4:
-                                            shield.ArmorAttributes.SelfRepair += 2;
-                                            break;			
-                                        case 5:
-                                            shield.PhysicalBonus += 5;
-                                            break;
-                                        case 6:
-                                            shield.ColdBonus += 3;
-                                            break;
-                                    }
-                                    break;
-                                case CraftResource.Bloodwood: 
-                                    shield.Attributes.RegenHits += 2;
-                                    shield.Attributes.Luck += 40;
-                                    break;
-                                case CraftResource.Frostwood:
-                                    shield.Attributes.SpellChanneling = 1; 
-                                    shield.Attributes.CastSpeed = -1;
-                                    break;
-                            }
-                        }
-                        #endregion
                         else if (item is BaseArmor)	//Sanity
                         {
                             ((BaseArmor)item).Resource = resource;
-
-                            #region Mondain's Legacy
-                            BaseArmor armor = (BaseArmor)item;
-
-                            if (resource != CraftResource.Heartwood)
-                            {
-                                armor.Attributes.WeaponDamage += attributes.ArmorDamage;
-                                armor.Attributes.AttackChance += attributes.ArmorHitChance;
-                                armor.Attributes.RegenHits += attributes.ArmorRegenHits;				
-                                armor.ArmorAttributes.MageArmor += attributes.ArmorMage;
-                            }
-                            else
-                            {
-                                switch ( Utility.Random(5) )
-                                {
-                                    case 0:
-                                        armor.Attributes.WeaponDamage += attributes.ArmorDamage;
-                                        break;
-                                    case 1:
-                                        armor.Attributes.AttackChance += attributes.ArmorHitChance;
-                                        break;
-                                    case 2:
-                                        armor.ArmorAttributes.MageArmor += attributes.ArmorMage;
-                                        break;			 
-                                    case 3:
-                                        armor.Attributes.Luck += attributes.ArmorLuck;
-                                        break;
-                                    case 4:
-                                        armor.ArmorAttributes.LowerStatReq += attributes.ArmorLowerRequirements;
-                                        break;
-                                }
-                            }
-                            #endregion
                         }
 
                         break;

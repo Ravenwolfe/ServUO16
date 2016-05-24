@@ -48,10 +48,7 @@ namespace Server.Mobiles
             {
                 Item item;
 
-                if (Utility.RandomBool())
-                    item = Loot.RandomScroll(0, Loot.NecromancyScrollTypes.Length, SpellbookType.Necromancer);
-                else
-                    item = Loot.RandomScroll(0, Loot.RegularScrollTypes.Length, SpellbookType.Regular);
+                item = Loot.RandomScroll(0, Loot.RegularScrollTypes.Length);
 
                 PackItem(item);
             }
