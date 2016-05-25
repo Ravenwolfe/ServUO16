@@ -1,25 +1,18 @@
 using System;
-using System.Data;
-using System.IO;
 using System.Collections;
 using System.Collections.Generic;
-using Server;
+using System.IO;
+using System.Threading;
+using Server.Accounting;
+using Server.Commands;
+using Server.Commands.Generic;
+using Server.Engines.XmlSpawner2;
+using Server.Gumps;
 using Server.Items;
 using Server.Multis;
 using Server.Network;
-using Server.Gumps;
-using Server.Targeting;
-using System.Reflection;
-using Server.Commands;
-using Server.Commands.Generic;
-using CPA = Server.CommandPropertyAttribute;
-using System.Xml;
-using Server.Spells;
 using Server.Regions;
-using System.Text;
-using Server.Accounting;
-using System.Threading;
-using Server.Engines.XmlSpawner2;
+using CPA = Server.CommandPropertyAttribute;
 
 /*
 ** XmlFind
@@ -56,7 +49,7 @@ namespace Server.Mobiles
 
 				string status_str;
 
-				ArrayList results = XmlFindGump.Search(m_SearchCriteria, out status_str);
+				ArrayList results = Search(m_SearchCriteria, out status_str);
 
 				XmlFindGump gump = new XmlFindGump(m_From, m_From.Location, m_From.Map, true, true, false,
 
@@ -2010,7 +2003,7 @@ namespace Server.Mobiles
 			if (m_SearchList == null) return;
 
 			string dirname;
-			if (System.IO.Directory.Exists(XmlSpawner.XmlSpawnDir) && filename != null && !filename.StartsWith("/") && !filename.StartsWith("\\"))
+			if (Directory.Exists(XmlSpawner.XmlSpawnDir) && filename != null && !filename.StartsWith("/") && !filename.StartsWith("\\"))
 			{
 				// put it in the defaults directory if it exists
 				dirname = String.Format("{0}/{1}", XmlSpawner.XmlSpawnDir, filename);

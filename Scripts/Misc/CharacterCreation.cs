@@ -233,11 +233,6 @@ namespace Server.Misc
             Utility.PopColor();
 
             new WelcomeTimer(newChar).Start();
-
-			if (XmlSpawner.PointsEnabled)
-				XmlAttach.AttachTo(newChar, new XmlPoints());
-			if(XmlSpawner.FactionsEnabled)
-				XmlAttach.AttachTo(newChar, new XmlMobFactions());
         }
 
         private static CityInfo GetStartLocation(CharacterCreatedEventArgs args, bool isYoung)

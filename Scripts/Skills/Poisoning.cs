@@ -56,7 +56,7 @@ namespace Server.SkillHandlers
 
                     bool startTimer = false;
 
-                    if (targeted is Food || targeted is FukiyaDarts || targeted is Shuriken)
+                    if (targeted is Food)
                     {
                         startTimer = true;
                     }
@@ -126,16 +126,6 @@ namespace Server.SkillHandlers
                             {
                                 ((BaseWeapon)this.m_Target).Poison = this.m_Poison;
                                 ((BaseWeapon)this.m_Target).PoisonCharges = 18 - (this.m_Poison.RealLevel * 2);
-                            }
-                            else if (this.m_Target is FukiyaDarts)
-                            {
-                                ((FukiyaDarts)this.m_Target).Poison = this.m_Poison;
-                                ((FukiyaDarts)this.m_Target).PoisonCharges = Math.Min(18 - (this.m_Poison.RealLevel * 2), ((FukiyaDarts)this.m_Target).UsesRemaining);
-                            }
-                            else if (this.m_Target is Shuriken)
-                            {
-                                ((Shuriken)this.m_Target).Poison = this.m_Poison;
-                                ((Shuriken)this.m_Target).PoisonCharges = Math.Min(18 - (this.m_Poison.RealLevel * 2), ((Shuriken)this.m_Target).UsesRemaining);
                             }
 
                             this.m_From.SendLocalizedMessage(1010517); // You apply the poison

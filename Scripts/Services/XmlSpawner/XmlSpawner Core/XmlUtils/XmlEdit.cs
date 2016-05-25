@@ -1,23 +1,13 @@
 using System;
-using System.Data;
-using System.IO;
 using System.Collections;
-using Server;
-using Server.Items;
-using Server.Multis;
-using Server.Network;
-using Server.Gumps;
-using Server.Targeting;
-using System.Reflection;
+using System.IO;
 using Server.Commands;
-using Server.Commands.Generic;
-using CPA = Server.CommandPropertyAttribute;
-using System.Xml;
-using Server.Spells;
-using System.Text;
-using Server.Accounting;
+using Server.Gumps;
+using Server.Items;
 using Server.Mobiles;
-using Server.Engines.XmlSpawner2;
+using Server.Network;
+using Server.Targeting;
+using CPA = Server.CommandPropertyAttribute;
 
 /*
 ** XmlEditNPC
@@ -641,7 +631,7 @@ namespace Server.Engines.XmlSpawner2
 			if(m_SearchList == null || m_SelectionList == null) return;
 		  
 			string dirname;
-			if( System.IO.Directory.Exists( XmlDialog.DefsDir ) && filename != null && !filename.StartsWith("/") && !filename.StartsWith("\\"))
+			if( Directory.Exists( XmlDialog.DefsDir ) && filename != null && !filename.StartsWith("/") && !filename.StartsWith("\\"))
 			{
 				// put it in the defaults directory if it exists
 				dirname = String.Format("{0}/{1}",XmlDialog.DefsDir,filename);

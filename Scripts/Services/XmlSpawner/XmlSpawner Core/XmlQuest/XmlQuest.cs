@@ -1,17 +1,12 @@
 using System;
-using Server;
-using Server.Gumps;
-using Server.Network;
-using Server.Mobiles;
-using System.IO;
-using System.Globalization;
 using System.Collections.Generic;
-using Server.Targeting;
+using System.Globalization;
 using Server.Engines.PartySystem;
-using System.Data;
-using System.Xml;
 using Server.Engines.XmlSpawner2;
-
+using Server.Gumps;
+using Server.Mobiles;
+using Server.Network;
+using Server.Targeting;
 
 namespace Server.Items
 {
@@ -161,7 +156,7 @@ namespace Server.Items
 			{
 				if (targeted is Item && m_quest != null && !m_quest.Deleted)
 				{
-					XmlQuest.Collect(from, (Item)targeted, m_quest);
+					Collect(from, (Item)targeted, m_quest);
 					from.CloseGump(typeof(XmlQuestStatusGump));
 					from.SendGump(new XmlQuestStatusGump(m_quest, m_quest.TitleString));
 				}
@@ -193,14 +188,6 @@ namespace Server.Items
 
 			// bring up the normal quest objectives gump
 			//NormalQuestButton(from as PlayerMobile);
-		}
-
-		// this just brings up the normal quest objectives gump 
-		public static void NormalQuestButton(PlayerMobile from)
-		{
-			if (from == null || from.Quest == null) return;
-
-			from.Quest.ShowQuestLog();
 		}
 
 		public static void RemoveTemporaryQuestObjects(Mobile questowner, string questname)
@@ -1469,7 +1456,7 @@ namespace Server.Items
 			{
 				case "COLLECT":
 				case "KILL":
-					XmlQuest.CheckArgList(arglist, 2, null, out typestr, out targetcount, out checkprop, out status_str);
+					CheckArgList(arglist, 2, null, out typestr, out targetcount, out checkprop, out status_str);
 					if (arglist.Length > 1)
 					{
 						if (SpawnerType.GetType(arglist[1]) == null)
@@ -1486,7 +1473,7 @@ namespace Server.Items
 					break;
 				case "COLLECTNAMED":
 				case "KILLNAMED":
-					XmlQuest.CheckArgList(arglist, 2, null, out typestr, out targetcount, out checkprop, out status_str);
+					CheckArgList(arglist, 2, null, out typestr, out targetcount, out checkprop, out status_str);
 					if (arglist.Length < 1)
 					{
 						status_str = arglist[0] + "missing args";
@@ -1494,7 +1481,7 @@ namespace Server.Items
 					}
 					break;
 				case "GIVENAMED":
-					XmlQuest.CheckArgList(arglist, 3, null, out typestr, out targetcount, out checkprop, out status_str);
+					CheckArgList(arglist, 3, null, out typestr, out targetcount, out checkprop, out status_str);
 					if (arglist.Length < 1)
 					{
 						status_str = arglist[0] + "missing args";
@@ -1502,7 +1489,7 @@ namespace Server.Items
 					}
 					break;
 				case "GIVE":
-					XmlQuest.CheckArgList(arglist, 3, null, out typestr, out targetcount, out checkprop, out status_str);
+					CheckArgList(arglist, 3, null, out typestr, out targetcount, out checkprop, out status_str);
 					if (arglist.Length > 2)
 					{
 						if (SpawnerType.GetType(arglist[2]) == null)

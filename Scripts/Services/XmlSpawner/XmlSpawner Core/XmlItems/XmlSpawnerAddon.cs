@@ -1,8 +1,5 @@
 using System;
-using Server;
 using System.IO;
-using System.Collections;
-using Server.Multis;
 using Server.Items;
 using Server.Mobiles;
 
@@ -56,7 +53,7 @@ namespace Server.Engines.XmlSpawner2
 			// look for the file in the default spawner locations
 			string dirname = XmlSpawner.LocateFile(filename);
 
-			if (System.IO.File.Exists(dirname))
+			if (File.Exists(dirname))
 			{
 				int ncomponents = 0;
 
@@ -109,7 +106,7 @@ namespace Server.Engines.XmlSpawner2
 			bool badformat = false;
 			int ncomponents = 0;
 
-			if (System.IO.File.Exists(filename))
+			if (File.Exists(filename))
 			{
 
 				using (StreamReader sr = new StreamReader(filename))

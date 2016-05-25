@@ -1,6 +1,5 @@
 using System;
 using Server.Mobiles;
-using Server.Spells.Chivalry;
 using Server.Targeting;
 
 namespace Server.Spells.Fifth
@@ -37,10 +36,6 @@ namespace Server.Spells.Fifth
             {
                 this.Caster.SendLocalizedMessage(500237); // Target can not be seen.
             }
-            else if (Core.AOS && (m.Frozen || m.Paralyzed || (m.Spell != null && m.Spell.IsCasting && !(m.Spell is PaladinSpell))))
-            {
-                this.Caster.SendLocalizedMessage(1061923); // The target is already frozen.
-            }
             else if (this.CheckHSequence(m))
             {
                 SpellHelper.Turn(this.Caster, m);
@@ -71,12 +66,6 @@ namespace Server.Spells.Fifth
 
                     if (this.CheckResisted(m))
                         duration *= 0.75;
-                }
-
-                if (m is PlagueBeastLord)
-                {
-                    ((PlagueBeastLord)m).OnParalyzed(this.Caster);
-                    duration = 120;
                 }
 
                 m.Paralyze(TimeSpan.FromSeconds(duration));

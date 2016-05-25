@@ -1,5 +1,3 @@
-using System;
-
 namespace Server.Engines.XmlSpawner2
 {
     public class XmlPoison : XmlAttachment

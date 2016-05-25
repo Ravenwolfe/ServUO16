@@ -362,7 +362,6 @@ namespace Server.Engines.VeteranRewards
                     new RewardEntry(etherealSteeds, 1006019, typeof(EtherealHorse)),
                     new RewardEntry(houseAddOns, 1062692, typeof(ContestMiniHouseDeed), Expansion.AOS, MiniHouseType.MalasMountainPass),
                     new RewardEntry(houseAddOns, 1072216, typeof(ContestMiniHouseDeed), Expansion.SE, MiniHouseType.ChurchAtNight),
-                    new RewardEntry(miscellaneous, 1076155, typeof(RedSoulstone), Expansion.ML),
                     new RewardEntry(miscellaneous, 1080523, typeof(CommodityDeedBox), Expansion.ML),
                 }),
                 new RewardList(RewardInterval, 2, new RewardEntry[]
@@ -396,7 +395,6 @@ namespace Server.Engines.VeteranRewards
                 }),
                 new RewardList(RewardInterval, 4, new RewardEntry[]
                 {
-                    new RewardEntry(specialDyeTubs, 1049740, typeof(RunebookDyeTub)),
                     new RewardEntry(cloaksAndRobes, 1049725, typeof(RewardCloak), DarkGray, 1049757),
                     new RewardEntry(cloaksAndRobes, 1049726, typeof(RewardRobe), DarkGray, 1049756),
                     new RewardEntry(cloaksAndRobes, 1080374, typeof(RewardDress), Expansion.ML, DarkGray, 1080374),
@@ -444,7 +442,6 @@ namespace Server.Engines.VeteranRewards
                 }),
                 new RewardList(RewardInterval, 7, new RewardEntry[]
                 {
-                    new RewardEntry(houseAddOns,	1076157, typeof(CannonDeed), Expansion.ML),
                     new RewardEntry(houseAddOns,	1080550, typeof(TreeStumpDeed), Expansion.ML)
                 }),
                 new RewardList(RewardInterval, 8, new RewardEntry[]

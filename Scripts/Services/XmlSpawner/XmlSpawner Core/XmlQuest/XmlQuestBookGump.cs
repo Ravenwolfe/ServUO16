@@ -1,11 +1,7 @@
-using System;
 using System.Collections;
-using Server;
-using Server.Gumps;
 using Server.Items;
 using Server.Mobiles;
-using Server.Prompts;
-using Server.Engines.XmlSpawner2;
+using Server.Network;
 
 //
 // XmlQuestBookGump
@@ -64,7 +60,7 @@ namespace Server.Gumps
 		{
 		}
 
-		public override void OnResponse( Server.Network.NetState sender, RelayInfo info )
+		public override void OnResponse( NetState sender, RelayInfo info )
 		{
             if(info == null || m_From == null) return;
 

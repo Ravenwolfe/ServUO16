@@ -1,12 +1,11 @@
 using System;
-using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
-using Server;
-using Server.Network;
-using Server.Prompts;
+using System.Reflection;
 using Server.Commands;
 using Server.Commands.Generic;
+using Server.Network;
+using Server.Prompts;
 
 namespace Server.Gumps
 {

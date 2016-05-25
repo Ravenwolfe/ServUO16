@@ -1,12 +1,8 @@
 using System;
-using Server;
-using Server.Items;
-using Server.Network;
-using Server.Mobiles;
 using System.Collections.Generic;
-using Server.Gumps;
 using Server.Commands;
-using Server.Commands.Generic;
+using Server.Gumps;
+using Server.Items;
 
 namespace Server.Engines.XmlSpawner2
 {
@@ -16,7 +12,7 @@ namespace Server.Engines.XmlSpawner2
 		private int m_Completed;
 		private int m_Credits;
 
-		private List<XmlQuestPoints.QuestEntry> m_QuestList = new List<XmlQuestPoints.QuestEntry>();
+		private List<QuestEntry> m_QuestList = new List<QuestEntry>();
 
 		private DateTime m_WhenRanked;
 		private int m_Rank;
@@ -26,7 +22,7 @@ namespace Server.Engines.XmlSpawner2
 		public string nameFilter;
         
 
-		public List<XmlQuestPoints.QuestEntry> QuestList { get{ return m_QuestList; } set { m_QuestList = value; }}
+		public List<QuestEntry> QuestList { get{ return m_QuestList; } set { m_QuestList = value; }}
 
 		[CommandProperty( AccessLevel.GameMaster )]
 		public int Rank { get{ return m_Rank; } set { m_Rank = value; } }
@@ -118,7 +114,7 @@ namespace Server.Engines.XmlSpawner2
 				if(p == null) return;
 
 				// look through the list of quests and see if it is one that has already been done
-				if(p.QuestList == null) p.QuestList = new List<XmlQuestPoints.QuestEntry>();
+				if(p.QuestList == null) p.QuestList = new List<QuestEntry>();
 
 				bool found = false;
 				foreach(QuestEntry e in p.QuestList)
@@ -349,7 +345,7 @@ namespace Server.Engines.XmlSpawner2
 
 					if(nquests > 0)
 					{
-						QuestList = new List<XmlQuestPoints.QuestEntry>(nquests);
+						QuestList = new List<QuestEntry>(nquests);
 						for(int i = 0; i< nquests;i++)
 						{
 							QuestEntry e = new QuestEntry();

@@ -139,9 +139,6 @@ namespace Server.Misc
             if (target is BaseCreature && !((BaseCreature)target).Controlled)
                 return false; // Players cannot heal uncontrolled mobiles
 
-            if (XmlPoints.AreInAnyGame(target))
-                return XmlPoints.AreTeamMembers(from, target);
-
             if (from is PlayerMobile && ((PlayerMobile)from).Young && target is BaseCreature &&
                 ((BaseCreature) target).Controlled)
                 return true;
@@ -226,9 +223,6 @@ namespace Server.Misc
 
                 return true; // Uncontrolled NPCs are only restricted by the young system
             }
-
-            if (XmlPoints.AreChallengers(from, target))
-                return true;
 
             Guild fromGuild = GetGuildFor(from.Guild as Guild, from);
             Guild targetGuild = GetGuildFor(target.Guild as Guild, target);
@@ -422,11 +416,6 @@ namespace Server.Misc
 				
             if (target.Criminal)
                 return Notoriety.Criminal;
-
-            if (XmlPoints.AreTeamMembers(source, target))
-                return Notoriety.Ally;
-            else if (XmlPoints.AreChallengers(source, target))
-                return Notoriety.Enemy;
 
             Guild sourceGuild = GetGuildFor(source.Guild as Guild, source);
             Guild targetGuild = GetGuildFor(target.Guild as Guild, target);

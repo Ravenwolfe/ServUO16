@@ -51,24 +51,17 @@ namespace Server.Spells.Sixth
 
                 double damage;
 
-                if (Core.AOS)
+                damage = Utility.Random(24, 18);
+
+                if (this.CheckResisted(m))
                 {
-                    damage = this.GetNewAosDamage(40, 1, 5, m);
+                    damage *= 0.75;
+
+                    m.SendLocalizedMessage(501783); // You feel yourself resisting magical energy.
                 }
-                else
-                {
-                    damage = Utility.Random(24, 18);
 
-                    if (this.CheckResisted(m))
-                    {
-                        damage *= 0.75;
-
-                        m.SendLocalizedMessage(501783); // You feel yourself resisting magical energy.
-                    }
-
-                    // Scale damage based on evalint and resist
-                    damage *= this.GetDamageScalar(m);
-                }
+                // Scale damage based on evalint and resist
+                damage *= this.GetDamageScalar(m);
 
                 // Do the effects
                 source.MovingParticles(m, 0x379F, 7, 0, false, true, 3043, 4043, 0x211);

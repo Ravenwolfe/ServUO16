@@ -1,11 +1,4 @@
 using System;
-using System.Text;
-using Server;
-using Server.Commands;
-using Server.Network;
-using System.Collections.Generic;
-using Server.Mobiles;
-using Server.Targeting;
 using Server.Items;
 
 namespace Server.Engines.XmlSpawner2

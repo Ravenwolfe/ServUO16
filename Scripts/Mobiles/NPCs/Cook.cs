@@ -36,9 +36,6 @@ namespace Server.Mobiles
         public override void InitSBInfo()
         {
             this.m_SBInfos.Add(new SBCook());
-
-            if (this.IsTokunoVendor)
-                this.m_SBInfos.Add(new SBSECook());
         }
 
         public override void InitOutfit()

@@ -1,15 +1,9 @@
 using System;
-using Server;
-using System.IO;
 using System.Collections;
-using Server.Multis;
+using System.IO;
+using Server.Commands;
 using Server.Items;
 using Server.Mobiles;
-using Server.Network;
-using System.Runtime.Serialization;
-using Server.Targeting;
-using Server.Commands;
-using Server.Commands.Generic;
 
 namespace Server.Engines.XmlSpawner2
 {
@@ -112,7 +106,7 @@ namespace Server.Engines.XmlSpawner2
 			}
 
 			string dirname;
-			if (System.IO.Directory.Exists(XmlSpawner.XmlSpawnDir) && filename != null && !filename.StartsWith("/") && !filename.StartsWith("\\"))
+			if (Directory.Exists(XmlSpawner.XmlSpawnDir) && filename != null && !filename.StartsWith("/") && !filename.StartsWith("\\"))
 			{
 				// put it in the defaults directory if it exists
 				dirname = String.Format("{0}/{1}", XmlSpawner.XmlSpawnDir, filename);
@@ -124,7 +118,7 @@ namespace Server.Engines.XmlSpawner2
 			}
 
 			// check to see if the file already exists and can be written to by the owner
-			if (System.IO.File.Exists(dirname))
+			if (File.Exists(dirname))
 			{
 
 				// check the file

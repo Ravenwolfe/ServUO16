@@ -3,7 +3,6 @@ using Server.Items;
 using Server.Mobiles;
 using Server.Multis;
 using Server.Network;
-using Server.Spells.Necromancy;
 using Server.Targeting;
 
 namespace Server.Spells.Fourth
@@ -17,18 +16,10 @@ namespace Server.Spells.Fourth
             Reagent.BlackPearl,
             Reagent.Bloodmoss,
             Reagent.MandrakeRoot);
-        private readonly RunebookEntry m_Entry;
-        private readonly Runebook m_Book;
-        public RecallSpell(Mobile caster, Item scroll)
-            : this(caster, scroll, null, null)
-        {
-        }
 
-        public RecallSpell(Mobile caster, Item scroll, RunebookEntry entry, Runebook book)
+        public RecallSpell(Mobile caster, Item scroll)
             : base(caster, scroll, m_Info)
         {
-            this.m_Entry = entry;
-            this.m_Book = book;
         }
 
         public override SpellCircle Circle
@@ -38,22 +29,10 @@ namespace Server.Spells.Fourth
                 return SpellCircle.Fourth;
             }
         }
-        public override void GetCastSkills(out double min, out double max)
-        {
-            if (TransformationSpellHelper.UnderTransformation(this.Caster, typeof(WraithFormSpell)))
-                min = max = 0;
-            else if (Core.SE && this.m_Book != null)	//recall using Runebook charge
-                min = max = 0;
-            else
-                base.GetCastSkills(out min, out max);
-        }
 
         public override void OnCast()
         {
-            if (this.m_Entry == null)
-                this.Caster.Target = new InternalTarget(this);
-            else
-                this.Effect(this.m_Entry.Location, this.m_Entry.Map, true);
+            this.Caster.Target = new InternalTarget(this);
         }
 
         public override bool CheckCast()
@@ -126,10 +105,6 @@ namespace Server.Spells.Fourth
             {
                 this.Caster.SendLocalizedMessage(501942); // That location is blocked.
             }
-            else if (this.m_Book != null && this.m_Book.CurCharges <= 0)
-            {
-                this.Caster.SendLocalizedMessage(502412); // There are no charges left on that item.
-            }
             else if (this.Caster.Holding != null)
             {
                 this.Caster.SendLocalizedMessage(1071955); // You cannot teleport while dragging an object.
@@ -137,9 +112,6 @@ namespace Server.Spells.Fourth
             else if (this.CheckSequence())
             {
                 BaseCreature.TeleportPets(this.Caster, loc, map, true);
-
-                if (this.m_Book != null)
-                    --this.m_Book.CurCharges;
 
                 this.Caster.PlaySound(0x1FC);
                 this.Caster.MoveToWorld(loc, map);
@@ -170,15 +142,6 @@ namespace Server.Spells.Fourth
                         this.m_Owner.Effect(rune.Target, rune.TargetMap, true);
                     else
                         from.SendLocalizedMessage(501805); // That rune is not yet marked.
-                }
-                else if (o is Runebook)
-                {
-                    RunebookEntry e = ((Runebook)o).Default;
-
-                    if (e != null)
-                        this.m_Owner.Effect(e.Location, e.Map, true);
-                    else
-                        from.SendLocalizedMessage(502354); // Target is not marked.
                 }
                 else if (o is Key && ((Key)o).KeyValue != 0 && ((Key)o).Link is BaseBoat)
                 {

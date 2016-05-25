@@ -51,9 +51,6 @@ namespace Server.Spells.Sixth
 
                     foreach (Mobile m in eable)
                     {
-                        if (m is Mobiles.ShadowKnight && (m.X != p.X || m.Y != p.Y))
-                            continue;
-
                         if (m.Hidden && (m.IsPlayer() || this.Caster.AccessLevel > m.AccessLevel) && CheckDifficulty(this.Caster, m))
                             targets.Add(m);
                     }

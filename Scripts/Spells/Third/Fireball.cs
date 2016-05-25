@@ -50,23 +50,16 @@ namespace Server.Spells.Third
 
                 double damage;
 
-                if (Core.AOS)
+                damage = Utility.Random(10, 7);
+
+                if (this.CheckResisted(m))
                 {
-                    damage = this.GetNewAosDamage(19, 1, 5, m);
+                    damage *= 0.75;
+
+                    m.SendLocalizedMessage(501783); // You feel yourself resisting magical energy.
                 }
-                else
-                {
-                    damage = Utility.Random(10, 7);
 
-                    if (this.CheckResisted(m))
-                    {
-                        damage *= 0.75;
-
-                        m.SendLocalizedMessage(501783); // You feel yourself resisting magical energy.
-                    }
-
-                    damage *= this.GetDamageScalar(m);
-                }
+                damage *= this.GetDamageScalar(m);
 
                 source.MovingParticles(m, 0x36D4, 7, 0, false, true, 9502, 4019, 0x160);
                 source.PlaySound(Core.AOS ? 0x15E : 0x44B);

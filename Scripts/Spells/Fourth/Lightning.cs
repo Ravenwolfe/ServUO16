@@ -49,23 +49,16 @@ namespace Server.Spells.Fourth
 
                 double damage;
 
-                if (Core.AOS)
+                damage = Utility.Random(12, 9);
+
+                if (this.CheckResisted(m))
                 {
-                    damage = this.GetNewAosDamage(23, 1, 4, m);
+                    damage *= 0.75;
+
+                    m.SendLocalizedMessage(501783); // You feel yourself resisting magical energy.
                 }
-                else
-                {
-                    damage = Utility.Random(12, 9);
 
-                    if (this.CheckResisted(m))
-                    {
-                        damage *= 0.75;
-
-                        m.SendLocalizedMessage(501783); // You feel yourself resisting magical energy.
-                    }
-
-                    damage *= this.GetDamageScalar(m);
-                }
+                damage *= this.GetDamageScalar(m);
 
                 m.BoltEffect(0);
 

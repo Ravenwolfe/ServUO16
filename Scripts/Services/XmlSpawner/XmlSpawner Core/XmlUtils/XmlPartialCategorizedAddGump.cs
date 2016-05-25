@@ -2,10 +2,8 @@
 using System;
 using System.Collections;
 using System.Reflection;
-using Server;
-using Server.Targeting;
-using Server.Engines.XmlSpawner2;
 using Server.Mobiles;
+using Server.Network;
 
 /*
 ** Modified from RunUO 1.0.0 AddGump.cs
@@ -183,7 +181,7 @@ namespace Server.Gumps
 		}
 
 
-		public override void OnResponse( Server.Network.NetState sender, RelayInfo info )
+		public override void OnResponse( NetState sender, RelayInfo info )
 		{
 			Mobile from = sender.Mobile;
 

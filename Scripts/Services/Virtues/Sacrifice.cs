@@ -174,7 +174,7 @@ namespace Server
             if (m is BaseCreature && (((BaseCreature)m).Controlled || ((BaseCreature)m).Summoned))
                 return false;
 
-            return (m is Lich || m is Succubus || m is Daemon || m is EvilMage || m is EnslavedGargoyle || m is GargoyleEnforcer);
+            return (m is Lich || m is Succubus || m is Daemon || m is EvilMage || m is EnslavedGargoyle);
         }
 
         private class InternalTarget : Target

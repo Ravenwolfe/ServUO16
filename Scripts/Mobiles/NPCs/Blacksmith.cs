@@ -56,17 +56,6 @@ namespace Server.Mobiles
             if (!this.IsStygianVendor)
             {
                 this.m_SBInfos.Add(new SBBlacksmith());
-                if (this.IsTokunoVendor)
-                {
-                    this.m_SBInfos.Add(new SBSEArmor());
-                    this.m_SBInfos.Add(new SBSEWeapons());
-                }
-            }
-            else
-            {
-                this.m_SBInfos.Add(new SBSABlacksmith());
-                this.m_SBInfos.Add(new SBSAArmor());
-                this.m_SBInfos.Add(new SBSAWeapons());
             }
         }
 

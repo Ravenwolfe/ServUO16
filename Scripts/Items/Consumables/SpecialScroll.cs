@@ -1,5 +1,6 @@
 using System;
 using Server.Gumps;
+using Server.Misc;
 using Server.Network;
 
 namespace Server.Items
@@ -75,7 +76,7 @@ namespace Server.Items
 
         public virtual string GetNameLocalized()
         {
-            return String.Concat("#", AosSkillBonuses.GetLabel(this.m_Skill).ToString());
+            return String.Concat("#", MathHelper.GetLabel(this.m_Skill).ToString());
         }
 
         public virtual string GetName()
@@ -197,7 +198,7 @@ namespace Server.Items
                 if (this.m_Scroll is StatCapScroll)
                     this.AddHtmlLocalized(310, 20, 120, 20, 1038019, 0xFFFFFF, false, false); // Power
                 else
-                    this.AddHtmlLocalized(310, 20, 120, 20, AosSkillBonuses.GetLabel(this.m_Scroll.Skill), 0xFFFFFF, false, false);
+                    this.AddHtmlLocalized(310, 20, 120, 20, MathHelper.GetLabel(this.m_Scroll.Skill), 0xFFFFFF, false, false);
             }
 
             public override void OnResponse(NetState state, RelayInfo info)

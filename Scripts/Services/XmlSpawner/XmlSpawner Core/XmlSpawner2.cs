@@ -2,26 +2,21 @@
 //#define RESTRICTCONSTRUCTABLE
 
 using System;
-using System.Data;
-using System.IO;
-using System.Collections;
 using System.Collections.Generic;
-using Server;
-using Server.Items;
-using Server.Network;
-using Server.Gumps;
-using Server.Targeting;
+using System.Data;
+using System.Diagnostics;
+using System.IO;
 using System.Reflection;
+using System.Text;
+using System.Xml;
+using Server.Accounting;
 using Server.Commands;
 using Server.Commands.Generic;
-using CPA = Server.CommandPropertyAttribute;
-using System.Xml;
-using Server.Spells;
-using System.Text;
-using Server.Accounting;
-using System.Diagnostics;
-using Server.Misc;
 using Server.Engines.XmlSpawner2;
+using Server.Items;
+using Server.Network;
+using Server.Targeting;
+using CPA = Server.CommandPropertyAttribute;
 
 /*
 ** XmlSpawner2
@@ -173,7 +168,7 @@ namespace Server.Mobiles
 		private TimeSpan m_MaxDelay;
 		// added a duration parameter for time-limited spawns
 		private TimeSpan m_Duration;
-		public List<XmlSpawner.SpawnObject> m_SpawnObjects = new List<XmlSpawner.SpawnObject>(); // List of objects to spawn
+		public List<SpawnObject> m_SpawnObjects = new List<SpawnObject>(); // List of objects to spawn
 		private DateTime m_End;
 		private DateTime m_RefractEnd;
 		private DateTime m_DurEnd;
@@ -341,7 +336,7 @@ namespace Server.Mobiles
 				int hours;
 				int minutes;
 
-				Server.Items.Clock.GetTime(this.Map, this.Location.X, this.Location.Y, out  hours, out  minutes);
+				Clock.GetTime(this.Map, this.Location.X, this.Location.Y, out  hours, out  minutes);
 				return (new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, hours, minutes, 0).TimeOfDay);
 			}
 		}
@@ -537,16 +532,16 @@ namespace Server.Mobiles
 
 					// find the max detection range by examining both spawnrange 
 					// note, sectors will activate when within +-2 sectors
-					int bufferzone = 2 * Server.Map.SectorSize;
+					int bufferzone = 2 * Map.SectorSize;
 					int x1 = m_X - bufferzone;
 					int width = m_Width + 2 * bufferzone;
 					int y1 = m_Y - bufferzone;
 					int height = m_Height + 2 * bufferzone;
 
 					// go through all of the sectors within the SpawnRange of the spawner to see if any are active
-					for (int x = x1; x <= x1 + width; x += Server.Map.SectorSize)
+					for (int x = x1; x <= x1 + width; x += Map.SectorSize)
 					{
-						for (int y = y1; y <= y1 + height; y += Server.Map.SectorSize)
+						for (int y = y1; y <= y1 + height; y += Map.SectorSize)
 						{
 							Sector s = Map.GetSector(new Point3D(x, y, loc.Z));
 
@@ -742,13 +737,13 @@ namespace Server.Mobiles
 					Type type = SpawnerType.GetType(typestr);
 
 					if (type != null)
-						m_SpawnObjects.Add(new XmlSpawner.SpawnObject(str, 1));
+						m_SpawnObjects.Add(new SpawnObject(str, 1));
 					else
 					{
 						// check for special keywords
 						if (typestr != null && (BaseXmlSpawner.IsTypeOrItemKeyword(typestr) || typestr.IndexOf("{") != -1 || typestr.StartsWith("*") || typestr.StartsWith("#")))
 						{
-							m_SpawnObjects.Add(new XmlSpawner.SpawnObject(str, 1));
+							m_SpawnObjects.Add(new SpawnObject(str, 1));
 						}
 						else
 							this.status_str = String.Format("{0} is not a valid type name.", str);
@@ -1543,7 +1538,7 @@ namespace Server.Mobiles
 				{
 					int hours;
 					int minutes;
-					Server.Items.Clock.GetTime(this.Map, Location.X, this.Location.Y, out  hours, out  minutes);
+					Clock.GetTime(this.Map, Location.X, this.Location.Y, out  hours, out  minutes);
 					return (new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, hours, minutes, 0).TimeOfDay);
 
 				}
@@ -1576,7 +1571,7 @@ namespace Server.Mobiles
 				{
 					int hours;
 					int minutes;
-					Server.Items.Clock.GetTime(this.Map, Location.X, this.Location.Y, out  hours, out  minutes);
+					Clock.GetTime(this.Map, Location.X, this.Location.Y, out  hours, out  minutes);
 					now = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, hours, minutes, 0);
 				}
 				else
@@ -2293,7 +2288,7 @@ namespace Server.Mobiles
 			if (action == null || action.Length <= 0 || attachedto == null || map == null) return;
 
 			string status_str = null;
-			Server.Mobiles.XmlSpawner.SpawnObject TheSpawn = new Server.Mobiles.XmlSpawner.SpawnObject(null, 0);
+			SpawnObject TheSpawn = new SpawnObject(null, 0);
 
 			TheSpawn.TypeName = action;
 			string substitutedtypeName = BaseXmlSpawner.ApplySubstitution(null, attachedto, trigmob, action);
@@ -2310,7 +2305,7 @@ namespace Server.Mobiles
 				try
 				{
 					string[] arglist = BaseXmlSpawner.ParseString(substitutedtypeName, 3, "/");
-					object o = Server.Mobiles.XmlSpawner.CreateObject(type, arglist[0]);
+					object o = CreateObject(type, arglist[0]);
 
 					if (o == null)
 					{
@@ -2382,7 +2377,7 @@ namespace Server.Mobiles
 		{
 			if (filename == null || filename.Length <= 0) return;
 			// Check if the file exists
-			if (System.IO.File.Exists(filename) == true)
+			if (File.Exists(filename) == true)
 			{
 				FileStream fs = null;
 				try
@@ -2740,7 +2735,7 @@ namespace Server.Mobiles
 								RemoveSpawnObjects();
 
 								// Create the new array of spawned objects
-								m_SpawnObjects = new List<XmlSpawner.SpawnObject>();
+								m_SpawnObjects = new List<SpawnObject>();
 
 								// Assign the list of objects to spawn
 								SpawnObjects = Spawns;
@@ -2863,9 +2858,9 @@ public static void _TraceStart(int index)
 public static void _TraceEnd(int index)
 {
 	   if(index < MaxTraces){
-				XmlSpawner._traceTotal[index] = XmlSpawner._traceTotal[index].Add(DateTime.UtcNow - _traceStart[index]);
+				_traceTotal[index] = _traceTotal[index].Add(DateTime.UtcNow - _traceStart[index]);
 				//XmlSpawner._traceTotal[index] = XmlSpawner._traceTotal[index].Add(Process.GetCurrentProcess().UserProcessorTime - _traceStart[index]);
-				XmlSpawner._traceCount[index]++;
+				_traceCount[index]++;
 	   }
 }
 #else
@@ -3594,7 +3589,7 @@ public static void _TraceEnd(int index)
 
 		public static void Initialize()
 		{
-			XmlSpawner.LoadSettings(new XmlSpawner.AssignSettingsHandler(AssignSettings), "XmlSpawner");
+			LoadSettings(new AssignSettingsHandler(AssignSettings), "XmlSpawner");
 
 			// initialize the default waypoint name
 			WayPoint tmpwaypoint = new WayPoint();
@@ -3924,55 +3919,55 @@ public static void _TraceEnd(int index)
 				xml.WriteStartElement("XmlDefaults");
 
 				xml.WriteStartElement("defProximityRange");
-				xml.WriteString(XmlSpawner.defProximityRange.ToString());
+				xml.WriteString(defProximityRange.ToString());
 				xml.WriteEndElement();
 				xml.WriteStartElement("defTriggerProbability");
-				xml.WriteString(XmlSpawner.defTriggerProbability.ToString());
+				xml.WriteString(defTriggerProbability.ToString());
 				xml.WriteEndElement();
 				xml.WriteStartElement("defProximityTriggerSound");
-				xml.WriteString(XmlSpawner.defProximityTriggerSound.ToString());
+				xml.WriteString(defProximityTriggerSound.ToString());
 				xml.WriteEndElement();
 				xml.WriteStartElement("defMinRefractory");
-				xml.WriteString(XmlSpawner.defMinRefractory.ToString());
+				xml.WriteString(defMinRefractory.ToString());
 				xml.WriteEndElement();
 				xml.WriteStartElement("defMaxRefractory");
-				xml.WriteString(XmlSpawner.defMaxRefractory.ToString());
+				xml.WriteString(defMaxRefractory.ToString());
 				xml.WriteEndElement();
 				xml.WriteStartElement("defTODStart");
-				xml.WriteString(XmlSpawner.defTODStart.ToString());
+				xml.WriteString(defTODStart.ToString());
 				xml.WriteEndElement();
 				xml.WriteStartElement("defTODEnd");
-				xml.WriteString(XmlSpawner.defTODEnd.ToString());
+				xml.WriteString(defTODEnd.ToString());
 				xml.WriteEndElement();
 				xml.WriteStartElement("defStackAmount");
-				xml.WriteString(XmlSpawner.defAmount.ToString());
+				xml.WriteString(defAmount.ToString());
 				xml.WriteEndElement();
 				xml.WriteStartElement("defDuration");
-				xml.WriteString(XmlSpawner.defDuration.ToString());
+				xml.WriteString(defDuration.ToString());
 				xml.WriteEndElement();
 				xml.WriteStartElement("defIsGroup");
-				xml.WriteString(XmlSpawner.defIsGroup.ToString());
+				xml.WriteString(defIsGroup.ToString());
 				xml.WriteEndElement();
 				xml.WriteStartElement("defTeam");
-				xml.WriteString(XmlSpawner.defTeam.ToString());
+				xml.WriteString(defTeam.ToString());
 				xml.WriteEndElement();
 				xml.WriteStartElement("defRelativeHome");
-				xml.WriteString(XmlSpawner.defRelativeHome.ToString());
+				xml.WriteString(defRelativeHome.ToString());
 				xml.WriteEndElement();
 				xml.WriteStartElement("defSpawnRange");
-				xml.WriteString(XmlSpawner.defSpawnRange.ToString());
+				xml.WriteString(defSpawnRange.ToString());
 				xml.WriteEndElement();
 				xml.WriteStartElement("defHomeRange");
-				xml.WriteString(XmlSpawner.defHomeRange.ToString());
+				xml.WriteString(defHomeRange.ToString());
 				xml.WriteEndElement();
 				xml.WriteStartElement("defMinDelay");
-				xml.WriteString(XmlSpawner.defMinDelay.ToString());
+				xml.WriteString(defMinDelay.ToString());
 				xml.WriteEndElement();
 				xml.WriteStartElement("defMaxDelay");
-				xml.WriteString(XmlSpawner.defMaxDelay.ToString());
+				xml.WriteString(defMaxDelay.ToString());
 				xml.WriteEndElement();
 				xml.WriteStartElement("defTODMode");
-				xml.WriteString(XmlSpawner.defTODMode.ToString());
+				xml.WriteString(defTODMode.ToString());
 				xml.WriteEndElement();
 
 				xml.WriteEndElement();
@@ -4007,37 +4002,37 @@ public static void _TraceEnd(int index)
 		private static void LoadDefaults(XmlElement node)
 		{
 
-			try { XmlSpawner.defProximityRange = int.Parse(node["defProximityRange"].InnerText); }
+			try { defProximityRange = int.Parse(node["defProximityRange"].InnerText); }
 			catch { }
-			try { XmlSpawner.defTriggerProbability = double.Parse(node["defTriggerProbability"].InnerText); }
+			try { defTriggerProbability = double.Parse(node["defTriggerProbability"].InnerText); }
 			catch { }
-			try { XmlSpawner.defProximityTriggerSound = int.Parse(node["defProximityTriggerSound"].InnerText); }
+			try { defProximityTriggerSound = int.Parse(node["defProximityTriggerSound"].InnerText); }
 			catch { }
-			try { XmlSpawner.defMinRefractory = TimeSpan.Parse(node["defMinRefractory"].InnerText); }
+			try { defMinRefractory = TimeSpan.Parse(node["defMinRefractory"].InnerText); }
 			catch { }
-			try { XmlSpawner.defMaxRefractory = TimeSpan.Parse(node["defMaxRefractory"].InnerText); }
+			try { defMaxRefractory = TimeSpan.Parse(node["defMaxRefractory"].InnerText); }
 			catch { }
-			try { XmlSpawner.defTODStart = TimeSpan.Parse(node["defTODStart"].InnerText); }
+			try { defTODStart = TimeSpan.Parse(node["defTODStart"].InnerText); }
 			catch { }
-			try { XmlSpawner.defTODEnd = TimeSpan.Parse(node["defTODEnd"].InnerText); }
+			try { defTODEnd = TimeSpan.Parse(node["defTODEnd"].InnerText); }
 			catch { }
-			try { XmlSpawner.defAmount = int.Parse(node["defStackAmount"].InnerText); }
+			try { defAmount = int.Parse(node["defStackAmount"].InnerText); }
 			catch { }
-			try { XmlSpawner.defDuration = TimeSpan.Parse(node["defDuration"].InnerText); }
+			try { defDuration = TimeSpan.Parse(node["defDuration"].InnerText); }
 			catch { }
-			try { XmlSpawner.defIsGroup = bool.Parse(node["defIsGroup"].InnerText); }
+			try { defIsGroup = bool.Parse(node["defIsGroup"].InnerText); }
 			catch { }
-			try { XmlSpawner.defTeam = int.Parse(node["defTeam"].InnerText); }
+			try { defTeam = int.Parse(node["defTeam"].InnerText); }
 			catch { }
-			try { XmlSpawner.defRelativeHome = bool.Parse(node["defRelativeHome"].InnerText); }
+			try { defRelativeHome = bool.Parse(node["defRelativeHome"].InnerText); }
 			catch { }
-			try { XmlSpawner.defSpawnRange = int.Parse(node["defSpawnRange"].InnerText); }
+			try { defSpawnRange = int.Parse(node["defSpawnRange"].InnerText); }
 			catch { }
-			try { XmlSpawner.defHomeRange = int.Parse(node["defHomeRange"].InnerText); }
+			try { defHomeRange = int.Parse(node["defHomeRange"].InnerText); }
 			catch { }
-			try { XmlSpawner.defMinDelay = TimeSpan.Parse(node["defMinDelay"].InnerText); }
+			try { defMinDelay = TimeSpan.Parse(node["defMinDelay"].InnerText); }
 			catch { }
-			try { XmlSpawner.defMaxDelay = TimeSpan.Parse(node["defMaxDelay"].InnerText); }
+			try { defMaxDelay = TimeSpan.Parse(node["defMaxDelay"].InnerText); }
 			catch { }
 			int todmode = 0;
 			try { todmode = int.Parse(node["defTODMode"].InnerText); }
@@ -4045,10 +4040,10 @@ public static void _TraceEnd(int index)
 			switch (todmode)
 			{
 				case (int)TODModeType.Realtime:
-					XmlSpawner.defTODMode = TODModeType.Realtime;
+					defTODMode = TODModeType.Realtime;
 					break;
 				case (int)TODModeType.Gametime:
-					XmlSpawner.defTODMode = TODModeType.Gametime;
+					defTODMode = TODModeType.Gametime;
 					break;
 			}
 		}
@@ -4079,8 +4074,8 @@ public static void _TraceEnd(int index)
 							{
 								try
 								{
-									XmlSpawner.defMaxDelay = TimeSpan.FromMinutes(Convert.ToDouble(e.Arguments[1]));
-									m.SendMessage("MaxDelay = {0}", XmlSpawner.defMaxDelay);
+									defMaxDelay = TimeSpan.FromMinutes(Convert.ToDouble(e.Arguments[1]));
+									m.SendMessage("MaxDelay = {0}", defMaxDelay);
 								}
 								catch { m.SendMessage("invalid value : {0}", e.Arguments[1]); }
 							}
@@ -4089,8 +4084,8 @@ public static void _TraceEnd(int index)
 								{
 									try
 									{
-										XmlSpawner.defMinDelay = TimeSpan.FromMinutes(Convert.ToDouble(e.Arguments[1]));
-										m.SendMessage("MinDelay = {0}", XmlSpawner.defMinDelay);
+										defMinDelay = TimeSpan.FromMinutes(Convert.ToDouble(e.Arguments[1]));
+										m.SendMessage("MinDelay = {0}", defMinDelay);
 									}
 									catch { m.SendMessage("invalid value : {0}", e.Arguments[1]); }
 								}
@@ -4099,8 +4094,8 @@ public static void _TraceEnd(int index)
 									{
 										try
 										{
-											XmlSpawner.defSpawnRange = Convert.ToInt32(e.Arguments[1]);
-											m.SendMessage("SpawnRange = {0}", XmlSpawner.defSpawnRange);
+											defSpawnRange = Convert.ToInt32(e.Arguments[1]);
+											m.SendMessage("SpawnRange = {0}", defSpawnRange);
 										}
 										catch { m.SendMessage("invalid value : {0}", e.Arguments[1]); }
 									}
@@ -4109,8 +4104,8 @@ public static void _TraceEnd(int index)
 										{
 											try
 											{
-												XmlSpawner.defHomeRange = Convert.ToInt32(e.Arguments[1]);
-												m.SendMessage("HomeRange = {0}", XmlSpawner.defHomeRange);
+												defHomeRange = Convert.ToInt32(e.Arguments[1]);
+												m.SendMessage("HomeRange = {0}", defHomeRange);
 											}
 											catch { m.SendMessage("invalid value : {0}", e.Arguments[1]); }
 										}
@@ -4119,8 +4114,8 @@ public static void _TraceEnd(int index)
 											{
 												try
 												{
-													XmlSpawner.defRelativeHome = Convert.ToBoolean(e.Arguments[1]);
-													m.SendMessage("RelativeHome = {0}", XmlSpawner.defRelativeHome);
+													defRelativeHome = Convert.ToBoolean(e.Arguments[1]);
+													m.SendMessage("RelativeHome = {0}", defRelativeHome);
 												}
 												catch { m.SendMessage("invalid value : {0}", e.Arguments[1]); }
 											}
@@ -4129,8 +4124,8 @@ public static void _TraceEnd(int index)
 												{
 													try
 													{
-														XmlSpawner.defProximityTriggerSound = Convert.ToInt32(e.Arguments[1]);
-														m.SendMessage("ProximityTriggerSound = {0}", XmlSpawner.defProximityTriggerSound);
+														defProximityTriggerSound = Convert.ToInt32(e.Arguments[1]);
+														m.SendMessage("ProximityTriggerSound = {0}", defProximityTriggerSound);
 													}
 													catch { m.SendMessage("invalid value : {0}", e.Arguments[1]); }
 												}
@@ -4139,8 +4134,8 @@ public static void _TraceEnd(int index)
 													{
 														try
 														{
-															XmlSpawner.defProximityRange = Convert.ToInt32(e.Arguments[1]);
-															m.SendMessage("ProximityRange = {0}", XmlSpawner.defProximityRange);
+															defProximityRange = Convert.ToInt32(e.Arguments[1]);
+															m.SendMessage("ProximityRange = {0}", defProximityRange);
 														}
 														catch { m.SendMessage("invalid value : {0}", e.Arguments[1]); }
 													}
@@ -4149,8 +4144,8 @@ public static void _TraceEnd(int index)
 														{
 															try
 															{
-																XmlSpawner.defTriggerProbability = Convert.ToDouble(e.Arguments[1]);
-																m.SendMessage("TriggerProbability = {0}", XmlSpawner.defTriggerProbability);
+																defTriggerProbability = Convert.ToDouble(e.Arguments[1]);
+																m.SendMessage("TriggerProbability = {0}", defTriggerProbability);
 															}
 															catch { m.SendMessage("invalid value : {0}", e.Arguments[1]); }
 														}
@@ -4159,8 +4154,8 @@ public static void _TraceEnd(int index)
 															{
 																try
 																{
-																	XmlSpawner.defTODStart = TimeSpan.FromMinutes(Convert.ToDouble(e.Arguments[1]));
-																	m.SendMessage("TODStart = {0}", XmlSpawner.defTODStart);
+																	defTODStart = TimeSpan.FromMinutes(Convert.ToDouble(e.Arguments[1]));
+																	m.SendMessage("TODStart = {0}", defTODStart);
 																}
 																catch { m.SendMessage("invalid value : {0}", e.Arguments[1]); }
 															}
@@ -4169,8 +4164,8 @@ public static void _TraceEnd(int index)
 																{
 																	try
 																	{
-																		XmlSpawner.defTODEnd = TimeSpan.FromMinutes(Convert.ToDouble(e.Arguments[1]));
-																		m.SendMessage("TODEnd = {0}", XmlSpawner.defTODEnd);
+																		defTODEnd = TimeSpan.FromMinutes(Convert.ToDouble(e.Arguments[1]));
+																		m.SendMessage("TODEnd = {0}", defTODEnd);
 																	}
 																	catch { m.SendMessage("invalid value : {0}", e.Arguments[1]); }
 																}
@@ -4179,8 +4174,8 @@ public static void _TraceEnd(int index)
 																	{
 																		try
 																		{
-																			XmlSpawner.defAmount = Convert.ToInt32(e.Arguments[1]);
-																			m.SendMessage("StackAmount = {0}", XmlSpawner.defAmount);
+																			defAmount = Convert.ToInt32(e.Arguments[1]);
+																			m.SendMessage("StackAmount = {0}", defAmount);
 																		}
 																		catch { m.SendMessage("invalid value : {0}", e.Arguments[1]); }
 																	}
@@ -4189,8 +4184,8 @@ public static void _TraceEnd(int index)
 																		{
 																			try
 																			{
-																				XmlSpawner.defDuration = TimeSpan.FromMinutes(Convert.ToDouble(e.Arguments[1]));
-																				m.SendMessage("Duration = {0}", XmlSpawner.defDuration);
+																				defDuration = TimeSpan.FromMinutes(Convert.ToDouble(e.Arguments[1]));
+																				m.SendMessage("Duration = {0}", defDuration);
 																			}
 																			catch { m.SendMessage("invalid value : {0}", e.Arguments[1]); }
 																		}
@@ -4199,8 +4194,8 @@ public static void _TraceEnd(int index)
 																			{
 																				try
 																				{
-																					XmlSpawner.defIsGroup = Convert.ToBoolean(e.Arguments[1]);
-																					m.SendMessage("Group = {0}", XmlSpawner.defIsGroup);
+																					defIsGroup = Convert.ToBoolean(e.Arguments[1]);
+																					m.SendMessage("Group = {0}", defIsGroup);
 																				}
 																				catch { m.SendMessage("invalid value : {0}", e.Arguments[1]); }
 																			}
@@ -4209,8 +4204,8 @@ public static void _TraceEnd(int index)
 																				{
 																					try
 																					{
-																						XmlSpawner.defTeam = Convert.ToInt32(e.Arguments[1]);
-																						m.SendMessage("Team = {0}", XmlSpawner.defTeam);
+																						defTeam = Convert.ToInt32(e.Arguments[1]);
+																						m.SendMessage("Team = {0}", defTeam);
 																					}
 																					catch { m.SendMessage("invalid value : {0}", e.Arguments[1]); }
 																				}
@@ -4224,13 +4219,13 @@ public static void _TraceEnd(int index)
 																							switch (todmode)
 																							{
 																								case (int)TODModeType.Gametime:
-																									XmlSpawner.defTODMode = TODModeType.Gametime;
+																									defTODMode = TODModeType.Gametime;
 																									break;
 																								case (int)TODModeType.Realtime:
-																									XmlSpawner.defTODMode = TODModeType.Realtime;
+																									defTODMode = TODModeType.Realtime;
 																									break;
 																							}
-																							m.SendMessage("TODMode = {0}", XmlSpawner.defTODMode);
+																							m.SendMessage("TODMode = {0}", defTODMode);
 																						}
 																						catch { m.SendMessage("invalid value : {0}", e.Arguments[1]); }
 																					}
@@ -4239,8 +4234,8 @@ public static void _TraceEnd(int index)
 																						{
 																							try
 																							{
-																								XmlSpawner.defMaxRefractory = TimeSpan.FromMinutes(Convert.ToDouble(e.Arguments[1]));
-																								m.SendMessage("MaxRefractory = {0}", XmlSpawner.defMaxRefractory);
+																								defMaxRefractory = TimeSpan.FromMinutes(Convert.ToDouble(e.Arguments[1]));
+																								m.SendMessage("MaxRefractory = {0}", defMaxRefractory);
 																							}
 																							catch { m.SendMessage("invalid value : {0}", e.Arguments[1]); }
 																						}
@@ -4249,8 +4244,8 @@ public static void _TraceEnd(int index)
 																							{
 																								try
 																								{
-																									XmlSpawner.defMinRefractory = TimeSpan.FromMinutes(Convert.ToDouble(e.Arguments[1]));
-																									m.SendMessage("MinRefractory = {0}", XmlSpawner.defMinRefractory);
+																									defMinRefractory = TimeSpan.FromMinutes(Convert.ToDouble(e.Arguments[1]));
+																									m.SendMessage("MinRefractory = {0}", defMinRefractory);
 																								}
 																								catch { m.SendMessage("invalid value : {0}", e.Arguments[1]); }
 																							}
@@ -4264,23 +4259,23 @@ public static void _TraceEnd(int index)
 			else
 			{
 				// just display the values
-				m.SendMessage("TriggerProbability = {0}", XmlSpawner.defTriggerProbability);
-				m.SendMessage("ProximityRange = {0}", XmlSpawner.defProximityRange);
-				m.SendMessage("ProximityTriggerSound = {0}", XmlSpawner.defProximityTriggerSound);
-				m.SendMessage("MinRefractory = {0}", XmlSpawner.defMinRefractory);
-				m.SendMessage("MaxRefractory = {0}", XmlSpawner.defMaxRefractory);
-				m.SendMessage("TODStart = {0}", XmlSpawner.defTODStart);
-				m.SendMessage("TODEnd = {0}", XmlSpawner.defTODEnd);
-				m.SendMessage("TODMode = {0}", XmlSpawner.defTODMode);
-				m.SendMessage("StackAmount = {0}", XmlSpawner.defAmount);
-				m.SendMessage("Duration = {0}", XmlSpawner.defDuration);
-				m.SendMessage("Group = {0}", XmlSpawner.defIsGroup);
-				m.SendMessage("Team = {0}", XmlSpawner.defTeam);
-				m.SendMessage("RelativeHome = {0}", XmlSpawner.defRelativeHome);
-				m.SendMessage("SpawnRange = {0}", XmlSpawner.defSpawnRange);
-				m.SendMessage("HomeRange = {0}", XmlSpawner.defHomeRange);
-				m.SendMessage("MinDelay = {0}", XmlSpawner.defMinDelay);
-				m.SendMessage("MaxDelay = {0}", XmlSpawner.defMaxDelay);
+				m.SendMessage("TriggerProbability = {0}", defTriggerProbability);
+				m.SendMessage("ProximityRange = {0}", defProximityRange);
+				m.SendMessage("ProximityTriggerSound = {0}", defProximityTriggerSound);
+				m.SendMessage("MinRefractory = {0}", defMinRefractory);
+				m.SendMessage("MaxRefractory = {0}", defMaxRefractory);
+				m.SendMessage("TODStart = {0}", defTODStart);
+				m.SendMessage("TODEnd = {0}", defTODEnd);
+				m.SendMessage("TODMode = {0}", defTODMode);
+				m.SendMessage("StackAmount = {0}", defAmount);
+				m.SendMessage("Duration = {0}", defDuration);
+				m.SendMessage("Group = {0}", defIsGroup);
+				m.SendMessage("Team = {0}", defTeam);
+				m.SendMessage("RelativeHome = {0}", defRelativeHome);
+				m.SendMessage("SpawnRange = {0}", defSpawnRange);
+				m.SendMessage("HomeRange = {0}", defHomeRange);
+				m.SendMessage("MinDelay = {0}", defMinDelay);
+				m.SendMessage("MaxDelay = {0}", defMaxDelay);
 			}
 		}
 
@@ -4624,7 +4619,7 @@ public static void _TraceEnd(int index)
 			int total_processed_spawners = 0;
 
 			// Check if the file exists
-			if (System.IO.File.Exists(filename) == true)
+			if (File.Exists(filename) == true)
 			{
 				FileStream fs = null;
 				try
@@ -4645,7 +4640,7 @@ public static void _TraceEnd(int index)
 			}
 			else
 				// check to see if it is a directory
-				if (System.IO.Directory.Exists(filename) == true)
+				if (Directory.Exists(filename) == true)
 				{
 					// if so then import all of the .xml files in the directory
 					string[] files = null;
@@ -4918,7 +4913,7 @@ public static void _TraceEnd(int index)
 			int total_processed_spawners = 0;
 			if (filename == null || filename.Length <= 0 || from == null || from.Deleted) return;
 			// Check if the file exists
-			if (System.IO.File.Exists(filename) == true)
+			if (File.Exists(filename) == true)
 			{
 				int spawnercount = 0;
 				int badspawnercount = 0;
@@ -4984,7 +4979,7 @@ public static void _TraceEnd(int index)
 			}
 			else
 				// check to see if it is a directory
-				if (System.IO.Directory.Exists(filename) == true)
+				if (Directory.Exists(filename) == true)
 				{
 					// if so then import all of the .map files in the directory
 					string[] files = null;
@@ -5976,7 +5971,7 @@ public static void _TraceEnd(int index)
 
 
 			// Check if the file exists
-			if (System.IO.File.Exists(filename) == true)
+			if (File.Exists(filename) == true)
 			{
 				FileStream fs = null;
 				try
@@ -5998,7 +5993,7 @@ public static void _TraceEnd(int index)
 			}
 			else
 				// check to see if it is a directory
-				if (System.IO.Directory.Exists(filename) == true)
+				if (Directory.Exists(filename) == true)
 				{
 					// if so then load all of the .xml files in the directory
 					string[] files = null;
@@ -6896,11 +6891,11 @@ public static void _TraceEnd(int index)
 
 			string dirname = null;
 
-			if (System.IO.Directory.Exists(XmlSpawnDir) == true)
+			if (Directory.Exists(XmlSpawnDir) == true)
 			{
 				// get it from the defaults directory if it exists
 				dirname = String.Format("{0}/{1}", XmlSpawnDir, filename);
-				found = System.IO.File.Exists(dirname) || System.IO.Directory.Exists(dirname);
+				found = File.Exists(dirname) || Directory.Exists(dirname);
 			}
 
 			if (!found)
@@ -6918,11 +6913,11 @@ public static void _TraceEnd(int index)
 
 			string dirname = null;
 
-			if (System.IO.Directory.Exists(XmlMultiDir) == true)
+			if (Directory.Exists(XmlMultiDir) == true)
 			{
 				// get it from the defaults directory if it exists
 				dirname = String.Format("{0}/{1}", XmlMultiDir, filename);
-				found = System.IO.File.Exists(dirname) || System.IO.Directory.Exists(dirname);
+				found = File.Exists(dirname) || Directory.Exists(dirname);
 			}
 
 			if (!found)
@@ -7157,7 +7152,7 @@ public static void _TraceEnd(int index)
 
 			string dirname;
 
-			if (System.IO.Directory.Exists(XmlSpawner.XmlSpawnDir) && filename != null && !filename.StartsWith("/") && !filename.StartsWith("\\"))
+			if (Directory.Exists(XmlSpawnDir) && filename != null && !filename.StartsWith("/") && !filename.StartsWith("\\"))
 			{
 				// put it in the defaults directory if it exists
 				dirname = String.Format("{0}/{1}", XmlSpawnDir, filename);
@@ -7201,7 +7196,7 @@ public static void _TraceEnd(int index)
 			string filename = e.Arguments[0].ToString();
 
 			string dirname;
-			if (System.IO.Directory.Exists(XmlSpawner.XmlSpawnDir) && filename != null && !filename.StartsWith("/") && !filename.StartsWith("\\"))
+			if (Directory.Exists(XmlSpawnDir) && filename != null && !filename.StartsWith("/") && !filename.StartsWith("\\"))
 			{
 				// put it in the defaults directory if it exists
 				dirname = String.Format("{0}/{1}", XmlSpawnDir, filename);
@@ -7249,12 +7244,12 @@ public static void _TraceEnd(int index)
 
 
 			bool save_ok = true;
-			System.IO.FileStream fs = null;
+			FileStream fs = null;
 
 			try
 			{
 				// Create the FileStream to write with.
-				fs = new System.IO.FileStream(dirname, System.IO.FileMode.Create);
+				fs = new FileStream(dirname, FileMode.Create);
 			}
 			catch
 			{
@@ -7739,7 +7734,7 @@ public static void _TraceEnd(int index)
 		public static void XmlTrace_OnCommand( CommandEventArgs e )
 		{
 			Process currentprocess = Process.GetCurrentProcess();
-			TimeSpan runningtime = DateTime.UtcNow - XmlSpawner._traceStartTime;
+			TimeSpan runningtime = DateTime.UtcNow - _traceStartTime;
 			double processtime = currentprocess.UserProcessorTime.TotalMilliseconds - _startProcessTime;
 			double sysload = 0;
 
@@ -7756,16 +7751,16 @@ public static void _TraceEnd(int index)
 
 			for(int i=0;i<MaxTraces;i++)
 			{
-				if( XmlSpawner._traceCount[i] > 0)
+				if( _traceCount[i] > 0)
 				{
 					double load = 0;
 					if(processtime > 0)
 					{
-						load  = ((double)XmlSpawner._traceTotal[i].TotalMilliseconds)/processtime;
+						load  = ((double)_traceTotal[i].TotalMilliseconds)/processtime;
 					}
 						 Console.WriteLine( "{0} ({4}) {1,21} / {2} calls = {3:####.####} ms/call, {5:p3}",
-						i,XmlSpawner._traceTotal[i], XmlSpawner._traceCount[i],((double)XmlSpawner._traceTotal[i].TotalMilliseconds)/XmlSpawner._traceCount[i],
-						XmlSpawner._traceName[i], load);
+						i,_traceTotal[i], _traceCount[i],((double)_traceTotal[i].TotalMilliseconds)/_traceCount[i],
+						_traceName[i], load);
 				}
 			}
 		}
@@ -7777,10 +7772,10 @@ public static void _TraceEnd(int index)
 			{
 				 for(int i=0;i<MaxTraces;i++)
 				 {
-						XmlSpawner._traceCount[i] = 0;
-						XmlSpawner._traceTotal[i] = TimeSpan.Zero;
+						_traceCount[i] = 0;
+						_traceTotal[i] = TimeSpan.Zero;
 				}
-				XmlSpawner._traceStartTime = DateTime.UtcNow;
+				_traceStartTime = DateTime.UtcNow;
 
 				Process currentprocess = Process.GetCurrentProcess();
 				_startProcessTime = currentprocess.UserProcessorTime.TotalMilliseconds;
@@ -7951,7 +7946,7 @@ public static void _TraceEnd(int index)
 			//UpdateTotal(this, TotalType.Items, -1);
 
 			// Create the array of spawned objects
-			m_SpawnObjects = new List<XmlSpawner.SpawnObject>();
+			m_SpawnObjects = new List<SpawnObject>();
 
 			// Assign the list of objects to spawn
 			SpawnObjects = objectsToSpawn;
@@ -11417,7 +11412,7 @@ public static void _TraceEnd(int index)
 
 		private class WarnTimer2 : Timer
 		{
-			private List<XmlSpawner.WarnTimer2.WarnEntry2> m_List;
+			private List<WarnEntry2> m_List;
 
 			private class WarnEntry2
 			{
@@ -11436,7 +11431,7 @@ public static void _TraceEnd(int index)
 			public WarnTimer2()
 				: base(TimeSpan.FromSeconds(1.0))
 			{
-				m_List = new List<XmlSpawner.WarnTimer2.WarnEntry2>();
+				m_List = new List<WarnEntry2>();
 				Start();
 			}
 
@@ -12237,7 +12232,7 @@ public static void _TraceEnd(int index)
 
 						// Read in the size of the spawn object list
 						int SpawnListSize = reader.ReadInt();
-						m_SpawnObjects = new List<XmlSpawner.SpawnObject>(SpawnListSize);
+						m_SpawnObjects = new List<SpawnObject>(SpawnListSize);
 						for (int i = 0; i < SpawnListSize; ++i)
 						{
 							string TypeName = reader.ReadString();
@@ -12389,7 +12384,7 @@ public static void _TraceEnd(int index)
 
 		internal string GetSerializedObjectList()
 		{
-			System.Text.StringBuilder sb = new System.Text.StringBuilder();
+			StringBuilder sb = new StringBuilder();
 
 			foreach (SpawnObject so in m_SpawnObjects)
 			{
@@ -12404,7 +12399,7 @@ public static void _TraceEnd(int index)
 
 		internal string GetSerializedObjectList2()
 		{
-			System.Text.StringBuilder sb = new System.Text.StringBuilder();
+			StringBuilder sb = new StringBuilder();
 
 			foreach (SpawnObject so in m_SpawnObjects)
 			{
@@ -12577,7 +12572,7 @@ public static void _TraceEnd(int index)
 			internal static SpawnObject[] LoadSpawnObjectsFromString(string ObjectList)
 			{
 				// Clear the spawn object list
-				List<XmlSpawner.SpawnObject> NewSpawnObjects = new List<XmlSpawner.SpawnObject>();
+				List<SpawnObject> NewSpawnObjects = new List<SpawnObject>();
 
 				if (ObjectList != null && ObjectList.Length > 0)
 				{
@@ -12607,7 +12602,7 @@ public static void _TraceEnd(int index)
 									{
 										maxCount = int.Parse(SpawnObjectDetails[1]);
 									}
-									catch (System.Exception)
+									catch (Exception)
 									{ // Something went wrong, leave the default amount }
 									}
 
@@ -12628,7 +12623,7 @@ public static void _TraceEnd(int index)
 			internal static SpawnObject[] LoadSpawnObjectsFromString2(string ObjectList)
 			{
 				// Clear the spawn object list
-				List<XmlSpawner.SpawnObject> NewSpawnObjects = new List<XmlSpawner.SpawnObject>();
+				List<SpawnObject> NewSpawnObjects = new List<SpawnObject>();
 
 				// spawn object definitions will take the form typestring:MX=int:SB=int:RT=double:TO=int:KL=int
 				// or typestring:MX=int:SB=int:RT=double:TO=int:KL=int:OBJ=typestring...

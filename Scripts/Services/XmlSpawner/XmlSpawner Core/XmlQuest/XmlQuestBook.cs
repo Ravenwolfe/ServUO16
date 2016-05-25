@@ -1,15 +1,7 @@
 using System;
-using Server;
-using Server.Gumps;
-using Server.Network;
-using Server.Mobiles;
-using System.IO;
 using System.Collections.Generic;
-using Server.Targeting;
-using Server.Engines.PartySystem;
-using System.Data;
-using System.Xml;
-
+using Server.Gumps;
+using Server.Mobiles;
 
 /*
 ** XmlQuestBook class

@@ -1,17 +1,12 @@
 #define FACTIONS
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml;
-using Server;
-using Server.Items;
-using Server.Network;
-using Server.Mobiles;
-using System.Collections.Generic;
-using Server.Targeting;
-using Server.Gumps;
-using System.Text;
 using Server.Commands;
-using Server.Commands.Generic;
+using Server.Gumps;
+using Server.Mobiles;
+using Server.Network;
 
 namespace Server.Engines.XmlSpawner2
 {
@@ -25,10 +20,10 @@ namespace Server.Engines.XmlSpawner2
 
 		private static QuestLeaderboardTimer m_QuestLeaderboardTimer;
 		private static string m_QuestLeaderboardFile;
-		private static List<XmlQuestLeaders.QuestRankEntry> QuestRankList = new List<XmlQuestLeaders.QuestRankEntry>();
+		private static List<QuestRankEntry> QuestRankList = new List<QuestRankEntry>();
 		private static bool needsupdate = true;
 
-		public class QuestRankEntry : IComparable<XmlQuestLeaders.QuestRankEntry>
+		public class QuestRankEntry : IComparable<QuestRankEntry>
 		{
 			public Mobile Quester;
 			public int Rank;
@@ -117,7 +112,7 @@ namespace Server.Engines.XmlSpawner2
 
 		public static void UpdateQuestRanking(Mobile m, XmlQuestPoints attachment)
 		{
-			if(QuestRankList == null) QuestRankList = new List<XmlQuestLeaders.QuestRankEntry>();
+			if(QuestRankList == null) QuestRankList = new List<QuestRankEntry>();
 
 			// flag the rank list for updating on the next attempt to retrieve a rank
 			needsupdate = true;

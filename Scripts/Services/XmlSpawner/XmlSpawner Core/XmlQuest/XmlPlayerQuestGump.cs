@@ -1,11 +1,8 @@
 using System;
-using Server;
-using Server.Network;
 using Server.Items;
 using Server.Mobiles;
-using Server.Prompts;
+using Server.Network;
 using Server.Targeting;
-using Server.Engines.XmlSpawner2;
 
 //
 // XmlPlayerQuestGump
@@ -18,7 +15,7 @@ namespace Server.Gumps
 		private PlayerMobile m_From;
 		private IXmlQuest m_QuestItem;
 
-		public override void OnResponse( Server.Network.NetState sender, RelayInfo info )
+		public override void OnResponse( NetState sender, RelayInfo info )
 		{
             if(info == null || sender == null || sender.Mobile == null) return;
 

@@ -1,21 +1,11 @@
 using System;
-using System.Data;
-using System.IO;
 using System.Collections.Generic;
-using Server;
-using Server.Items;
-using Server.Network;
-using Server.Gumps;
-using Server.Targeting;
-using System.Reflection;
 using Server.Commands;
-using Server.Commands.Generic;
-using CPA = Server.CommandPropertyAttribute;
-using System.Xml;
-using Server.Spells;
-using System.Text;
-using Server.Accounting;
 using Server.Engines.XmlSpawner2;
+using Server.Gumps;
+using Server.Network;
+using Server.Targeting;
+using CPA = Server.CommandPropertyAttribute;
 
 /*
 ** XmlGetAtt

@@ -166,26 +166,6 @@ namespace Server.Movement
                     newZ = tile.Z;
                     return true;
                 }
-                else if (m is StygianDragon && map == Map.TerMur)
-                {
-                    if (x >= 307 && x <= 354 && y >= 126 && y <= 192)
-                    {
-                        if (tile.Z > newZ)
-                            newZ = tile.Z;
-
-                        moveIsOk = true;
-                    }
-                    else if (x >= 42 && x <= 89)
-                    {
-                        if ((y >= 333 && y <= 399) || (y >= 531 && y <= 597) || (y >= 739 && y <= 805))
-                        {
-                            if (tile.Z > newZ)
-                                newZ = tile.Z;
-
-                            moveIsOk = true;
-                        }
-                    }
-                }
 				#endregion
 
                 TileFlag flags = itemData.Flags;

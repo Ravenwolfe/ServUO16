@@ -54,23 +54,16 @@ namespace Server.Spells.Second
 
                 double damage;
 				
-                if (Core.AOS)
+                damage = Utility.Random(1, 15);
+
+                if (this.CheckResisted(m))
                 {
-                    damage = this.GetNewAosDamage(17, 1, 5, m);
+                    damage *= 0.75;
+
+                    m.SendLocalizedMessage(501783); // You feel yourself resisting magical energy.
                 }
-                else
-                {
-                    damage = Utility.Random(1, 15);
 
-                    if (this.CheckResisted(m))
-                    {
-                        damage *= 0.75;
-
-                        m.SendLocalizedMessage(501783); // You feel yourself resisting magical energy.
-                    }
-
-                    damage *= this.GetDamageScalar(m);
-                }
+                damage *= this.GetDamageScalar(m);
 
                 if (!m.InRange(this.Caster, 2))
                     damage *= 0.25; // 1/4 damage at > 2 tile range

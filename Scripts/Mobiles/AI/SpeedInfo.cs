@@ -156,8 +156,7 @@ namespace Server
             {
                 typeof(AgapiteElemental), typeof(Alligator),
                 typeof(AncientLich), typeof(Betrayer), typeof(Bird),
-                typeof(BlackBear), typeof(BlackSolenInfiltratorQueen), typeof(BlackSolenInfiltratorWarrior),
-                typeof(BlackSolenQueen), typeof(BlackSolenWarrior), typeof(BlackSolenWorker),
+                typeof(BlackBear), 
                 typeof(BloodElemental), typeof(Boar), typeof(Bogling),
                 typeof(BoneMagi), typeof(Brigand), typeof(BronzeElemental),
                 typeof(BrownBear), typeof(Bull), typeof(BullFrog),

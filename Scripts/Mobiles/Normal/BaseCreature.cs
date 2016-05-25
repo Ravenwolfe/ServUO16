@@ -521,14 +521,6 @@ namespace Server.Mobiles
                 {
                     return;
                 }
-                else if (value)
-                {
-                    XmlParagon.Convert(this);
-                }
-                else
-                {
-                    XmlParagon.UnConvert(this);
-                }
 
                 m_Paragon = value;
 
@@ -716,11 +708,6 @@ namespace Server.Mobiles
         public virtual int BreathComputeDamage()
         {
             int damage = (int)(Hits * BreathDamageScalar);
-
-            if (IsParagon)
-            {
-                damage = (int)(damage / XmlParagon.GetHitsBuff(this));
-            }
 
             if (damage > 200)
             {
@@ -981,19 +968,6 @@ namespace Server.Mobiles
             {
                 suffix = customtitle.Data;
             }
-            else if (IsParagon)
-            {
-                if (suffix.Length == 0)
-                {
-                    suffix = XmlParagon.GetParagonLabel(this);
-                }
-                else
-                {
-                    suffix = String.Concat(suffix, " " + XmlParagon.GetParagonLabel(this));
-                }
-
-                XmlAttach.AttachTo(this, new XmlData("ParagonTitle", suffix));
-            }
 
             return base.ApplyNameSuffix(suffix);
         }
@@ -1040,7 +1014,7 @@ namespace Server.Mobiles
 
             double dMinTameSkill = m_dMinTameSkill;
 
-            if (dMinTameSkill > -24.9 && AnimalTaming.CheckMastery(m, this))
+            if (dMinTameSkill > -24.9)
             {
                 dMinTameSkill = -24.9;
             }
@@ -1099,8 +1073,6 @@ namespace Server.Mobiles
             }
 
             chance -= (MaxLoyalty - m_Loyalty) * 10;
-
-            chance += (int)XmlMobFactions.GetScaledFaction(m, this, -250, 250, 0.001);
 
             return ((double)chance / 1000);
         }
@@ -1174,16 +1146,6 @@ namespace Server.Mobiles
             {
                 m_AI.OnTeleported();
             }
-        }
-
-        public override void OnBeforeSpawn(Point3D location, Map m)
-        {
-            if (XmlParagon.CheckConvert(this, location, m))
-            {
-                IsParagon = true;
-            }
-
-            base.OnBeforeSpawn(location, m);
         }
 
         public override ApplyPoisonResult ApplyPoison(Mobile from, Poison poison)
@@ -1477,13 +1439,6 @@ namespace Server.Mobiles
             {
                 Timer.DelayCall(TimeSpan.FromSeconds(10), ((PlayerMobile)@from).RecoverAmmo);
             }
-
-            #region XmlSpawner
-            if (!Summoned && willKill && from != null)
-            {
-                LevelItemManager.CheckItems(from, this);
-            }
-            #endregion
 
             base.OnDamage(amount, from, willKill);
         }
@@ -4490,11 +4445,7 @@ namespace Server.Mobiles
             {
                 if (treasureLevel >= 0)
                 {
-                    if (m_Paragon && XmlParagon.GetChestChance(this) > Utility.RandomDouble())
-                    {
-                        XmlParagon.AddChest(this, treasureLevel);
-                    }
-                    else if (/*(Map == Map.Felucca || Map == Map.Trammel) &&*/TreasureMapChance >= Utility.RandomDouble())
+                    if (/*(Map == Map.Felucca || Map == Map.Trammel) &&*/TreasureMapChance >= Utility.RandomDouble())
                     {
                         PackItem(new TreasureMap(treasureLevel, Map));
                     }
@@ -4741,11 +4692,6 @@ namespace Server.Mobiles
 
         public virtual void OnKilledBy(Mobile mob)
         {
-            if (m_Paragon && XmlParagon.CheckArtifactChance(mob, this))
-            {
-                XmlParagon.GiveArtifactTo(mob, this);
-            }
-
             EventSink.InvokeOnKilledBy(new OnKilledByEventArgs(this, mob));
         }
 

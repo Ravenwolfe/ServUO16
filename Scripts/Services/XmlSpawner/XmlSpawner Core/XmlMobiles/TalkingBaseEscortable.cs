@@ -1,12 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Server;
-using Server.Items;
-using Server.Network;
 using Server.ContextMenus;
-using EDI = Server.Mobiles.EscortDestinationInfo;
 using Server.Engines.XmlSpawner2;
+using Server.Items;
+using Server.Misc;
+using EDI = Server.Mobiles.EscortDestinationInfo;
 
 namespace Server.Mobiles
 {
@@ -368,7 +367,7 @@ namespace Server.Mobiles
 				if ( cont == null || !cont.TryDropItem( escorter, gold, false ) )
 					gold.MoveToWorld( escorter.Location, escorter.Map );
 
-				Misc.Titles.AwardFame( escorter, 10, true );
+				Titles.AwardFame( escorter, 10, true );
 
 				bool gainedPath = false;
 

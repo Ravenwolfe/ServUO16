@@ -14,7 +14,6 @@ using Server.Mobiles;
 using Server.Network;
 using Server.Spells;
 using Server.Spells.Fifth;
-using Server.Spells.Ninjitsu;
 using Server.Spells.Seventh;
 using Server.Targeting;
 #endregion
@@ -58,12 +57,6 @@ namespace Server.SkillHandlers
 				Item stolen = null;
 
 				object root = toSteal.RootParent;
-
-				StealableArtifactsSpawner.StealableInstance si = null;
-				if (toSteal.Parent == null || !toSteal.Movable)
-				{
-					si = StealableArtifactsSpawner.GetStealableInstance(toSteal);
-				}
 
 				if (!IsEmptyHanded(m_Thief))
 				{
@@ -127,10 +120,6 @@ namespace Server.SkillHandlers
 						{
 							m_Thief.SendLocalizedMessage(1061622); // You cannot steal the sigil while in that form.
 						}
-						else if (AnimalForm.UnderTransformation(m_Thief))
-						{
-							m_Thief.SendLocalizedMessage(1063222); // You cannot steal the sigil while mimicking an animal.
-						}
 						else if (pl.IsLeaving)
 						{
 							m_Thief.SendLocalizedMessage(1005589); // You are currently quitting a faction and cannot steal the town sigil
@@ -184,7 +173,7 @@ namespace Server.SkillHandlers
 				}
 				#endregion
 
-				else if (si == null && (toSteal.Parent == null || !toSteal.Movable) && !ItemFlags.GetStealable(toSteal))
+				else if ((toSteal.Parent == null || !toSteal.Movable) && !ItemFlags.GetStealable(toSteal))
 				{
 					m_Thief.SendLocalizedMessage(502710); // You can't steal that!
 				}
@@ -192,15 +181,11 @@ namespace Server.SkillHandlers
 				{
 					m_Thief.SendLocalizedMessage(502710); // You can't steal that!
 				}
-				else if (Core.AOS && si == null && toSteal is Container && !ItemFlags.GetStealable(toSteal))
-				{
-					m_Thief.SendLocalizedMessage(502710); // You can't steal that!
-				}
 				else if (!m_Thief.InRange(toSteal.GetWorldLocation(), 1))
 				{
 					m_Thief.SendLocalizedMessage(502703); // You must be standing next to an item to steal it.
 				}
-				else if (si != null && m_Thief.Skills[SkillName.Stealing].Value < 100.0)
+				else if (m_Thief.Skills[SkillName.Stealing].Value < 100.0)
 				{
 					m_Thief.SendLocalizedMessage(1060025, "", 0x66D); // You're not skilled enough to attempt the theft of this item.
 				}
@@ -301,12 +286,6 @@ namespace Server.SkillHandlers
 							ItemFlags.SetTaken(stolen, true);
 							ItemFlags.SetStealable(stolen, false);
 							stolen.Movable = true;
-
-							if (si != null)
-							{
-								toSteal.Movable = true;
-								si.Item = null;
-							}
 						}
 						else
 						{

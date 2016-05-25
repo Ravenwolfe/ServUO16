@@ -1,8 +1,6 @@
-using System;
-using Server;
 using Server.Mobiles;
-   
-   /*
+
+/*
    SimpleTileTrap
    Written by Alari
    

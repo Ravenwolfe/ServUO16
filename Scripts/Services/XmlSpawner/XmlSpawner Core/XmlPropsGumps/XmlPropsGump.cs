@@ -1,14 +1,10 @@
 using System;
-using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
-using Server;
-using Server.Network;
-using Server.Menus;
-using Server.Menus.Questions;
-using Server.Targeting;
-using Server.Commands;
+using System.Reflection;
 using Server.Commands.Generic;
+using Server.Mobiles;
+using Server.Network;
 using CPA = Server.CommandPropertyAttribute;
 /*
 ** modified properties gumps taken from RC0 properties gump scripts to support the special XmlSpawner properties gump
@@ -202,7 +198,7 @@ namespace Server.Gumps
 
 					int huemodifier = TextHue;
 					FieldInfo finfo = null;
-					Server.Mobiles.XmlSpawnerDefaults.DefaultEntry de = new Server.Mobiles.XmlSpawnerDefaults.DefaultEntry();
+					XmlSpawnerDefaults.DefaultEntry de = new XmlSpawnerDefaults.DefaultEntry();
 					Type ftype = de.GetType();
 					if(ftype != null)
 					   finfo = ftype.GetField(prop.Name);

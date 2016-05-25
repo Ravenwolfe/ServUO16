@@ -85,10 +85,7 @@ namespace Server.Spells.Seventh
                     {
                         Mobile m = targets[i];
 
-                        if (Core.AOS)
-                            damage = this.GetNewAosDamage(51, 1, 5, m.Player, m);
-                        else
-                            damage = Utility.Random(27, 22);
+                        damage = Utility.Random(27, 22);
 
                         if (Core.AOS && targets.Count > 2)
                             damage = (damage * 2) / targets.Count;

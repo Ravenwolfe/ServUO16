@@ -13,11 +13,7 @@ using Server.Items;
 using Server.Misc;
 using Server.Mobiles;
 using Server.Network;
-using Server.Spells.Bushido;
-using Server.Spells.Necromancy;
-using Server.Spells.Ninjitsu;
 using Server.Spells.Second;
-using Server.Spells.Spellweaving;
 using Server.Targeting;
 #endregion
 
@@ -128,96 +124,6 @@ namespace Server.Spells
 			m_Info = info;
 		}
 
-		public virtual int GetNewAosDamage(int bonus, int dice, int sides, Mobile singleTarget)
-		{
-			if (singleTarget != null)
-			{
-				return GetNewAosDamage(bonus, dice, sides, (Caster.Player && singleTarget.Player), GetDamageScalar(singleTarget), singleTarget);
-			}
-			else
-			{
-				return GetNewAosDamage(bonus, dice, sides, false, null);
-			}
-		}
-
-		public virtual int GetNewAosDamage(int bonus, int dice, int sides, bool playerVsPlayer, Mobile target)
-		{
-			return GetNewAosDamage(bonus, dice, sides, playerVsPlayer, 1.0, target);
-		}
-
-		public virtual int GetNewAosDamage(int bonus, int dice, int sides, bool playerVsPlayer, double scalar, Mobile target)
-		{
-			int damage = Utility.Dice(dice, sides, bonus) * 100;
-			int damageBonus = 0;
-
-			int inscribeSkill = GetInscribeFixed(m_Caster);
-			int inscribeBonus = (inscribeSkill + (1000 * (inscribeSkill / 1000))) / 200;
-			damageBonus += inscribeBonus;
-
-			int intBonus = Caster.Int / 10;
-			damageBonus += intBonus;
-
-			int sdiBonus = AosAttributes.GetValue(m_Caster, AosAttribute.SpellDamage);
-
-			#region Mondain's Legacy
-			sdiBonus += ArcaneEmpowermentSpell.GetSpellBonus(m_Caster, playerVsPlayer);
-			#endregion
-
-            if (target != null && RunedSashOfWarding.IsUnderEffects(target, WardingEffect.SpellDamage))
-                sdiBonus -= 10;
-
-			if (m_Caster is PlayerMobile && m_Caster.Race == Race.Gargoyle)
-			{
-				double perc = ((double)m_Caster.Hits / (double)m_Caster.HitsMax) * 100;
-
-				perc = 100 - perc;
-				perc /= 20;
-
-				if (perc > 4)
-					sdiBonus += 12;
-				else if (perc >= 3)
-					sdiBonus += 9;
-				else if (perc >= 2)
-					sdiBonus += 6;
-				else if (perc >= 1)
-					sdiBonus += 3;
-			}
-
-			// PvP spell damage increase cap of 15% from an item’s magic property, 30% if spell school focused.
-			if (playerVsPlayer)
-			{
-			    if (SpellHelper.HasSpellMastery(m_Caster) && sdiBonus > 30)
-                {
-                    sdiBonus = 30;
-                }
-
-                if (!SpellHelper.HasSpellMastery(m_Caster) && sdiBonus > 15)
-                {
-                    sdiBonus = 15;
-                }
-			}
-
-			damageBonus += sdiBonus;
-
-			TransformContext context = TransformationSpellHelper.GetContext(Caster);
-
-			if (context != null && context.Spell is ReaperFormSpell)
-			{
-				damageBonus += ((ReaperFormSpell)context.Spell).SpellDamageBonus;
-			}
-
-			damage = MathHelper.Scale(damage, 100 + damageBonus);
-
-			int evalSkill = GetDamageFixed(m_Caster);
-			int evalScale = 30 + ((9 * evalSkill) / 100);
-
-			damage = MathHelper.Scale(damage, evalScale);
-
-			damage = MathHelper.Scale(damage, (int)(scalar * 100));
-
-			return damage / 100;
-		}
-
 		public virtual bool IsCasting { get { return m_State == SpellState.Casting; } }
 
         public virtual void OnCasterHurt()
@@ -244,40 +150,6 @@ namespace Server.Spells
                         disturb = false;
                     }
                 }
-
-                #region Stygian Abyss
-                int focus = SAAbsorptionAttributes.GetValue(Caster, SAAbsorptionAttribute.CastingFocus);
-                if (focus > 12) focus = 12;
-                focus += m_Caster.Skills[SkillName.Inscribe].Value >= 50 ? GetInscribeFixed(m_Caster) / 200 : 0;
-
-                if (focus > 0 && focus > Utility.Random(100))
-                {
-                    disturb = false;
-                    Caster.SendLocalizedMessage(1113690); // You regain your focus and continue casting the spell.
-                }
-                else if (checkElem)
-                {
-                    int res = 0;
-
-                    if (phys == 100)
-                        res = Math.Min(40, SAAbsorptionAttributes.GetValue(m_Caster, SAAbsorptionAttribute.ResonanceKinetic));
-
-                    else if (fire == 100)
-                        res = Math.Min(40, SAAbsorptionAttributes.GetValue(m_Caster, SAAbsorptionAttribute.ResonanceFire));
-
-                    else if (cold == 100)
-                        res = Math.Min(40, SAAbsorptionAttributes.GetValue(m_Caster, SAAbsorptionAttribute.ResonanceCold));
-
-                    else if (pois == 100)
-                        res = Math.Min(40, SAAbsorptionAttributes.GetValue(m_Caster, SAAbsorptionAttribute.ResonancePoison));
-
-                    else if (nrgy == 100)
-                        res = Math.Min(40, SAAbsorptionAttributes.GetValue(m_Caster, SAAbsorptionAttribute.ResonanceEnergy));
-
-                    if (res > Utility.Random(100))
-                        disturb = false;
-                }
-                #endregion
 
                 if (disturb)
                     Disturb(DisturbType.Hurt, false, true);
@@ -333,11 +205,6 @@ namespace Server.Spells
 		public virtual bool ConsumeReagents()
 		{
 			if (m_Scroll != null || !m_Caster.Player)
-			{
-				return true;
-			}
-
-			if (AosAttributes.GetValue(m_Caster, AosAttribute.LowerRegCost) > Utility.Random(100))
 			{
 				return true;
 			}
@@ -444,11 +311,6 @@ namespace Server.Spells
 
 			target.Region.SpellDamageScalar(m_Caster, target, ref scalar);
 
-			if (Evasion.CheckSpellEvasion(target)) //Only single target spells an be evaded
-			{
-				scalar = 0;
-			}
-
 			return scalar;
 		}
 
@@ -466,14 +328,6 @@ namespace Server.Spells
 				{
 					defender.FixedEffect(0x37B9, 10, 5); //TODO: Confirm this displays on OSIs
 					scalar = 2.0;
-				}
-
-				TransformContext context = TransformationSpellHelper.GetContext(defender);
-
-				if ((atkBook.Slayer == SlayerName.Silver || atkBook.Slayer2 == SlayerName.Silver) && context != null &&
-					context.Type != typeof(HorrificBeastSpell))
-				{
-					scalar += .25; // Every necromancer transformation other than horrific beast take an additional 25% damage
 				}
 
 				if (scalar != 1.0)
@@ -661,11 +515,6 @@ namespace Server.Spells
 			{
 				m_Caster.SendLocalizedMessage(502642); // You are already casting a spell.
 			}
-			else if (BlockedByHorrificBeast && TransformationSpellHelper.UnderTransformation(m_Caster, typeof(HorrificBeastSpell)) ||
-					 (BlockedByAnimalForm && AnimalForm.UnderTransformation(m_Caster)))
-			{
-				m_Caster.SendLocalizedMessage(1061091); // You cannot cast that spell in this form.
-			}
 			else if (!(m_Scroll is BaseWand) && (m_Caster.Paralyzed || m_Caster.Frozen))
 			{
 				m_Caster.SendLocalizedMessage(502643); // You can not cast a spell while frozen.
@@ -824,26 +673,6 @@ namespace Server.Spells
 		{
 			double scalar = 1.0;
 
-            if (ManaPhasingOrb.IsInManaPhase(Caster))
-            {
-                ManaPhasingOrb.RemoveFromTable(Caster);
-                return 0;
-            }
-
-			if (!MindRotSpell.GetMindRotScalar(Caster, ref scalar))
-			{
-				scalar = 1.0;
-			}
-
-			// Lower Mana Cost = 40%
-			int lmc = AosAttributes.GetValue(m_Caster, AosAttribute.LowerManaCost);
-			if (lmc > 40)
-			{
-				lmc = 40;
-			}
-
-			scalar -= (double)lmc / 100;
-
 			return (int)(mana * scalar);
 		}
 
@@ -871,25 +700,7 @@ namespace Server.Spells
 
 		public virtual TimeSpan GetCastRecovery()
 		{
-			if (!Core.AOS)
-			{
-				return NextSpellDelay;
-			}
-
-			int fcr = AosAttributes.GetValue(m_Caster, AosAttribute.CastRecovery);
-
-			fcr -= ThunderstormSpell.GetCastRecoveryMalus(m_Caster);
-
-			int fcrDelay = -(CastRecoveryFastScalar * fcr);
-
-			int delay = CastRecoveryBase + fcrDelay;
-
-			if (delay < CastRecoveryMinimum)
-			{
-				delay = CastRecoveryMinimum;
-			}
-
-			return TimeSpan.FromSeconds((double)delay / CastRecoveryPerSecond);
+			return NextSpellDelay;
 		}
 
 		public abstract TimeSpan CastDelayBase { get; }
@@ -922,41 +733,15 @@ namespace Server.Spells
 				fcMax = 2;
 			}
 
-			int fc = AosAttributes.GetValue(m_Caster, AosAttribute.CastSpeed);
-
-			if (fc > fcMax)
-			{
-				fc = fcMax;
-			}
-
-			if (ProtectionSpell.Registry.Contains(m_Caster))
-			{
-				fc -= 2;
-			}
-
-			if (EssenceOfWindSpell.IsDebuffed(m_Caster))
-			{
-				fc -= EssenceOfWindSpell.GetFCMalus(m_Caster);
-			}
-
 			TimeSpan baseDelay = CastDelayBase;
 
-			TimeSpan fcDelay = TimeSpan.FromSeconds(-(CastDelayFastScalar * fc * CastDelaySecondsPerTick));
-
 			//int delay = CastDelayBase + circleDelay + fcDelay;
-			TimeSpan delay = baseDelay + fcDelay;
+			TimeSpan delay = baseDelay;
 
 			if (delay < CastDelayMinimum)
 			{
 				delay = CastDelayMinimum;
 			}
-
-			#region Mondain's Legacy
-			if (DreadHorn.IsUnderInfluence(m_Caster))
-			{
-				delay.Add(delay);
-			}
-			#endregion
 
 			//return TimeSpan.FromSeconds( (double)delay / CastDelayPerSecond );
 			return delay;
@@ -985,8 +770,7 @@ namespace Server.Spells
 			{
 				DoFizzle();
 			}
-			else if (m_Scroll != null && !(m_Scroll is Runebook) &&
-					 (m_Scroll.Amount <= 0 || m_Scroll.Deleted || m_Scroll.RootParent != m_Caster ||
+			else if (m_Scroll != null && (m_Scroll.Amount <= 0 || m_Scroll.Deleted || m_Scroll.RootParent != m_Caster ||
 					  (m_Scroll is BaseWand && (((BaseWand)m_Scroll).Charges <= 0 || m_Scroll.Parent != m_Caster))))
 			{
 				DoFizzle();
@@ -1057,22 +841,6 @@ namespace Server.Spells
 				if (karma != 0)
 				{
 					Titles.AwardKarma(Caster, karma, true);
-				}
-
-				if (TransformationSpellHelper.UnderTransformation(m_Caster, typeof(VampiricEmbraceSpell)))
-				{
-					bool garlic = false;
-
-					for (int i = 0; !garlic && i < m_Info.Reagents.Length; ++i)
-					{
-						garlic = (m_Info.Reagents[i] == Reagent.Garlic);
-					}
-
-					if (garlic)
-					{
-						m_Caster.SendLocalizedMessage(1061651); // The garlic burns you!
-						AOS.Damage(m_Caster, Utility.RandomMinMax(17, 23), 100, 0, 0, 0, 0);
-					}
 				}
 
 				return true;

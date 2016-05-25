@@ -1,20 +1,15 @@
 using System;
+using System.Collections;
 using System.Data;
 using System.IO;
-using System.Collections;
-using Server;
-using Server.Items;
-using Server.Network;
-using Server.Gumps;
-using Server.Targeting;
-using System.Reflection;
-using Server.Commands;
-using Server.Commands.Generic;
-using CPA = Server.CommandPropertyAttribute;
-using System.Xml;
-using Server.Spells;
 using System.Text;
 using Server.Accounting;
+using Server.Commands;
+using Server.Gumps;
+using Server.Items;
+using Server.Network;
+using Server.Targeting;
+using CPA = Server.CommandPropertyAttribute;
 
 /*
 ** XmlAdd
@@ -229,7 +224,7 @@ namespace Server.Mobiles
 		{
 			if(defs.NameList == null || defs.NameList.Length == 0)
 				return "0";
-			System.Text.StringBuilder sb = new System.Text.StringBuilder();
+			StringBuilder sb = new StringBuilder();
 			sb.AppendFormat( "{0}", defs.NameList.Length);
 			for(int i = 0; i < defs.NameList.Length;i++)
 			{
@@ -242,7 +237,7 @@ namespace Server.Mobiles
 		{
 			if(defs.SelectionList == null || defs.SelectionList.Length == 0)
 				return "0";
-			System.Text.StringBuilder sb = new System.Text.StringBuilder();
+			StringBuilder sb = new StringBuilder();
 			sb.AppendFormat( "{0}", defs.SelectionList.Length);
 			for(int i = 0; i < defs.SelectionList.Length;i++)
 			{
@@ -391,7 +386,7 @@ namespace Server.Mobiles
 			// Write out the file
 			bool file_error = false;
 			string dirname;
-			if( System.IO.Directory.Exists( DefsDir ) == true )
+			if( Directory.Exists( DefsDir ) == true )
 			{
 				// put it in the defaults directory if it exists
 				dirname = String.Format("{0}/{1}.defs",DefsDir,filename);
@@ -425,12 +420,12 @@ namespace Server.Mobiles
 		{
 			if(filename == null || filename.Length <= 0) return;
 			string dirname;
-			if( System.IO.Directory.Exists( DefsDir ) == true )
+			if( Directory.Exists( DefsDir ) == true )
 			{
 				// look for it in the defaults directory
 				dirname = String.Format("{0}/{1}.defs",DefsDir,filename);
 				// Check if the file exists
-				if( System.IO.File.Exists( dirname ) == false )
+				if( File.Exists( dirname ) == false )
 				{
 					// didnt find it so just look in the main install dir
 					dirname = String.Format("{0}.defs",filename);
@@ -442,7 +437,7 @@ namespace Server.Mobiles
 				dirname = String.Format("{0}.defs",filename);
 			}
 			// Check if the file exists
-			if( System.IO.File.Exists( dirname ) == true )
+			if( File.Exists( dirname ) == true )
 			{
 				FileStream fs = null;
 				try
@@ -1154,7 +1149,7 @@ namespace Server.Mobiles
 					defs.AutoNumberValue++;
 
 				//from.CloseGump(typeof(XmlAddGump));
-				XmlAddGump.Refresh(m_state.Mobile, true);
+				Refresh(m_state.Mobile, true);
 
 				// open the spawner gump 
 				DoShowGump(from, spawner);
@@ -1527,13 +1522,13 @@ namespace Server.Mobiles
 						{
 
 							// if no string has been entered then just use the full categorized add gump
-							state.Mobile.CloseGump( typeof(Server.Gumps.XmlCategorizedAddGump));
-							state.Mobile.SendGump( new Server.Gumps.XmlCategorizedAddGump( state.Mobile, defs.CurrentCategory, defs.CurrentCategoryPage,i, newg ) );
+							state.Mobile.CloseGump( typeof(XmlCategorizedAddGump));
+							state.Mobile.SendGump( new XmlCategorizedAddGump( state.Mobile, defs.CurrentCategory, defs.CurrentCategoryPage,i, newg ) );
 						} 
 						else
 						{
 							// use the XmlPartialCategorizedAddGump
-							state.Mobile.CloseGump( typeof(Server.Gumps.XmlPartialCategorizedAddGump));
+							state.Mobile.CloseGump( typeof(XmlPartialCategorizedAddGump));
 
 							//Type [] types = (Type[])XmlPartialCategorizedAddGump.Match( defs.NameList[i] ).ToArray( typeof( Type ) );
 							ArrayList types = XmlPartialCategorizedAddGump.Match( defs.NameList[i] );

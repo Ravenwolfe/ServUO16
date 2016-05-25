@@ -1,15 +1,11 @@
 using System;
-using Server;
-using Server.Gumps;
-using Server.Network;
-using Server.Mobiles;
-using System.IO;
 using System.Collections.Generic;
-using Server.Targeting;
-using Server.Engines.PartySystem;
 using System.Data;
-using System.Xml;
+using System.IO;
 using Server.Engines.XmlSpawner2;
+using Server.Gumps;
+using Server.Mobiles;
+using Server.Network;
 
 /*
 ** XmlQuestToken class
@@ -1634,7 +1630,7 @@ namespace Server.Items
             if (filename == null || filename.Length <= 0) return;
 
             // Check if the file exists
-            if (System.IO.File.Exists(filename) == true)
+            if (File.Exists(filename) == true)
             {
                 FileStream fs = null;
                 try

@@ -1,24 +1,11 @@
 using System;
-using System.Data;
-using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using Server.ContextMenus;
-using Server;
+using Server.Engines.XmlSpawner2;
 using Server.Items;
 using Server.Network;
-using Server.Gumps;
-using Server.Targeting;
-using System.Reflection;
-using Server.Commands;
 using CPA = Server.CommandPropertyAttribute;
-using System.Xml;
-using Server.Spells;
-using System.Text;
-using Server.Accounting;
-using System.Diagnostics;
-using System.Text.RegularExpressions;
-using Server.Engines.XmlSpawner2;
 
 /*
 ** TalkingBaseCreature
@@ -175,7 +162,7 @@ namespace Server.Mobiles
 				int hours;
 				int minutes;
 
-				Server.Items.Clock.GetTime(this.Map, this.Location.X, this.Location.Y, out  hours, out  minutes);
+				Clock.GetTime(this.Map, this.Location.X, this.Location.Y, out  hours, out  minutes);
 				return (new DateTime(DateTime.UtcNow.Year,DateTime.UtcNow.Month,DateTime.UtcNow.Day,hours, minutes,0).TimeOfDay);
 			}
 		}

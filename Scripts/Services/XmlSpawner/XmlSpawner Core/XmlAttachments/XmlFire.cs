@@ -1,8 +1,5 @@
 using System;
-using Server;
 using Server.Items;
-using Server.Network;
-using Server.Mobiles;
 using Server.Spells;
 
 namespace Server.Engines.XmlSpawner2

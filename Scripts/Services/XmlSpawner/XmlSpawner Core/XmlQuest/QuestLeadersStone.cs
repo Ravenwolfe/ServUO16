@@ -1,8 +1,5 @@
-using System;
-using Server;
 using System.Collections;
 using Server.Commands;
-using Server.Commands.Generic;
 
 namespace Server.Engines.XmlSpawner2
 {

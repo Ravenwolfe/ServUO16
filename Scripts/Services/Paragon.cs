@@ -11,21 +11,6 @@ namespace Server.Mobiles
         {
             Map.Ilshenar
         };
-        public static Type[] Artifacts = new Type[]
-        {
-            typeof(GoldBricks), typeof(PhillipsWoodenSteed),
-            typeof(AlchemistsBauble), typeof(ArcticDeathDealer),
-            typeof(BlazeOfDeath), typeof(BowOfTheJukaKing),
-            typeof(BurglarsBandana), typeof(CavortingClub),
-            typeof(EnchantedTitanLegBone), typeof(GwennosHarp),
-            typeof(IolosLute), typeof(LunaLance),
-            typeof(NightsKiss), typeof(NoxRangersHeavyCrossbow),
-            typeof(OrcishVisage), typeof(PolarBearMask),
-            typeof(ShieldOfInvulnerability), typeof(StaffOfPower),
-            typeof(VioletCourage), typeof(HeartOfTheLion),
-            typeof(WrathOfTheDryad), typeof(PixieSwatter),
-            typeof(GlovesOfThePugilist)
-        };
         public static int Hue = 0x501;// Paragon hue
 
         // Buffs
@@ -141,7 +126,7 @@ namespace Server.Mobiles
             if (Array.IndexOf(Maps, m) == -1)
                 return false;
 
-            if (bc is BaseChampion || bc is Harrower || bc is BaseVendor || bc is BaseEscortable || bc is Clone || bc.IsParagon)
+            if (bc is BaseChampion || bc is Harrower || bc is BaseVendor || bc is BaseEscortable || bc.IsParagon)
                 return false;
 
             int fame = bc.Fame;
@@ -167,16 +152,6 @@ namespace Server.Mobiles
             double chance = 1 / (Math.Max(10, 100 * (0.83 - Math.Round(Math.Log(Math.Round(fame / 6000, 3) + 0.001, 10), 3))) * (100 - Math.Sqrt(m.Luck)) / 100.0);
 
             return chance > Utility.RandomDouble();
-        }
-
-        public static void GiveArtifactTo(Mobile m)
-        {
-            Item item = (Item)Activator.CreateInstance(Artifacts[Utility.Random(Artifacts.Length)]);
-
-            if (m.AddToBackpack(item))
-                m.SendMessage("As a reward for slaying the mighty paragon, an artifact has been placed in your backpack.");
-            else
-                m.SendMessage("As your backpack is full, your reward for destroying the legendary paragon has been placed at your feet.");
         }
     }
 }

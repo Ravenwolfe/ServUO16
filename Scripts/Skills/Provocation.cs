@@ -113,7 +113,7 @@ namespace Server.SkillHandlers
 					{
 						from.SendLocalizedMessage(1049446); // You have no chance of provoking those creatures.
 					}
-					else if (creature != null && creature.Unprovokable && !(creature is DemonKnight))
+					else if (creature != null && creature.Unprovokable)
 					{
 						from.SendLocalizedMessage(1049446); // You have no chance of provoking those creatures.
 					}
@@ -129,9 +129,6 @@ namespace Server.SkillHandlers
 
 						double diff = ((m_Instrument.GetDifficultyFor(m_Creature) + m_Instrument.GetDifficultyFor(target)) * 0.5) - 5.0;
 						double music = from.Skills[SkillName.Musicianship].Value;
-
-						diff += (XmlMobFactions.GetScaledFaction(from, m_Creature, -25, 25, -0.001) +
-								 XmlMobFactions.GetScaledFaction(from, target, -25, 25, -0.001)) * 0.5;
 
 						if (music > 100.0)
 						{

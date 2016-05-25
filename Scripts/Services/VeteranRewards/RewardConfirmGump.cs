@@ -50,9 +50,6 @@ namespace Server.Engines.VeteranRewards
 
                 if (item != null)
                 {
-                    if (item is Server.Items.RedSoulstone)
-                        ((Server.Items.RedSoulstone)item).Account = this.m_From.Account.Username;	
-					
                     if (RewardSystem.ConsumeRewardPoint(this.m_From))
                         this.m_From.AddToBackpack(item);
                     else

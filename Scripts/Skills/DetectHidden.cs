@@ -68,9 +68,6 @@ namespace Server.SkillHandlers
 
                             if (src.AccessLevel >= trg.AccessLevel && (ss >= ts || (inHouse && house.IsInside(trg))))
                             {
-                                if (trg is ShadowKnight && (trg.X != p.X || trg.Y != p.Y))
-                                    continue;
-
                                 trg.RevealingAction();
                                 trg.SendLocalizedMessage(500814); // You have been revealed!
                                 foundAnyone = true;
@@ -130,9 +127,6 @@ namespace Server.SkillHandlers
 
             foreach (Mobile m in eable)
             {
-                if (m == null || m is ShadowKnight)
-                    continue;
-
                 int noto = Notoriety.Compute(src, m);
 
                 if (m != src && noto != Notoriety.Innocent && noto != Notoriety.Ally && noto != Notoriety.Invulnerable)

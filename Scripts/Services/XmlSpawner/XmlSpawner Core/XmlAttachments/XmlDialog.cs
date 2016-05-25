@@ -1,22 +1,15 @@
 using System;
+using System.Collections;
 using System.Data;
 using System.IO;
-using System.Collections;
-using Server;
-using Server.Items;
-using Server.Network;
-using Server.Gumps;
-using Server.Targeting;
-using System.Reflection;
-using Server.Commands;
-using CPA = Server.CommandPropertyAttribute;
-using System.Xml;
-using Server.Spells;
-using System.Text;
-using Server.Accounting;
-using System.Diagnostics;
 using System.Text.RegularExpressions;
+using Server.Commands;
+using Server.Gumps;
+using Server.Items;
 using Server.Mobiles;
+using Server.Network;
+using Server.Targeting;
+using CPA = Server.CommandPropertyAttribute;
 
 namespace Server.Engines.XmlSpawner2
 {
@@ -272,7 +265,7 @@ namespace Server.Engines.XmlSpawner2
                         y = ((Mobile)AttachedTo).Location.Y;
                     }
 
-                Server.Items.Clock.GetTime(map, x, y, out  hours, out  minutes);
+                Clock.GetTime(map, x, y, out  hours, out  minutes);
                 return (new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, hours, minutes, 0).TimeOfDay);
             }
         }
@@ -887,7 +880,7 @@ namespace Server.Engines.XmlSpawner2
 
             string status_str = null;
 
-            Server.Mobiles.XmlSpawner.SpawnObject TheSpawn = new Server.Mobiles.XmlSpawner.SpawnObject(null, 0);
+            XmlSpawner.SpawnObject TheSpawn = new XmlSpawner.SpawnObject(null, 0);
 
             TheSpawn.TypeName = gumpstring;
             string substitutedtypeName = BaseXmlSpawner.ApplySubstitution(null, this, mob, gumpstring);
@@ -929,7 +922,7 @@ namespace Server.Engines.XmlSpawner2
         {
             if (action == null || action.Length <= 0) return;
             string status_str = null;
-            Server.Mobiles.XmlSpawner.SpawnObject TheSpawn = new Server.Mobiles.XmlSpawner.SpawnObject(null, 0);
+            XmlSpawner.SpawnObject TheSpawn = new XmlSpawner.SpawnObject(null, 0);
 
             TheSpawn.TypeName = action;
             string substitutedtypeName = BaseXmlSpawner.ApplySubstitution(null, this, mob, action);
@@ -963,7 +956,7 @@ namespace Server.Engines.XmlSpawner2
                 try
                 {
                     string[] arglist = BaseXmlSpawner.ParseString(substitutedtypeName, 3, "/");
-                    object o = Server.Mobiles.XmlSpawner.CreateObject(type, arglist[0]);
+                    object o = XmlSpawner.CreateObject(type, arglist[0]);
 
                     if (o == null)
                     {
@@ -1358,13 +1351,13 @@ namespace Server.Engines.XmlSpawner2
             if (filename == null || filename.Length <= 0) return;
 
             string dirname;
-            if (System.IO.Directory.Exists(DefsDir) == true)
+            if (Directory.Exists(DefsDir) == true)
             {
                 // look for it in the defaults directory
                 dirname = String.Format("{0}/{1}.npc", DefsDir, filename);
 
                 // Check if the file exists
-                if (System.IO.File.Exists(dirname) == false)
+                if (File.Exists(dirname) == false)
                 {
                     // didnt find it so just look in the main install dir
                     dirname = String.Format("{0}.npc", filename);
@@ -1377,7 +1370,7 @@ namespace Server.Engines.XmlSpawner2
             }
 
             // Check if the file exists
-            if (System.IO.File.Exists(dirname) == true)
+            if (File.Exists(dirname) == true)
             {
                 FileStream fs = null;
                 try
@@ -1627,7 +1620,7 @@ namespace Server.Engines.XmlSpawner2
 
             string dirname;
 
-            if (System.IO.Directory.Exists(DefsDir) == true)
+            if (Directory.Exists(DefsDir) == true)
             {
                 // put it in the defaults directory if it exists
                 dirname = String.Format("{0}/{1}.npc", DefsDir, filename);
@@ -1640,7 +1633,7 @@ namespace Server.Engines.XmlSpawner2
 
             // check to see if the file already exists
 
-            if (System.IO.File.Exists(dirname) == true)
+            if (File.Exists(dirname) == true)
             {
                 // prompt the user to save over it
                 if (from != null)

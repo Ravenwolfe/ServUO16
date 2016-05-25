@@ -252,19 +252,6 @@ namespace Server.Misc
             PlaceItemIn(cont, 60, 118, new FletcherTools(1000));
             PlaceItemIn(cont, 90, 118, new SewingKit(1000));
 
-            PlaceItemIn(cont, 36, 51, new RunicHammer(CraftResource.DullCopper, 1000));
-            PlaceItemIn(cont, 42, 51, new RunicHammer(CraftResource.ShadowIron, 1000));
-            PlaceItemIn(cont, 48, 51, new RunicHammer(CraftResource.Copper, 1000));
-            PlaceItemIn(cont, 54, 51, new RunicHammer(CraftResource.Bronze, 1000));
-            PlaceItemIn(cont, 61, 51, new RunicHammer(CraftResource.Gold, 1000));
-            PlaceItemIn(cont, 67, 51, new RunicHammer(CraftResource.Agapite, 1000));
-            PlaceItemIn(cont, 73, 51, new RunicHammer(CraftResource.Verite, 1000));
-            PlaceItemIn(cont, 79, 51, new RunicHammer(CraftResource.Valorite, 1000));
-
-            PlaceItemIn(cont, 36, 55, new RunicSewingKit(CraftResource.SpinedLeather, 1000));
-            PlaceItemIn(cont, 42, 55, new RunicSewingKit(CraftResource.HornedLeather, 1000));
-            PlaceItemIn(cont, 48, 55, new RunicSewingKit(CraftResource.BarbedLeather, 1000));
-
             PlaceItemIn(bank, 118, 169, cont);
             // End bag of tools
 
@@ -342,24 +329,8 @@ namespace Server.Misc
             cont.Name = "Spell Casting Stuff";
 
             PlaceItemIn(cont, 45, 105, new Spellbook(UInt64.MaxValue));
-            PlaceItemIn(cont, 65, 105, new NecromancerSpellbook((UInt64)0xFFFF));
-            PlaceItemIn(cont, 85, 105, new BookOfChivalry((UInt64)0x3FF));
-            PlaceItemIn(cont, 105, 105, new BookOfBushido());	//Default ctor = full
-            PlaceItemIn(cont, 125, 105, new BookOfNinjitsu()); //Default ctor = full
 
-            Runebook runebook = new Runebook(10);
-            runebook.CurCharges = runebook.MaxCharges;
-            PlaceItemIn(cont, 145, 105, runebook);
-
-            Item toHue = new BagOfAllReagents(150);
-            toHue.Hue = 0x2D;
-            PlaceItemIn(cont, 45, 150, toHue);
-
-            toHue = new BagOfNecroReagents(150);
-            toHue.Hue = 0x488;
-            PlaceItemIn(cont, 65, 150, toHue);
-
-            PlaceItemIn(cont, 140, 150, new BagOfAllReagents(500));
+            PlaceItemIn(cont, 140, 150, new BagOfReagents(500));
 
             for (int i = 0; i < 9; ++i)
                 PlaceItemIn(cont, 45 + (i * 10), 75, new RecallRune());
@@ -385,159 +356,6 @@ namespace Server.Misc
 
             PlaceItemIn(bank, 38, 124, cont);
             // End bag of ethereals
-
-            // Begin first bag of artifacts
-            cont = new Backpack();
-            cont.Hue = 0x48F;
-            cont.Name = "Bag of Artifacts";
-
-            PlaceItemIn(cont, 45, 66, new TitansHammer());
-            PlaceItemIn(cont, 69, 82, new InquisitorsResolution());
-            PlaceItemIn(cont, 93, 99, new BladeOfTheRighteous());
-            PlaceItemIn(cont, 117, 115, new ZyronicClaw());
-
-            PlaceItemIn(bank, 58, 124, cont);
-            // End first bag of artifacts
-
-            // Begin second bag of artifacts
-            cont = new Backpack();
-            cont.Hue = 0x48F;
-            cont.Name = "Bag of Artifacts";
-
-            PlaceItemIn(cont, 45, 66, new GauntletsOfNobility());
-            PlaceItemIn(cont, 69, 82, new MidnightBracers());
-            PlaceItemIn(cont, 93, 99, new VoiceOfTheFallenKing());
-            PlaceItemIn(cont, 117, 115, new OrnateCrownOfTheHarrower());
-            PlaceItemIn(cont, 45, 132, new HelmOfInsight());
-            PlaceItemIn(cont, 69, 66, new HolyKnightsBreastplate());
-            PlaceItemIn(cont, 93, 82, new ArmorOfFortune());
-            PlaceItemIn(cont, 117, 99, new TunicOfFire());
-            PlaceItemIn(cont, 45, 115, new LeggingsOfBane());
-            PlaceItemIn(cont, 69, 132, new ArcaneShield());
-            PlaceItemIn(cont, 93, 66, new Aegis());
-            PlaceItemIn(cont, 117, 82, new RingOfTheVile());
-            PlaceItemIn(cont, 45, 99, new BraceletOfHealth());
-            PlaceItemIn(cont, 69, 115, new RingOfTheElements());
-            PlaceItemIn(cont, 93, 132, new OrnamentOfTheMagician());
-            PlaceItemIn(cont, 117, 66, new DivineCountenance());
-            PlaceItemIn(cont, 45, 82, new JackalsCollar());
-            PlaceItemIn(cont, 69, 99, new HuntersHeaddress());
-            PlaceItemIn(cont, 93, 115, new HatOfTheMagi());
-            PlaceItemIn(cont, 117, 132, new ShadowDancerLeggings());
-            PlaceItemIn(cont, 45, 66, new SpiritOfTheTotem());
-            PlaceItemIn(cont, 69, 82, new BladeOfInsanity());
-            PlaceItemIn(cont, 93, 99, new AxeOfTheHeavens());
-            PlaceItemIn(cont, 117, 115, new TheBeserkersMaul());
-            PlaceItemIn(cont, 45, 132, new Frostbringer());
-            PlaceItemIn(cont, 69, 66, new BreathOfTheDead());
-            PlaceItemIn(cont, 93, 82, new TheDragonSlayer());
-            PlaceItemIn(cont, 117, 99, new BoneCrusher());
-            PlaceItemIn(cont, 45, 115, new StaffOfTheMagi());
-            PlaceItemIn(cont, 69, 132, new SerpentsFang());
-            PlaceItemIn(cont, 93, 66, new LegacyOfTheDreadLord());
-            PlaceItemIn(cont, 117, 82, new TheTaskmaster());
-            PlaceItemIn(cont, 45, 99, new TheDryadBow());
-
-            PlaceItemIn(bank, 78, 124, cont);
-            // End second bag of artifacts
-
-            // Begin bag of minor artifacts
-            cont = new Backpack();
-            cont.Hue = 0x48F;
-            cont.Name = "Bag of Minor Artifacts";
-
-            PlaceItemIn(cont, 45, 66, new LunaLance());
-            PlaceItemIn(cont, 69, 82, new VioletCourage());
-            PlaceItemIn(cont, 93, 99, new CavortingClub());
-            PlaceItemIn(cont, 117, 115, new CaptainQuacklebushsCutlass());
-            PlaceItemIn(cont, 45, 132, new NightsKiss());
-            PlaceItemIn(cont, 69, 66, new ShipModelOfTheHMSCape());
-            PlaceItemIn(cont, 93, 82, new AdmiralsHeartyRum());
-            PlaceItemIn(cont, 117, 99, new CandelabraOfSouls());
-            PlaceItemIn(cont, 45, 115, new IolosLute());
-            PlaceItemIn(cont, 69, 132, new GwennosHarp());
-            PlaceItemIn(cont, 93, 66, new ArcticDeathDealer());
-            PlaceItemIn(cont, 117, 82, new EnchantedTitanLegBone());
-            PlaceItemIn(cont, 45, 99, new NoxRangersHeavyCrossbow());
-            PlaceItemIn(cont, 69, 115, new BlazeOfDeath());
-            PlaceItemIn(cont, 93, 132, new DreadPirateHat());
-            PlaceItemIn(cont, 117, 66, new BurglarsBandana());
-            PlaceItemIn(cont, 45, 82, new GoldBricks());
-            PlaceItemIn(cont, 69, 99, new AlchemistsBauble());
-            PlaceItemIn(cont, 93, 115, new PhillipsWoodenSteed());
-            PlaceItemIn(cont, 117, 132, new PolarBearMask());
-            PlaceItemIn(cont, 45, 66, new BowOfTheJukaKing());
-            PlaceItemIn(cont, 69, 82, new GlovesOfThePugilist());
-            PlaceItemIn(cont, 93, 99, new OrcishVisage());
-            PlaceItemIn(cont, 117, 115, new StaffOfPower());
-            PlaceItemIn(cont, 45, 132, new ShieldOfInvulnerability());
-            PlaceItemIn(cont, 69, 66, new HeartOfTheLion());
-            PlaceItemIn(cont, 93, 82, new ColdBlood());
-            PlaceItemIn(cont, 117, 99, new GhostShipAnchor());
-            PlaceItemIn(cont, 45, 115, new SeahorseStatuette());
-            PlaceItemIn(cont, 69, 132, new WrathOfTheDryad());
-            PlaceItemIn(cont, 93, 66, new PixieSwatter());
-
-            for (int i = 0; i < 10; i++)
-                PlaceItemIn(cont, 117, 128, new MessageInABottle(Utility.RandomBool() ? Map.Trammel : Map.Felucca, 4));
-
-            PlaceItemIn(bank, 18, 124, cont);
-
-            if (Core.SE)
-            {
-                cont = new Bag();
-                cont.Hue = 0x501;
-                cont.Name = "Tokuno Minor Artifacts";
-
-                PlaceItemIn(cont, 42, 70, new Exiler());
-                PlaceItemIn(cont, 38, 53, new HanzosBow());
-                PlaceItemIn(cont, 45, 40, new TheDestroyer());
-                PlaceItemIn(cont, 92, 80, new DragonNunchaku());
-                PlaceItemIn(cont, 42, 56, new PeasantsBokuto());
-                PlaceItemIn(cont, 44, 71, new TomeOfEnlightenment());
-                PlaceItemIn(cont, 35, 35, new ChestOfHeirlooms());
-                PlaceItemIn(cont, 29, 0, new HonorableSwords());
-                PlaceItemIn(cont, 49, 85, new AncientUrn());
-                PlaceItemIn(cont, 51, 58, new FluteOfRenewal());
-                PlaceItemIn(cont, 70, 51, new PigmentsOfTokuno());
-                PlaceItemIn(cont, 40, 79, new AncientSamuraiDo());
-                PlaceItemIn(cont, 51, 61, new LegsOfStability());
-                PlaceItemIn(cont, 88, 78, new GlovesOfTheSun());
-                PlaceItemIn(cont, 55, 62, new AncientFarmersKasa());
-                PlaceItemIn(cont, 55, 83, new ArmsOfTacticalExcellence());
-                PlaceItemIn(cont, 50, 85, new DaimyosHelm());
-                PlaceItemIn(cont, 52, 78, new BlackLotusHood());
-                PlaceItemIn(cont, 52, 79, new DemonForks());
-                PlaceItemIn(cont, 33, 49, new PilferedDancerFans());
-
-                PlaceItemIn(bank, 58, 124, cont);
-            }
-
-            if (Core.SE)	//This bag came only after SE.
-            {
-                cont = new Bag();
-                cont.Name = "Bag of Bows";
-
-                PlaceItemIn(cont, 31, 84, new Bow());
-                PlaceItemIn(cont, 78, 74, new CompositeBow());
-                PlaceItemIn(cont, 53, 71, new Crossbow());
-                PlaceItemIn(cont, 56, 39, new HeavyCrossbow());
-                PlaceItemIn(cont, 82, 72, new RepeatingCrossbow());
-                PlaceItemIn(cont, 49, 45, new Yumi());
-
-                for (int i = 0; i < cont.Items.Count; i++)
-                {
-                    BaseRanged bow = cont.Items[i] as BaseRanged;
-
-                    if (bow != null)
-                    {
-                        bow.Attributes.WeaponSpeed = 35;
-                        bow.Attributes.WeaponDamage = 35;
-                    }
-                }
-
-                PlaceItemIn(bank, 108, 135, cont);
-            }
         }
 
         public static void FillBankbox(Mobile m)
@@ -583,7 +401,7 @@ namespace Server.Misc
             bank.DropItem(new TreasureMap(5, Map.Trammel));
 
             // Bag containing 50 of each reagent
-            bank.DropItem(new BagOfAllReagents(50));
+            bank.DropItem(new BagOfReagents(50));
 
             // Craft tools
             bank.DropItem(MakeNewbie(new Scissors()));

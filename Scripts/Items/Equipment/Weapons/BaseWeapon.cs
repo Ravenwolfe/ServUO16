@@ -511,13 +511,6 @@ namespace Server.Items
 			{
 				list.Add(new UnBlessEntry(from, this));
 			}
-
-			XmlLevelItem levitem = XmlAttach.FindAttachment(this, typeof(XmlLevelItem)) as XmlLevelItem;
-
-			if (levitem != null)
-			{
-				list.Add(new LevelInfoEntry(from, this, AttributeCategory.Melee));
-			}
 		}
 
 		public override void OnAfterDuped(Item newItem)
@@ -1355,12 +1348,6 @@ namespace Server.Items
 			OnHit(attacker, defender, 1.0);
 		}
 
-        /// <summary>
-        /// 020416 Crome696 : Adding concecrate Weapon Bonus
-        /// </summary>
-        /// <param name="attacker"></param>
-        /// <param name="defender"></param>
-        /// <param name="damageBonus"></param>
 		public virtual void OnHit(Mobile attacker, Mobile defender, double damageBonus)
 		{
 			PlaySwingAnimation(attacker);
@@ -1392,29 +1379,13 @@ namespace Server.Items
 
 			int damageGiven = damage;
 
-			damageGiven = AOS.Damage(
-				defender,
-				attacker,
-				damage,
-				ignoreArmor,
-				phys,
-				fire,
-				cold,
-				pois,
-				nrgy,
-				chaos,
-				direct,
-				false,
-				this is BaseRanged,
-				false);
-
-			double propertyBonus = (move == null) ? 1.0 : move.GetPropertyBonus(attacker);
+		    defender.Damage(damage, attacker);
 
 			if (m_MaxHits > 0 &&
-				((MaxRange <= 1 && (defender is Slime || defender is ToxicElemental || defender is CorrosiveSlime)) ||
+				((MaxRange <= 1 && (defender is Slime || defender is CorrosiveSlime)) ||
 				 Utility.Random(250) == 0)) // Stratics says 50% chance, seems more like 4%..
 			{
-				if (MaxRange <= 1 && (defender is Slime || defender is ToxicElemental || defender is CorrosiveSlime))
+				if (MaxRange <= 1 && (defender is Slime || defender is CorrosiveSlime))
 				{
 					attacker.LocalOverheadMessage(MessageType.Regular, 0x3B2, 500263); // *Acid blood scars your weapon!*
 				}
@@ -1450,16 +1421,6 @@ namespace Server.Items
 			if (defender is BaseCreature)
 			{
 				((BaseCreature)defender).OnGotMeleeAttack(attacker);
-			}
-
-			if (a != null)
-			{
-				a.OnHit(attacker, defender, damage);
-			}
-
-			if (move != null)
-			{
-				move.OnHit(attacker, defender, damage);
 			}
 
 			if (defender is IHonorTarget && ((IHonorTarget)defender).ReceivedHonorContext != null)
@@ -1610,110 +1571,6 @@ namespace Server.Items
 			}
 		}
 
-		#region Stygian Abyss
-		public virtual void DoCurse(Mobile attacker, Mobile defender)
-		{
-			attacker.SendLocalizedMessage(1113717); // You have hit your target with a curse effect.
-			defender.SendLocalizedMessage(1113718); // You have been hit with a curse effect.
-			defender.FixedParticles(0x374A, 10, 15, 5028, EffectLayer.Waist);
-			defender.PlaySound(0x1EA);
-			defender.AddStatMod(
-				new StatMod(StatType.Str, String.Format("[Magic] {0} Curse", StatType.Str), -10, TimeSpan.FromSeconds(30)));
-			defender.AddStatMod(
-				new StatMod(StatType.Dex, String.Format("[Magic] {0} Curse", StatType.Dex), -10, TimeSpan.FromSeconds(30)));
-			defender.AddStatMod(
-				new StatMod(StatType.Int, String.Format("[Magic] {0} Curse", StatType.Int), -10, TimeSpan.FromSeconds(30)));
-
-			int percentage = -10; //(int)(SpellHelper.GetOffsetScalar(Caster, m, true) * 100);
-			string args = String.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}", percentage, percentage, percentage, 10, 10, 10, 10);
-
-			BuffInfo.AddBuff(defender, new BuffInfo(BuffIcon.Curse, 1075835, 1075836, TimeSpan.FromSeconds(30), defender, args));
-		}
-
-		public virtual void DoFatigue(Mobile attacker, Mobile defender, int damagegiven)
-		{
-			// Message?
-			// Effects?
-			defender.Stam -= (damagegiven * (100 - m_AosWeaponAttributes.HitFatigue)) / 100;
-		}
-
-		public virtual void DoManaDrain(Mobile attacker, Mobile defender, int damagegiven)
-		{
-			// Message?
-			defender.FixedParticles(0x3789, 10, 25, 5032, EffectLayer.Head);
-			defender.PlaySound(0x1F8);
-			defender.Mana -= (damagegiven * (100 - m_AosWeaponAttributes.HitManaDrain)) / 100;
-		}
-		#endregion
-
-		public virtual void DoLowerAttack(Mobile from, Mobile defender)
-		{
-			if (HitLower.ApplyAttack(defender))
-			{
-				defender.PlaySound(0x28E);
-				Effects.SendTargetEffect(defender, 0x37BE, 1, 4, 0xA, 3);
-			}
-		}
-
-		public virtual void DoLowerDefense(Mobile from, Mobile defender)
-		{
-			if (HitLower.ApplyDefense(defender))
-			{
-				defender.PlaySound(0x28E);
-				Effects.SendTargetEffect(defender, 0x37BE, 1, 4, 0x23, 3);
-			}
-		}
-
-		public virtual void DoAreaAttack(
-			Mobile from, Mobile defender, int sound, int hue, int phys, int fire, int cold, int pois, int nrgy)
-		{
-			Map map = from.Map;
-
-			if (map == null)
-			{
-				return;
-			}
-
-			var list = new List<Mobile>();
-
-			foreach (Mobile m in from.GetMobilesInRange(10))
-			{
-				if (from != m && defender != m && SpellHelper.ValidIndirectTarget(from, m) && from.CanBeHarmful(m, false) &&
-					(!Core.ML || from.InLOS(m)))
-				{
-					list.Add(m);
-				}
-			}
-
-			if (list.Count == 0)
-			{
-				return;
-			}
-
-			Effects.PlaySound(from.Location, map, sound);
-
-			// TODO: What is the damage calculation?
-
-			for (int i = 0; i < list.Count; ++i)
-			{
-				Mobile m = list[i];
-
-				double scalar = (11 - from.GetDistanceToSqrt(m)) / 10;
-
-				if (scalar > 1.0)
-				{
-					scalar = 1.0;
-				}
-				else if (scalar < 0.0)
-				{
-					continue;
-				}
-
-				from.DoHarmful(m, true);
-				m.FixedEffect(0x3779, 1, 15, hue, 0);
-				AOS.Damage(m, from, (int)(GetBaseDamage(from) * scalar), phys, fire, cold, pois, nrgy);
-			}
-		}
 		#endregion
 
 		public virtual CheckSlayerResult CheckSlayers(Mobile attacker, Mobile defender)
@@ -2488,24 +2345,6 @@ namespace Server.Items
                 case 13:
                 case 12:
                     {
-                        #region Runic Reforging
-                        m_ReforgedPrefix = (ReforgedPrefix)reader.ReadInt();
-                        m_ReforgedSuffix = (ReforgedSuffix)reader.ReadInt();
-                        m_ItemPower = (ItemPower)reader.ReadInt();
-                        m_BlockRepair = reader.ReadBool();
-                        #endregion
-
-                        #region Stygian Abyss
-                        m_DImodded = reader.ReadBool();
-                        m_SearingWeapon = reader.ReadBool();
-                        goto case 11;
-                    }
-				case 11:
-					{
-						m_TimesImbued = reader.ReadInt();
-                     
-                        #endregion
-
                         goto case 10;
 					}
 				case 10:
@@ -2942,18 +2781,6 @@ namespace Server.Items
 			m_Hits = m_MaxHits = Utility.RandomMinMax(InitMinHits, InitMaxHits);
 
 			m_Resource = CraftResource.Iron;
-
-			// Xml Spawner XmlSockets - SOF
-			// mod to randomly add sockets and socketability features to armor. These settings will yield
-			// 2% drop rate of socketed/socketable items
-			// 0.1% chance of 5 sockets
-			// 0.5% of 4 sockets
-			// 3% chance of 3 sockets
-			// 15% chance of 2 sockets
-			// 50% chance of 1 socket
-			// the remainder will be 0 socket (31.4% in this case)
-			if(XmlSpawner.SocketsEnabled)
-				XmlSockets.ConfigureRandom(this, 2.0, 0.1, 0.5, 3.0, 15.0, 50.0);
 		}
 
 		public BaseWeapon(Serial serial)
@@ -2981,42 +2808,6 @@ namespace Server.Items
 				base.Hue = value;
 				InvalidateProperties();
 			}
-		}
-
-		public int GetElementalDamageHue()
-		{
-			int phys, fire, cold, pois, nrgy, chaos, direct;
-			GetDamageTypes(null, out phys, out fire, out cold, out pois, out nrgy, out chaos, out direct);
-			//Order is Cold, Energy, Fire, Poison, Physical left
-
-			int currentMax = 50;
-			int hue = 0;
-
-			if (pois >= currentMax)
-			{
-				hue = 1267 + (pois - 50) / 10;
-				currentMax = pois;
-			}
-
-			if (fire >= currentMax)
-			{
-				hue = 1255 + (fire - 50) / 10;
-				currentMax = fire;
-			}
-
-			if (nrgy >= currentMax)
-			{
-				hue = 1273 + (nrgy - 50) / 10;
-				currentMax = nrgy;
-			}
-
-			if (cold >= currentMax)
-			{
-				hue = 1261 + (cold - 50) / 10;
-				currentMax = cold;
-			}
-
-			return hue;
 		}
 
 		public override void AddNameProperty(ObjectPropertyList list)
@@ -3151,24 +2942,6 @@ namespace Server.Items
 		{
 			base.GetProperties(list);
 
-			XmlLevelItem levitem = XmlAttach.FindAttachment(this, typeof(XmlLevelItem)) as XmlLevelItem;
-
-			if (levitem != null)
-			{
-				list.Add(1060658, "Level\t{0}", levitem.Level);
-
-				if (LevelItems.DisplayExpProp)
-				{
-					list.Add(1060659, "Experience\t{0}", levitem.Experience);
-				}
-			}
-           
-
-			if (IsImbued)
-			{
-				list.Add(1080418); // (Imbued)
-			}
-
 			if (m_Crafter != null)
 			{
 				list.Add(1050043, m_Crafter.TitleName); // crafted by ~1_NAME~
@@ -3226,46 +2999,6 @@ namespace Server.Items
             bool fcMalus = false;
             int damBonus = 0;
             SpecialMove move = null;
-
-            int prop;
-            double fprop;
-
-			int phys, fire, cold, pois, nrgy, chaos, direct;
-
-			if (phys != 0)
-			{
-				list.Add(1060403, phys.ToString()); // physical damage ~1_val~%
-			}
-
-			if (fire != 0)
-			{
-				list.Add(1060405, fire.ToString()); // fire damage ~1_val~%
-			}
-
-			if (cold != 0)
-			{
-				list.Add(1060404, cold.ToString()); // cold damage ~1_val~%
-			}
-
-			if (pois != 0)
-			{
-				list.Add(1060406, pois.ToString()); // poison damage ~1_val~%
-			}
-
-			if (nrgy != 0)
-			{
-				list.Add(1060407, nrgy.ToString()); // energy damage ~1_val
-			}
-
-			if (Core.ML && chaos != 0)
-			{
-				list.Add(1072846, chaos.ToString()); // chaos damage ~1_val~%
-			}
-
-			if (Core.ML && direct != 0)
-			{
-				list.Add(1079978, direct.ToString()); // Direct Damage: ~1_PERCENT~%
-            }
 
             list.Add(1061168, "{0}\t{1}", MinDamage.ToString(), MaxDamage.ToString()); // weapon damage ~1_val~ - ~2_val~
 

@@ -72,11 +72,6 @@ namespace Server.Mobiles
                         break;
                     }
             }
-            if (this.IsTokunoVendor)
-            {
-                this.m_SBInfos.Add(new SBSELeatherArmor());	
-                this.m_SBInfos.Add(new SBSEArmor());
-            }
         }
 
         public override void InitOutfit()

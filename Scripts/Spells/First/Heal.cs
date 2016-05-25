@@ -60,7 +60,7 @@ namespace Server.Spells.First
             {
                 this.Caster.LocalOverheadMessage(MessageType.Regular, 0x3B2, 500951); // You cannot heal that.
             }
-            else if (m.Poisoned || Server.Items.MortalStrike.IsWounded(m))
+            else if (m.Poisoned)
             {
                 this.Caster.LocalOverheadMessage(MessageType.Regular, 0x22, (this.Caster == m) ? 1005000 : 1010398);
             }

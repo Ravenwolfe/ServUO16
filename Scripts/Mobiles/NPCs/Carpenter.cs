@@ -38,9 +38,6 @@ namespace Server.Mobiles
             this.m_SBInfos.Add(new SBStavesWeapon());
             this.m_SBInfos.Add(new SBCarpenter());
             this.m_SBInfos.Add(new SBWoodenShields());
-			
-            if (this.IsTokunoVendor)
-                this.m_SBInfos.Add(new SBSECarpenter());
         }
 
         public override void InitOutfit()

@@ -8,8 +8,6 @@ using Server.Mobiles;
 using Server.Multis;
 using Server.Regions;
 using Server.Spells.Fifth;
-using Server.Spells.Necromancy;
-using Server.Spells.Ninjitsu;
 using Server.Spells.Seventh;
 using Server.Targeting;
 
@@ -614,8 +612,7 @@ namespace Server.Spells
             new TravelValidator(IsTokunoDungeon),
             new TravelValidator(IsLampRoom),
             new TravelValidator(IsGuardianRoom),
-            new TravelValidator(IsHeartwood),
-            new TravelValidator(IsMLDungeon)
+            new TravelValidator(IsHeartwood)
         };
 
         private static readonly bool[,] m_Rules = new bool[,]
@@ -890,11 +887,6 @@ namespace Server.Spells
             return (map == Map.Trammel || map == Map.Felucca) && (x >= 6911 && y >= 254 && x < 7167 && y < 511);
         }
 
-        public static bool IsMLDungeon(Map map, Point3D loc)
-        {
-            return MondainsLegacy.IsMLRegion(Region.Find(loc, map));
-        }
-
         public static bool IsInvalid(Map map, Point3D loc)
         {
             if (map == null || map == Map.Internal)
@@ -1110,12 +1102,7 @@ namespace Server.Spells
 
                 WeightOverloading.DFA = dfa;
 
-                int damageGiven = AOS.Damage(target, from, iDamage, phys, fire, cold, pois, nrgy, chaos, direct);
-
-                if (from != null) // sanity check
-                {
-                    DoLeech(damageGiven, from, target);
-                }
+                target.Damage(iDamage, from);
 
                 WeightOverloading.DFA = DFAlgorithm.Standard;
             }
@@ -1133,43 +1120,9 @@ namespace Server.Spells
             }
         }
 
-        public static void DoLeech(int damageGiven, Mobile from, Mobile target)
-        {
-            TransformContext context = TransformationSpellHelper.GetContext(from);
-
-            if (context != null) /* cleanup */
-            {
-                if (context.Type == typeof(WraithFormSpell))
-                {
-                    int wraithLeech = (5 + (int)((15 * from.Skills.SpiritSpeak.Value) / 100)); // Wraith form gives 5-20% mana leech
-                    int manaLeech = MathHelper.Scale(damageGiven, wraithLeech);
-                    if (manaLeech != 0)
-                    {
-                        from.Mana += manaLeech;
-                        from.PlaySound(0x44D);
-                    }
-                }
-                else if (context.Type == typeof(VampiricEmbraceSpell))
-                {
-                    #region High Seas
-                    if (target is BaseCreature && ((BaseCreature)target).TaintedLifeAura)
-                    {
-                        AOS.Damage(from, target, MathHelper.Scale(damageGiven, 20), false, 0, 0, 0, 0, 0, 0, 100, false, false, false);
-                        from.SendLocalizedMessage(1116778); //The tainted life force energy damages you as your body tries to absorb it.
-                    }
-                    #endregion
-                    else
-                    {
-                        from.Hits += MathHelper.Scale(damageGiven, 20);
-                        from.PlaySound(0x44D);
-                    }
-                }
-            }
-        }
 
         public static void Heal(int amount, Mobile target, Mobile from)
         {
-            Spellweaving.ArcaneEmpowermentSpell.AddHealBonus(from, ref amount);
             Heal(amount, target, from, true);
         }
 
@@ -1271,12 +1224,7 @@ namespace Server.Spells
 
                 WeightOverloading.DFA = this.m_DFA;
 
-                int damageGiven = AOS.Damage(this.m_Target, this.m_From, this.m_Damage, this.m_Phys, this.m_Fire, this.m_Cold, this.m_Pois, this.m_Nrgy, this.m_Chaos, this.m_Direct);
-
-                if (this.m_From != null) // sanity check
-                {
-                    DoLeech(damageGiven, this.m_From, this.m_Target);
-                }
+                m_Target.Damage(m_Damage, m_From);
 
                 WeightOverloading.DFA = DFAlgorithm.Standard;
 
@@ -1369,17 +1317,6 @@ namespace Server.Spells
                 caster.SendLocalizedMessage(1061628); // You can't do that while polymorphed.
                 return false;
             }
-            else if (AnimalForm.UnderTransformation(caster))
-            {
-                caster.SendLocalizedMessage(1061091); // You cannot cast that spell in this form.
-                return false;
-            }
-			else if (caster.Flying)
-			{
-				caster.SendLocalizedMessage(1112567); // You are flying.
-				return false;
-			}
-
             return true;
         }
 
@@ -1402,10 +1339,6 @@ namespace Server.Spells
             {
                 caster.SendLocalizedMessage(1061631); // You can't do that while disguised.
                 return false;
-            }
-            else if (AnimalForm.UnderTransformation(caster))
-            {
-                caster.SendLocalizedMessage(1061091); // You cannot cast that spell in this form.
             }
             else if (!caster.CanBeginAction(typeof(IncognitoSpell)) || (caster.IsBodyMod && GetContext(caster) == null))
             {

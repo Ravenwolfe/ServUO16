@@ -1,6 +1,7 @@
 using System;
 using Server.Gumps;
 using Server.Items;
+using Server.Misc;
 using Server.Mobiles;
 using Server.Network;
 
@@ -149,7 +150,7 @@ namespace Server.Engines.Craft
                 if (minSkill < 0)
                     minSkill = 0;
 
-                this.AddHtmlLocalized(170, 132 + (i * 20), 200, 18, AosSkillBonuses.GetLabel(skill.SkillToMake), LabelColor, false, false);
+                this.AddHtmlLocalized(170, 132 + (i * 20), 200, 18, MathHelper.GetLabel(skill.SkillToMake), LabelColor, false, false);
                 this.AddLabel(430, 132 + (i * 20), LabelHue, String.Format("{0:F1}", minSkill));
             }
 

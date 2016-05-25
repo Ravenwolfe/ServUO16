@@ -15,13 +15,7 @@ namespace Server.SkillHandlers
             if (item == null)
                 return true;
 
-            if (item is Spellbook || item is Runebook)
-                return true;
-
-            if (Core.AOS && item is BaseWeapon && ((BaseWeapon)item).Attributes.SpellChanneling != 0)
-                return true;
-
-            if (Core.AOS && item is BaseArmor && ((BaseArmor)item).Attributes.SpellChanneling != 0)
+            if (item is Spellbook)
                 return true;
 
             return false;

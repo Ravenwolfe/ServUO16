@@ -89,23 +89,16 @@ namespace Server.Spells.Sixth
                 {
                     double damage;
 
-                    if (Core.AOS)
+                    damage = Utility.Random(23, 22);
+
+                    if (this.m_Spell.CheckResisted(this.m_Target))
                     {
-                        damage = this.m_Spell.GetNewAosDamage(40, 1, 5, this.m_Defender);
+                        damage *= 0.75;
+
+                        this.m_Target.SendLocalizedMessage(501783); // You feel yourself resisting magical energy.
                     }
-                    else
-                    {
-                        damage = Utility.Random(23, 22);
 
-                        if (this.m_Spell.CheckResisted(this.m_Target))
-                        {
-                            damage *= 0.75;
-
-                            this.m_Target.SendLocalizedMessage(501783); // You feel yourself resisting magical energy.
-                        }
-
-                        damage *= this.m_Spell.GetDamageScalar(this.m_Target);
-                    }
+                    damage *= this.m_Spell.GetDamageScalar(this.m_Target);
 
                     this.m_Target.FixedParticles(0x36BD, 20, 10, 5044, EffectLayer.Head);
                     this.m_Target.PlaySound(0x307);

@@ -2,21 +2,13 @@
 #define BOOKTEXTENTRY
 
 using System;
-using System.Data;
-using System.IO;
 using System.Collections;
 using System.Collections.Generic;
-using Server;
+using Server.Commands;
+using Server.Gumps;
 using Server.Items;
 using Server.Network;
-using Server.Gumps;
-using Server.Targeting;
-using System.Reflection;
-using Server.Commands;
 using CPA = Server.CommandPropertyAttribute;
-using System.Xml;
-using Server.Spells;
-using System.Text;
 
 /*
 ** Changelog
@@ -1570,19 +1562,19 @@ namespace Server.Mobiles
 														state.Mobile.SendGump(newg);
 
 														// if no string has been entered then just use the full categorized add gump
-														state.Mobile.CloseGump(typeof(Server.Gumps.XmlCategorizedAddGump));
-														state.Mobile.SendGump(new Server.Gumps.XmlCategorizedAddGump(state.Mobile, i, newg));
+														state.Mobile.CloseGump(typeof(XmlCategorizedAddGump));
+														state.Mobile.SendGump(new XmlCategorizedAddGump(state.Mobile, i, newg));
 													}
 													else
 													{
 														// use the XmlPartialCategorizedAddGump
-														state.Mobile.CloseGump(typeof(Server.Gumps.XmlPartialCategorizedAddGump));
+														state.Mobile.CloseGump(typeof(XmlPartialCategorizedAddGump));
 
 														//Type [] types = (Type[])XmlPartialCategorizedAddGump.Match( categorystring ).ToArray( typeof( Type ) );
 														ArrayList types = XmlPartialCategorizedAddGump.Match(categorystring);
 
 
-														XmlSpawnerGump.ReplacementEntry re = new XmlSpawnerGump.ReplacementEntry();
+														ReplacementEntry re = new ReplacementEntry();
 														re.Typename = entrystring;
 														re.Index = i;
 														re.Color = 0x1436;

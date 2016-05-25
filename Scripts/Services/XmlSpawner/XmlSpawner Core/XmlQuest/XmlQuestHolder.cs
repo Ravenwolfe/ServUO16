@@ -1,18 +1,14 @@
 #define CLIENT6017
 
 using System;
-using System.IO;
 using System.Collections.Generic;
 using System.Data;
-using System.Xml;
-
-using Server;
-using Server.Gumps;
-using Server.Network;
-using Server.Mobiles;
-using Server.Targeting;
-using Server.Engines.PartySystem;
+using System.IO;
 using Server.Engines.XmlSpawner2;
+using Server.Gumps;
+using Server.Mobiles;
+using Server.Network;
+using Server.Targeting;
 
 /*
 ** XmlQuestHolder class
@@ -320,7 +316,7 @@ namespace Server.Items
 
 			Item tmpitem = null;
 
-			if (Items == Item.EmptyItems)
+			if (Items == EmptyItems)
 			{
 				tmpitem = PlaceHolderItem;
 
@@ -431,7 +427,7 @@ namespace Server.Items
 			return false;
 		}
 
-		public override bool CheckTarget(Mobile from, Server.Targeting.Target targ, object targeted)
+		public override bool CheckTarget(Mobile from, Target targ, object targeted)
 		{
 			if (from.AccessLevel == AccessLevel.Player) return false;
 
@@ -1615,7 +1611,7 @@ namespace Server.Items
 		{
 			if (filename == null || filename.Length <= 0) return;
 			// Check if the file exists
-			if (System.IO.File.Exists(filename) == true)
+			if (File.Exists(filename) == true)
 			{
 				FileStream fs = null;
 				try

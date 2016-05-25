@@ -1,22 +1,18 @@
 ﻿using System;
-using System.Data;
-using System.IO;
 using System.Collections.Generic;
-using Server;
+using System.Globalization;
+using System.IO;
+using System.Reflection;
+using System.Text;
+using Server.Accounting;
+using Server.Commands;
+using Server.Engines.XmlSpawner2;
+using Server.Gumps;
 using Server.Items;
 using Server.Network;
-using Server.Gumps;
-using Server.Targeting;
-using System.Reflection;
-using Server.Commands;
-using Server.Commands.Generic;
-using CPA = Server.CommandPropertyAttribute;
-using System.Xml;
 using Server.Spells;
-using System.Text;
-using System.Globalization;
-using Server.Accounting;
-using Server.Engines.XmlSpawner2;
+using Server.Spells.Seventh;
+using CPA = Server.CommandPropertyAttribute;
 
 namespace Server.Mobiles
 {
@@ -26,7 +22,7 @@ namespace Server.Mobiles
 	{
 		#region Initialization
 
-		private static List<BaseXmlSpawner.ProtectedProperty> ProtectedPropertiesList = new List<BaseXmlSpawner.ProtectedProperty>();
+		private static List<ProtectedProperty> ProtectedPropertiesList = new List<ProtectedProperty>();
 
 		private class ProtectedProperty
 		{
@@ -115,7 +111,7 @@ namespace Server.Mobiles
 			typeof( Byte ), typeof( SByte ),
 			typeof( Int16 ), typeof( UInt16 ),
 			typeof( Int32 ), typeof( UInt32 ),
-			typeof( Int64 ), typeof( UInt64 ), typeof( Server.Serial )
+			typeof( Int64 ), typeof( UInt64 ), typeof( Serial )
 		};
 
 		public static bool IsNumeric(Type t)
@@ -357,11 +353,11 @@ namespace Server.Mobiles
 		// if this is null, then COMMANDS can only be issued when triggered by players of the appropriate accesslevel
 		private static string CommandMobileName = null;
 
-		private static Dictionary<string, BaseXmlSpawner.typeKeyword> typeKeywordHash = new Dictionary<string, BaseXmlSpawner.typeKeyword>();
-		private static Dictionary<string, BaseXmlSpawner.typemodKeyword> typemodKeywordHash = new Dictionary<string, BaseXmlSpawner.typemodKeyword>();
-		private static Dictionary<string, BaseXmlSpawner.valueKeyword> valueKeywordHash = new Dictionary<string, BaseXmlSpawner.valueKeyword>();
-		private static Dictionary<string, BaseXmlSpawner.valuemodKeyword> valuemodKeywordHash = new Dictionary<string, BaseXmlSpawner.valuemodKeyword>();
-		private static Dictionary<string, BaseXmlSpawner.itemKeyword> itemKeywordHash = new Dictionary<string, BaseXmlSpawner.itemKeyword>();
+		private static Dictionary<string, typeKeyword> typeKeywordHash = new Dictionary<string, typeKeyword>();
+		private static Dictionary<string, typemodKeyword> typemodKeywordHash = new Dictionary<string, typemodKeyword>();
+		private static Dictionary<string, valueKeyword> valueKeywordHash = new Dictionary<string, valueKeyword>();
+		private static Dictionary<string, valuemodKeyword> valuemodKeywordHash = new Dictionary<string, valuemodKeyword>();
+		private static Dictionary<string, itemKeyword> itemKeywordHash = new Dictionary<string, itemKeyword>();
 
 		private static char[] slashdelim = new char[1] { '/' };
 		private static char[] commadelim = new char[1] { ',' };
@@ -695,7 +691,7 @@ namespace Server.Mobiles
 					m_TrigMob = spawner.TriggerMob;
 					if (spawner.m_KeywordTagList == null)
 					{
-						spawner.m_KeywordTagList = new List<BaseXmlSpawner.KeywordTag>();
+						spawner.m_KeywordTagList = new List<KeywordTag>();
 					}
 					// calculate the serial index of the new tag by adding one to the last one if there is one, otherwise just reset to 0
 					if (spawner.m_KeywordTagList.Count > 0)
@@ -1324,7 +1320,7 @@ namespace Server.Mobiles
 					//if ( !plookup.CanWrite )
 					//return "Property is read only.";
 
-					if (BaseXmlSpawner.IsProtected(type, propname))
+					if (IsProtected(type, propname))
 						return "Property is protected.";
 
 					ptype = plookup.PropertyType;
@@ -1348,7 +1344,7 @@ namespace Server.Mobiles
 							//if ( !p.CanWrite )
 							//return "Property is read only.";
 
-							if (BaseXmlSpawner.IsProtected(type, propname))
+							if (IsProtected(type, propname))
 								return "Property is protected.";
 
 							ptype = p.PropertyType;
@@ -1374,7 +1370,7 @@ namespace Server.Mobiles
 					if (!plookup.CanWrite)
 						return "Property is read only.";
 
-					if (BaseXmlSpawner.IsProtected(type, propname))
+					if (IsProtected(type, propname))
 						return "Property is protected.";
 
 					string returnvalue = InternalSetValue(null, o, plookup, value, false, index);
@@ -1395,7 +1391,7 @@ namespace Server.Mobiles
 							if (!p.CanWrite)
 								return "Property is read only.";
 
-							if (BaseXmlSpawner.IsProtected(type, propname))
+							if (IsProtected(type, propname))
 								return "Property is protected.";
 
 							string returnvalue = InternalSetValue(null, o, p, value, false, index);
@@ -1440,7 +1436,7 @@ namespace Server.Mobiles
 					//if ( !plookup.CanWrite )
 					//return "Property is read only.";
 
-					if (BaseXmlSpawner.IsProtected(type, arglist[0]))
+					if (IsProtected(type, arglist[0]))
 						return "Property is protected.";
 
 					ptype = plookup.PropertyType;
@@ -1461,7 +1457,7 @@ namespace Server.Mobiles
 							//if ( !p.CanWrite )
 							//return "Property is read only.";
 
-							if (BaseXmlSpawner.IsProtected(type, arglist[0]))
+							if (IsProtected(type, arglist[0]))
 								return "Property is protected.";
 
 							ptype = p.PropertyType;
@@ -1488,10 +1484,10 @@ namespace Server.Mobiles
 					if (!plookup.CanWrite)
 						return "Property is read only.";
 
-					if (BaseXmlSpawner.IsProtected(type, name))
+					if (IsProtected(type, name))
 						return "Property is protected.";
 
-					if (plookup.PropertyType == typeof(Server.Mobile))
+					if (plookup.PropertyType == typeof(Mobile))
 					{
 						plookup.SetValue(o, value, null);
 
@@ -1512,10 +1508,10 @@ namespace Server.Mobiles
 							if (!p.CanWrite)
 								return "Property is read only.";
 
-							if (BaseXmlSpawner.IsProtected(type, name))
+							if (IsProtected(type, name))
 								return "Property is protected.";
 
-							if (p.PropertyType == typeof(Server.Mobile))
+							if (p.PropertyType == typeof(Mobile))
 							{
 								p.SetValue(o, value, null);
 
@@ -2660,7 +2656,7 @@ namespace Server.Mobiles
 									string filestring = null;
 
 									// read in the string from the file
-									if (System.IO.File.Exists(filename) == true)
+									if (File.Exists(filename) == true)
 									{
 										try
 										{
@@ -4510,7 +4506,7 @@ namespace Server.Mobiles
 							string filestring = null;
 
 							// read in the string from the file
-							if (System.IO.File.Exists(filename) == true)
+							if (File.Exists(filename) == true)
 							{
 								try
 								{
@@ -7046,7 +7042,7 @@ namespace Server.Mobiles
 
 										int circle = Utility.RandomMinMax(minCircle, maxCircle);
 										int min = (circle - 1) * 8;
-										Item item = Loot.RandomScroll(min, min + 7, SpellbookType.Regular);
+										Item item = Loot.RandomScroll(min, min + 7);
 										if (item != null)
 										{
 											pack.DropItem(item);
@@ -7209,39 +7205,6 @@ namespace Server.Mobiles
 									}
 									break;
 								}
-							case itemKeyword.NECROSCROLL:
-								{
-									// syntax is NECROSCROLL,index
-									if (itemkeywordargs.Length == 2)
-									{
-										int index = 0;
-										if(!int.TryParse(itemkeywordargs[1], out index))
-										{
-											status_str = "Invalid NECROSCROLL args : " + itemtypestr;
-											return false;
-										}
-
-										if (Core.AOS)
-										{
-											Item item = Loot.Construct(Loot.NecromancyScrollTypes, index);
-											if (item != null)
-											{
-												pack.DropItem(item);
-												// could call applyobjectstringproperties on a nested propertylist here to set item attributes
-												if (itemargstring != null)
-												{
-													ApplyObjectStringProperties(spawner, itemargstring, item, trigmob, refobject, out status_str);
-												}
-											}
-										}
-									}
-									else
-									{
-										status_str = "NECROSCROLL takes 1 arg : " + itemtypestr;
-										return false;
-									}
-									break;
-								}
 							case itemKeyword.LOOTPACK:
 								{
 									// syntax is LOOTPACK,type
@@ -7394,7 +7357,7 @@ namespace Server.Mobiles
 
 		public static string ApplySubstitution(XmlSpawner spawner, object o, Mobile trigmob, string typeName)
 		{
-			System.Text.StringBuilder sb = new System.Text.StringBuilder();
+			StringBuilder sb = new StringBuilder();
 
 			// go through the string looking for instances of {keyword}
 			string remaining = typeName;
@@ -7837,9 +7800,6 @@ namespace Server.Mobiles
 				int attributeCount, min, max;
 				BaseCreature.GetRandomAOSStats(minLevel, maxLevel, out attributeCount, out min, out max);
 
-				if (item is BaseJewel)
-					BaseRunicTool.ApplyAttributesTo((BaseJewel)item, attributeCount, min, max);
-
 				return item;
 			}
 			else
@@ -7872,11 +7832,6 @@ namespace Server.Mobiles
 
 				BaseCreature.GetRandomAOSStats(minLevel, maxLevel, out attributeCount, out min, out max);
 
-				if (item is BaseArmor)
-					BaseRunicTool.ApplyAttributesTo((BaseArmor)item, attributeCount, min, max);
-				else if (item is BaseJewel)
-					BaseRunicTool.ApplyAttributesTo((BaseJewel)item, attributeCount, min, max);
-
 				return item;
 			}
 			else
@@ -7907,9 +7862,6 @@ namespace Server.Mobiles
 				int attributeCount, min, max;
 
 				BaseCreature.GetRandomAOSStats(minLevel, maxLevel, out attributeCount, out min, out max);
-
-				if (item is BaseArmor)
-					BaseRunicTool.ApplyAttributesTo((BaseArmor)item, attributeCount, min, max);
 
 				return item;
 			}
@@ -7945,11 +7897,6 @@ namespace Server.Mobiles
 				int attributeCount, min, max;
 
 				BaseCreature.GetRandomAOSStats(minLevel, maxLevel, out attributeCount, out min, out max);
-
-				if (item is BaseWeapon)
-					BaseRunicTool.ApplyAttributesTo((BaseWeapon)item, attributeCount, min, max);
-				else if (item is BaseJewel)
-					BaseRunicTool.ApplyAttributesTo((BaseJewel)item, attributeCount, min, max);
 
 				return item;
 			}
@@ -8318,7 +8265,7 @@ namespace Server.Mobiles
 							{
 
 								if (p is PlayerMobile || !playeronly)
-									AOS.Damage(p, damage, phys, fire, cold, pois, ener);
+									p.Damage(damage);
 							}
 							rangelist.Free();
 						}
@@ -8326,7 +8273,7 @@ namespace Server.Mobiles
 					else
 					{
 						// just apply it to the mob who triggered
-						AOS.Damage(triggermob, damage, phys, fire, cold, pois, ener);
+						triggermob.Damage(damage);
 					}
 				}
 			}
@@ -8409,15 +8356,15 @@ namespace Server.Mobiles
 			if (action == null || action.Length <= 0 || attachedto == null || map == null) return;
 
 			string status_str = null;
-			Server.Mobiles.XmlSpawner.SpawnObject TheSpawn = new Server.Mobiles.XmlSpawner.SpawnObject(null, 0);
+			XmlSpawner.SpawnObject TheSpawn = new XmlSpawner.SpawnObject(null, 0);
 
 			TheSpawn.TypeName = action;
-			string substitutedtypeName = BaseXmlSpawner.ApplySubstitution(null, attachedto, trigmob, action);
-			string typeName = BaseXmlSpawner.ParseObjectType(substitutedtypeName);
+			string substitutedtypeName = ApplySubstitution(null, attachedto, trigmob, action);
+			string typeName = ParseObjectType(substitutedtypeName);
 
-			if (BaseXmlSpawner.IsTypeOrItemKeyword(typeName))
+			if (IsTypeOrItemKeyword(typeName))
 			{
-				BaseXmlSpawner.SpawnTypeKeyword(attachedto, TheSpawn, typeName, substitutedtypeName, true, trigmob, loc, map, out status_str);
+				SpawnTypeKeyword(attachedto, TheSpawn, typeName, substitutedtypeName, true, trigmob, loc, map, out status_str);
 			}
 			else
 			{
@@ -8425,8 +8372,8 @@ namespace Server.Mobiles
 				Type type = SpawnerType.GetType(typeName);
 				try
 				{
-					string[] arglist = BaseXmlSpawner.ParseString(substitutedtypeName, 3, "/");
-					object o = Server.Mobiles.XmlSpawner.CreateObject(type, arglist[0]);
+					string[] arglist = ParseString(substitutedtypeName, 3, "/");
+					object o = XmlSpawner.CreateObject(type, arglist[0]);
 
 					if (o == null)
 					{
@@ -8445,13 +8392,13 @@ namespace Server.Mobiles
 							m.Location = loc;
 							m.Map = map;
 
-							BaseXmlSpawner.ApplyObjectStringProperties(null, substitutedtypeName, m, trigmob, attachedto, out status_str);
+							ApplyObjectStringProperties(null, substitutedtypeName, m, trigmob, attachedto, out status_str);
 						}
 						else
 							if (o is Item)
 							{
 								Item item = (Item)o;
-								BaseXmlSpawner.AddSpawnItem(null, attachedto, TheSpawn, item, loc, map, trigmob, false, substitutedtypeName, out status_str);
+								AddSpawnItem(null, attachedto, TheSpawn, item, loc, map, trigmob, false, substitutedtypeName, out status_str);
 							}
 				}
 				catch { }
@@ -8594,7 +8541,7 @@ namespace Server.Mobiles
 
 			// apply the parsed arguments from the typestring using setcommand
 			// be sure to do this after setting map and location so that errors dont place the mob on the internal map
-			BaseXmlSpawner.ApplyObjectStringProperties(spawner, propertyString, item, trigmob, spawner, out status_str);
+			ApplyObjectStringProperties(spawner, propertyString, item, trigmob, spawner, out status_str);
 
 			// if the object has an OnAfterSpawnAndModify method, then invoke it
 			//InvokeOnAfterSpawnAndModify(item);
@@ -10644,7 +10591,7 @@ namespace Server.Mobiles
 
 									Type spelltype = spell.GetType();
 									// deal with any special cases here
-									if (spelltype == typeof(Server.Spells.Seventh.PolymorphSpell))
+									if (spelltype == typeof(PolymorphSpell))
 									{
 										if (keywordarg2 == 0)
 										{
@@ -10688,13 +10635,13 @@ namespace Server.Mobiles
 									// check the parameters
 									if (spelltargetparms != null && spelltargetparms.Length > 0)
 									{
-										if (spelltargetparms[0].ParameterType == typeof(Server.Mobile))
+										if (spelltargetparms[0].ParameterType == typeof(Mobile))
 										{
 											// set the target parameter
 											targetargs = new object[1];
 											targetargs[0] = triggermob;
 										}
-										else if (spelltargetparms[0].ParameterType == typeof(Server.IPoint3D))
+										else if (spelltargetparms[0].ParameterType == typeof(IPoint3D))
 										{
 											// set the target parameter
 											targetargs = new object[1];
@@ -11086,7 +11033,7 @@ namespace Server.Mobiles
 									}
 									int circle = Utility.RandomMinMax(minCircle, maxCircle);
 									int min = (circle - 1) * 8;
-									Item item = Loot.RandomScroll(min, min + 7, SpellbookType.Regular);
+									Item item = Loot.RandomScroll(min, min + 7);
 									if (item != null)
 									{
 										AddSpawnItem(spawner, TheSpawn, item, location, map, triggermob, requiresurface, spawnpositioning, substitutedtypeName, out status_str);
@@ -11195,31 +11142,6 @@ namespace Server.Mobiles
 								break;
 							}
 
-						case itemKeyword.NECROSCROLL:
-							{
-								// syntax is NECROSCROLL,index
-								if (itemkeywordargs.Length == 2)
-								{
-									int necroindex = 0;
-									if(!int.TryParse(itemkeywordargs[1], out necroindex))
-									{
-										status_str = "Invalid NECROSCROLL args : " + itemtypestr;
-										return false;
-									}
-									Item item = Loot.Construct(Loot.NecromancyScrollTypes, necroindex);
-									if (item != null)
-									{
-										AddSpawnItem(spawner, TheSpawn, item, location, map, triggermob, requiresurface, spawnpositioning, substitutedtypeName, out status_str);
-									}
-								}
-								else
-								{
-									status_str = "NECROSCROLL takes 1 arg : " + itemtypestr;
-									return false;
-								}
-								break;
-
-							}
 						case itemKeyword.MULTIADDON:
 							{
 								// syntax is MULTIADDON,filename

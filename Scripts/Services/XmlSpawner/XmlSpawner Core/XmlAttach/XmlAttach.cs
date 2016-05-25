@@ -1,24 +1,19 @@
 #define ServUO
 using System;
-using System.Text;
-using Server;
-using Server.Commands;
-using Server.Commands.Generic;
-using Server.Network;
 using System.Collections;
 using System.Collections.Generic;
-using Server.Mobiles;
-using Server.Targeting;
-using CPA = Server.CommandPropertyAttribute;
+using System.IO;
+using System.Net.Mail;
 using System.Reflection;
+using Server.Commands;
+using Server.Commands.Generic;
 using Server.Gumps;
 using Server.Items;
-using System.IO;
-using System.Diagnostics;
-using Server.Accounting;
-using System.Net.Mail;
 using Server.Misc;
-using Server.ContextMenus;
+using Server.Mobiles;
+using Server.Network;
+using Server.Targeting;
+using CPA = Server.CommandPropertyAttribute;
 
 namespace Server.Engines.XmlSpawner2
 {
@@ -150,8 +145,8 @@ namespace Server.Engines.XmlSpawner2
 		{
 			get
 			{
-				XmlAttachment[] valuearray = new XmlAttachment[XmlAttach.AllAttachments.Count];
-				XmlAttach.AllAttachments.Values.CopyTo(valuearray, 0);
+				XmlAttachment[] valuearray = new XmlAttachment[AllAttachments.Count];
+				AllAttachments.Values.CopyTo(valuearray, 0);
 				return valuearray;
 			}
 		}
@@ -174,7 +169,7 @@ namespace Server.Engines.XmlSpawner2
 				a.Serial = serial;
 
 				// register the attachment in the serial keyed hashtable
-				XmlAttach.HashSerial(serial, a);
+				HashSerial(serial, a);
 			}
 
 			// Register our speech handler
@@ -249,7 +244,7 @@ namespace Server.Engines.XmlSpawner2
 								break;
 							}
 
-							if (XmlAttach.AttachTo(null, list[i], o, true))
+							if (AttachTo(null, list[i], o, true))
 							{
 								if (list.Count < 10)
 								{
@@ -314,7 +309,7 @@ namespace Server.Engines.XmlSpawner2
 
 						for (int i = 0; i < list.Count; ++i)
 						{
-							List<XmlAttachment> alist = XmlAttach.FindAttachments(list[i], attachtype);
+							List<XmlAttachment> alist = FindAttachments(list[i], attachtype);
 
 							if (alist != null)
 							{
@@ -351,7 +346,7 @@ namespace Server.Engines.XmlSpawner2
 		public static void CleanUp()
 		{
 			// clean up any unowned attachments
-			foreach (XmlAttachment a in XmlAttach.Values)
+			foreach (XmlAttachment a in Values)
 			{
 				if (a.OwnedBy == null || (a.OwnedBy is Mobile && ((Mobile)a.OwnedBy).Deleted) || (a.OwnedBy is Item && ((Item)a.OwnedBy).Deleted))
 				{
@@ -362,7 +357,7 @@ namespace Server.Engines.XmlSpawner2
 
 		public static void Save(WorldSaveEventArgs e)
 		{
-			if (XmlAttach.MobileAttachments == null && XmlAttach.ItemAttachments == null) return;
+			if (MobileAttachments == null && ItemAttachments == null) return;
 
 			CleanUp();
 
@@ -396,18 +391,18 @@ namespace Server.Engines.XmlSpawner2
 				ASerial.GlobalSerialize(writer);
 
 				// remove all deleted attachments
-				XmlAttach.FullDefrag();
+				FullDefrag();
 
 				// save the attachments themselves
-				if (XmlAttach.AllAttachments != null)
+				if (AllAttachments != null)
 				{
-					writer.Write(XmlAttach.AllAttachments.Count);
+					writer.Write(AllAttachments.Count);
 
-					XmlAttachment[] valuearray = new XmlAttachment[XmlAttach.AllAttachments.Count];
-					XmlAttach.AllAttachments.Values.CopyTo(valuearray, 0);
+					XmlAttachment[] valuearray = new XmlAttachment[AllAttachments.Count];
+					AllAttachments.Values.CopyTo(valuearray, 0);
 
-					int[] keyarray = new int[XmlAttach.AllAttachments.Count];
-					XmlAttach.AllAttachments.Keys.CopyTo(keyarray, 0);
+					int[] keyarray = new int[AllAttachments.Count];
+					AllAttachments.Keys.CopyTo(keyarray, 0);
 
 					for (int i = 0; i < keyarray.Length; i++)
 					{
@@ -435,15 +430,15 @@ namespace Server.Engines.XmlSpawner2
 
 				// save the hash table info for items and mobiles
 				// mobile attachments
-				if (XmlAttach.MobileAttachments != null)
+				if (MobileAttachments != null)
 				{
-					imawriter.Write(XmlAttach.MobileAttachments.Count);
+					imawriter.Write(MobileAttachments.Count);
 
-					List<XmlAttachment>[] valuearray = new List<XmlAttachment>[XmlAttach.MobileAttachments.Count];
-					XmlAttach.MobileAttachments.Values.CopyTo(valuearray, 0);
+					List<XmlAttachment>[] valuearray = new List<XmlAttachment>[MobileAttachments.Count];
+					MobileAttachments.Values.CopyTo(valuearray, 0);
 
-					Mobile[] keyarray = new Mobile[XmlAttach.MobileAttachments.Count];
-					XmlAttach.MobileAttachments.Keys.CopyTo(keyarray, 0);
+					Mobile[] keyarray = new Mobile[MobileAttachments.Count];
+					MobileAttachments.Keys.CopyTo(keyarray, 0);
 
 					for (int i = 0; i < keyarray.Length; i++)
 					{
@@ -474,15 +469,15 @@ namespace Server.Engines.XmlSpawner2
 				}
 
 				// item attachments
-				if (XmlAttach.ItemAttachments != null)
+				if (ItemAttachments != null)
 				{
-					imawriter.Write(XmlAttach.ItemAttachments.Count);
+					imawriter.Write(ItemAttachments.Count);
 
-					List<XmlAttachment>[] valuearray = new List<XmlAttachment>[XmlAttach.ItemAttachments.Count];
-					XmlAttach.ItemAttachments.Values.CopyTo(valuearray, 0);
+					List<XmlAttachment>[] valuearray = new List<XmlAttachment>[ItemAttachments.Count];
+					ItemAttachments.Values.CopyTo(valuearray, 0);
 
-					Item[] keyarray = new Item[XmlAttach.ItemAttachments.Count];
-					XmlAttach.ItemAttachments.Keys.CopyTo(keyarray, 0);
+					Item[] keyarray = new Item[ItemAttachments.Count];
+					ItemAttachments.Keys.CopyTo(keyarray, 0);
 
 					for (int i = 0; i < keyarray.Length; i++)
 					{
@@ -947,7 +942,7 @@ namespace Server.Engines.XmlSpawner2
 			if (m_killer != null)
 			{
 				// check the killer
-				List<XmlAttachment> alist = XmlAttach.FindAttachments(m_killer);
+				List<XmlAttachment> alist = FindAttachments(m_killer);
 				if (alist != null)
 				{
 					foreach (XmlAttachment a in alist)
@@ -966,7 +961,7 @@ namespace Server.Engines.XmlSpawner2
 					foreach (Item i in equiplist)
 					{
 						if (i == null || i.Deleted) continue;
-						alist = XmlAttach.FindAttachments(i);
+						alist = FindAttachments(i);
 						if (alist != null)
 						{
 							foreach (XmlAttachment a in alist)
@@ -984,7 +979,7 @@ namespace Server.Engines.XmlSpawner2
 			if (m_killed != null)
 			{
 				// check the killed
-				List<XmlAttachment> alist = XmlAttach.FindAttachments(m_killed);
+				List<XmlAttachment> alist = FindAttachments(m_killed);
 				if (alist != null)
 				{
 					foreach (XmlAttachment a in alist)
@@ -1009,7 +1004,7 @@ namespace Server.Engines.XmlSpawner2
 			if (m_killer != null)
 			{
 				// check the killer
-				List<XmlAttachment> alist = XmlAttach.FindAttachments(m_killer);
+				List<XmlAttachment> alist = FindAttachments(m_killer);
 				if (alist != null)
 				{
 					foreach (XmlAttachment a in alist)
@@ -1028,7 +1023,7 @@ namespace Server.Engines.XmlSpawner2
 					foreach (Item i in equiplist)
 					{
 						if (i == null || i.Deleted) continue;
-						alist = XmlAttach.FindAttachments(i);
+						alist = FindAttachments(i);
 						if (alist != null)
 						{
 							foreach (XmlAttachment a in alist)
@@ -1046,7 +1041,7 @@ namespace Server.Engines.XmlSpawner2
 			if (m_killed != null)
 			{
 				// check the killed
-				List<XmlAttachment> alist = XmlAttach.FindAttachments(m_killed);
+				List<XmlAttachment> alist = FindAttachments(m_killed);
 				if (alist != null)
 				{
 					foreach (XmlAttachment a in alist)
@@ -1077,7 +1072,7 @@ namespace Server.Engines.XmlSpawner2
 					{
 						if (i == null || i.Deleted) continue;
 
-						List<XmlAttachment> alist = XmlAttach.FindAttachments(i);
+						List<XmlAttachment> alist = FindAttachments(i);
 						if (alist != null)
 						{
 							foreach (XmlAttachment a in alist)
@@ -1102,7 +1097,7 @@ namespace Server.Engines.XmlSpawner2
 						// dont respond to self motion
 						if (i == null || i.Deleted || i == from) continue;
 
-						List<XmlAttachment> alist = XmlAttach.FindAttachments(i);
+						List<XmlAttachment> alist = FindAttachments(i);
 						if (alist != null)
 						{
 							foreach (XmlAttachment a in alist)
@@ -1126,7 +1121,7 @@ namespace Server.Engines.XmlSpawner2
 			if (from == null || from.Map == null /*|| from.AccessLevel > AccessLevel.Player */) return;
 
 			// check the mob for any attachments that might handle speech
-			List<XmlAttachment> alist = XmlAttach.FindAttachments(from);
+			List<XmlAttachment> alist = FindAttachments(from);
 			if (alist != null)
 			{
 				foreach (XmlAttachment a in alist)
@@ -1146,7 +1141,7 @@ namespace Server.Engines.XmlSpawner2
 				{
 					if (i == null || i.Deleted) continue;
 
-					alist = XmlAttach.FindAttachments(i);
+					alist = FindAttachments(i);
 					if (alist != null)
 					{
 						foreach (XmlAttachment a in alist)
@@ -1170,7 +1165,7 @@ namespace Server.Engines.XmlSpawner2
 				{
 					if (i == null || i.Deleted) continue;
 
-					alist = XmlAttach.FindAttachments(i);
+					alist = FindAttachments(i);
 					if (alist != null)
 					{
 						foreach (XmlAttachment a in alist)
@@ -1196,7 +1191,7 @@ namespace Server.Engines.XmlSpawner2
 					foreach (Item i in packlist)
 					{
 						if (i == null || i.Deleted) continue;
-						alist = XmlAttach.FindAttachments(i);
+						alist = FindAttachments(i);
 						if (alist != null)
 						{
 							foreach (XmlAttachment a in alist)
@@ -1218,7 +1213,7 @@ namespace Server.Engines.XmlSpawner2
 				foreach (Item i in equiplist)
 				{
 					if (i == null || i.Deleted) continue;
-					alist = XmlAttach.FindAttachments(i);
+					alist = FindAttachments(i);
 					if (alist != null)
 					{
 						foreach (XmlAttachment a in alist)
@@ -1237,7 +1232,7 @@ namespace Server.Engines.XmlSpawner2
 		{
 			if (from == null) return null;
 			// check the mob for any attachments
-			List<XmlAttachment> alist = XmlAttach.FindAttachments(from);
+			List<XmlAttachment> alist = FindAttachments(from);
 			if (alist != null)
 			{
 				foreach (XmlAttachment a in alist)
@@ -1259,7 +1254,7 @@ namespace Server.Engines.XmlSpawner2
 					foreach (Item i in itemlist)
 					{
 						if (i == null || i.Deleted) continue;
-						alist = XmlAttach.FindAttachments(i);
+						alist = FindAttachments(i);
 						if (alist != null)
 						{
 							foreach (XmlAttachment a in alist)
@@ -1282,7 +1277,7 @@ namespace Server.Engines.XmlSpawner2
 				{
 					if (i == null || i.Deleted) continue;
 
-					alist = XmlAttach.FindAttachments(i);
+					alist = FindAttachments(i);
 
 					if (alist != null)
 					{
@@ -1326,9 +1321,9 @@ namespace Server.Engines.XmlSpawner2
 					name = m_e.Arguments[1];
 				}
 
-				XmlAttach.Defrag(targeted);
+				Defrag(targeted);
 
-				List<XmlAttachment> plist = XmlAttach.FindAttachments(targeted, type);
+				List<XmlAttachment> plist = FindAttachments(targeted, type);
 
 				if (plist == null && m_set != "add")
 				{
@@ -1370,7 +1365,7 @@ namespace Server.Engines.XmlSpawner2
 						if (o != null)
 						{
 							//o.Name = aname;
-							if (XmlAttach.AttachTo(from, targeted, o, true))
+							if (AttachTo(from, targeted, o, true))
 								from.SendMessage("Added attachment {2} : {0} to {1}", m_e.Arguments[0], targeted, o.Serial.Value);
 							else
 								from.SendMessage("Attachment not added: {0}", m_e.Arguments[0]);
@@ -1508,7 +1503,7 @@ namespace Server.Engines.XmlSpawner2
 		{
 			if (ItemAttachments == null) return;
 
-			XmlAttach.FullDefrag(ItemAttachments);
+			FullDefrag(ItemAttachments);
 
 			Item[] itemarray = new Item[ItemAttachments.Count];
 
@@ -1537,7 +1532,7 @@ namespace Server.Engines.XmlSpawner2
 		{
 			if (MobileAttachments == null) return;
 
-			XmlAttach.FullDefrag(MobileAttachments);
+			FullDefrag(MobileAttachments);
 
 			Mobile[] mobilearray = new Mobile[MobileAttachments.Count];
 
@@ -1688,7 +1683,7 @@ namespace Server.Engines.XmlSpawner2
 		{
 			if (from == null || o == null) return;
 
-			List<XmlAttachment> plist = XmlAttach.FindAttachments(o);
+			List<XmlAttachment> plist = FindAttachments(o);
 
 			if (plist == null) return;
 
@@ -1737,13 +1732,13 @@ namespace Server.Engines.XmlSpawner2
 			if (o is Item)
 			{
 				it=(Item)o;
-				XmlAttach.Defrag(ItemAttachments, it);
+				Defrag(ItemAttachments, it);
 				attachmententry = FindAttachments(it, true);
 			}
 			else if (o is Mobile)
 			{
 				mob=(Mobile)o;
-				XmlAttach.Defrag(MobileAttachments, mob);
+				Defrag(MobileAttachments, mob);
 				attachmententry = FindAttachments(mob, true);
 			}
 			else
@@ -2331,7 +2326,7 @@ namespace Server.Engines.XmlSpawner2
 
 			string propstr = null;
 
-			List<XmlAttachment> plist = XmlAttach.FindAttachments(parent);
+			List<XmlAttachment> plist = FindAttachments(parent);
 			if (plist != null && plist.Count > 0)
 			{
 				bool more=plist.Count>1;
@@ -2606,7 +2601,7 @@ namespace Server.Engines.XmlSpawner2
 
 						op.WriteLine();
 						op.WriteLine("Specific Attachment Errors:");
-						foreach (DeserErrorDetails s in XmlAttach.desererror)
+						foreach (DeserErrorDetails s in desererror)
 						{
 							op.WriteLine("{0} - {1}", s.Type, s.Details);
 						}

@@ -75,17 +75,6 @@ namespace Server.Mobiles
                     this.Add(new GenericBuyInfo(types[i], 12 + ((i / 8) * 10), 20, itemID, 0));
                 }
 
-                if (Core.AOS)
-                {
-                    this.Add(new GenericBuyInfo(typeof(BatWing), 3, 999, 0xF78, 0));
-                    this.Add(new GenericBuyInfo(typeof(GraveDust), 3, 999, 0xF8F, 0));
-                    this.Add(new GenericBuyInfo(typeof(DaemonBlood), 6, 999, 0xF7D, 0));
-                    this.Add(new GenericBuyInfo(typeof(NoxCrystal), 6, 999, 0xF8E, 0));
-                    this.Add(new GenericBuyInfo(typeof(PigIron), 5, 999, 0xF8A, 0));
-
-                    this.Add(new GenericBuyInfo(typeof(NecromancerSpellbook), 115, 10, 0x2253, 0));
-                }
-
                 this.Add(new GenericBuyInfo(typeof(RecallRune), 15, 10, 0x1f14, 0));
                 this.Add(new GenericBuyInfo(typeof(Spellbook), 18, 10, 0xEFA, 0));
 

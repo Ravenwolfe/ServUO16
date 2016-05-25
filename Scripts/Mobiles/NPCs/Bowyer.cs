@@ -51,9 +51,6 @@ namespace Server.Mobiles
         {
             this.m_SBInfos.Add(new SBBowyer());
             this.m_SBInfos.Add(new SBRangedWeapon());
-			
-            if (this.IsTokunoVendor)
-                this.m_SBInfos.Add(new SBSEBowyer());	
         }
 
         public override void Serialize(GenericWriter writer)

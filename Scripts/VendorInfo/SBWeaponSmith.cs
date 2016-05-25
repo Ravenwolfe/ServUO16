@@ -80,7 +80,6 @@ namespace Server.Mobiles
                             this.Add(new GenericBuyInfo(typeof(Kryss), 32, 20, 0x1401, 0));
                             this.Add(new GenericBuyInfo(typeof(Broadsword), 35, 20, 0xF5E, 0));
                             this.Add(new GenericBuyInfo(typeof(Longsword), 55, 20, 0xF61, 0));
-                            this.Add(new GenericBuyInfo(typeof(ThinLongsword), 27, 20, 0x13B8, 0));
                             this.Add(new GenericBuyInfo(typeof(VikingSword), 55, 20, 0x13B9, 0));
 
                             this.Add(new GenericBuyInfo(typeof(Cleaver), 15, 20, 0xEC3, 0));
@@ -180,7 +179,6 @@ namespace Server.Mobiles
                 this.Add(typeof(Kryss), 16);
                 this.Add(typeof(Longsword), 27);
                 this.Add(typeof(Scimitar), 18);
-                this.Add(typeof(ThinLongsword), 13);
                 this.Add(typeof(VikingSword), 27);
 
                 this.Add(typeof(Hatchet), 13);

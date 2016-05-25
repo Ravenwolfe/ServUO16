@@ -1,16 +1,9 @@
 using System;
-using System.Data;
-using System.IO;
 using System.Collections.Generic;
 using System.Globalization;
-
-using Server;
 using Server.Items;
 using Server.Mobiles;
 using Server.Network;
-using Server.Gumps;
-using Server.Targeting;
-using Server.Engines.XmlSpawner2;
 
 /*
 ** Changelog
@@ -143,7 +136,7 @@ namespace Server.Gumps
 				try
 				{
 					string colorstring = String.Format("{0:X}",color);
-					AddHtml(x, y, width, height, XmlSimpleGump.Color(text, colorstring), background, scrollbar);
+					AddHtml(x, y, width, height, Color(text, colorstring), background, scrollbar);
 				}
 				catch { }
 			}
@@ -311,7 +304,7 @@ namespace Server.Gumps
 				{
 					int y = 360 + i*40;
 					AddRadio( 101, y, 9721, 9724, i==0 ? true: false, i ); // accept/yes radio
-					AddHtml( 137, y+4, 250, 40, XmlSimpleGump.Color( gumpSelections[i].Selection, "FFFFFF" ), false, false );
+					AddHtml( 137, y+4, 250, 40, Color( gumpSelections[i].Selection, "FFFFFF" ), false, false );
 				}
 
 				LocalAddHtml(maintext, 105, 159, 299, 182, 0xEFEF5A, false, true);
@@ -554,7 +547,7 @@ namespace Server.Gumps
 			}
 		}
 
-		public override void OnResponse( Server.Network.NetState state, RelayInfo info )
+		public override void OnResponse( NetState state, RelayInfo info )
 		{
 			if(info == null || state == null || state.Mobile == null) return;
             

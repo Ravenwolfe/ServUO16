@@ -1,9 +1,5 @@
 using System;
-using Server;
-using Server.Items;
-using Server.Network;
 using Server.Mobiles;
-using System.Collections;
 
 namespace Server.Engines.XmlSpawner2
 {
@@ -124,7 +120,7 @@ namespace Server.Engines.XmlSpawner2
 			if (action == null || action.Length <= 0 || corpse == null) return;
 
 			string status_str = null;
-			Server.Mobiles.XmlSpawner.SpawnObject TheSpawn = new Server.Mobiles.XmlSpawner.SpawnObject(null, 0);
+			XmlSpawner.SpawnObject TheSpawn = new XmlSpawner.SpawnObject(null, 0);
 
 			TheSpawn.TypeName = action;
 			string substitutedtypeName = BaseXmlSpawner.ApplySubstitution(null, corpse, killer, action);
@@ -144,7 +140,7 @@ namespace Server.Engines.XmlSpawner2
 				try
 				{
 					string[] arglist = BaseXmlSpawner.ParseString(substitutedtypeName, 3, "/");
-					object o = Server.Mobiles.XmlSpawner.CreateObject(type, arglist[0]);
+					object o = XmlSpawner.CreateObject(type, arglist[0]);
 
 					if (o == null)
 					{

@@ -1024,12 +1024,6 @@ namespace Server.Mobiles
 			if (pm != null)
 			{
 				pm.m_SessionStart = DateTime.UtcNow;
-
-				if (pm.m_Quest != null)
-				{
-					pm.m_Quest.StartTimer();
-				}
-
 				pm.BedrollLogout = false;
 				pm.LastOnline = DateTime.UtcNow;
 			}
@@ -1083,11 +1077,6 @@ namespace Server.Mobiles
 			if (pm != null)
 			{
 				pm.m_GameTime += (DateTime.UtcNow - pm.m_SessionStart);
-
-				if (pm.m_Quest != null)
-				{
-					pm.m_Quest.StopTimer();
-				}
 
 				pm.m_SpeechLog = null;
 				pm.LastOnline = DateTime.UtcNow;
@@ -1487,11 +1476,6 @@ namespace Server.Mobiles
 
 			if (from == this)
 			{
-				if (m_Quest != null)
-				{
-					m_Quest.GetContextMenuEntries(list);
-				}
-
 				if (Alive && InsuranceEnabled)
 				{
 					list.Add(new CallbackEntry(6201, ToggleItemInsurance));
@@ -2651,12 +2635,6 @@ namespace Server.Mobiles
 
 			if (InsuranceEnabled && item.Insured)
 			{
-				if (XmlPoints.InsuranceIsFree(this, m_InsuranceAward))
-				{
-					item.PayedInsurance = true;
-					return true;
-				}
-
 				#region Dueling
 				if (m_DuelPlayer != null && m_DuelContext != null && m_DuelContext.Registered && m_DuelContext.Started &&
 					!m_DuelPlayer.Eliminated)
@@ -2851,7 +2829,7 @@ namespace Server.Mobiles
 			}
 
 			if (m_DuelContext == null || !m_DuelContext.Registered || !m_DuelContext.Started || m_DuelPlayer == null ||
-				m_DuelPlayer.Eliminated || !XmlPoints.AreChallengers(this, killer))
+				m_DuelPlayer.Eliminated)
 			{
 				Faction.HandleDeath(this, killer);
 			}
@@ -3331,44 +3309,11 @@ namespace Server.Mobiles
 					}
 				case 18:
 					{
-						m_SolenFriendship = (SolenFriendship)reader.ReadEncodedInt();
-
 						goto case 17;
 					}
 				case 17: // changed how DoneQuests is serialized
 				case 16:
 					{
-						m_Quest = QuestSerializer.DeserializeQuest(reader);
-
-						if (m_Quest != null)
-						{
-							m_Quest.From = this;
-						}
-
-						int count = reader.ReadEncodedInt();
-
-						if (count > 0)
-						{
-							m_DoneQuests = new List<QuestRestartInfo>();
-
-							for (int i = 0; i < count; ++i)
-							{
-								Type questType = QuestSerializer.ReadType(QuestSystem.QuestTypes, reader);
-								DateTime restartTime;
-
-								if (version < 17)
-								{
-									restartTime = DateTime.MaxValue;
-								}
-								else
-								{
-									restartTime = reader.ReadDateTime();
-								}
-
-								m_DoneQuests.Add(new QuestRestartInfo(questType, restartTime));
-							}
-						}
-
 						m_Profession = reader.ReadEncodedInt();
 						goto case 15;
 					}
@@ -3622,27 +3567,6 @@ namespace Server.Mobiles
 			writer.WriteEncodedInt(m_GuildRank.Rank);
 			writer.Write(m_LastOnline);
 
-			writer.WriteEncodedInt((int)m_SolenFriendship);
-
-			QuestSerializer.Serialize(m_Quest, writer);
-
-			if (m_DoneQuests == null)
-			{
-				writer.WriteEncodedInt(0);
-			}
-			else
-			{
-				writer.WriteEncodedInt(m_DoneQuests.Count);
-
-				for (int i = 0; i < m_DoneQuests.Count; ++i)
-				{
-					QuestRestartInfo restartInfo = m_DoneQuests[i];
-
-					QuestSerializer.Write(restartInfo.QuestType, QuestSystem.QuestTypes, writer);
-					writer.Write(restartInfo.RestartTime);
-				}
-			}
-
 			writer.WriteEncodedInt(m_Profession);
 
 			writer.WriteDeltaTime(m_LastCompassionLoss);
@@ -3822,24 +3746,6 @@ namespace Server.Mobiles
 		public delegate void PlayerPropertiesEventHandler(PlayerPropertiesEventArgs e);
 
 		public static event PlayerPropertiesEventHandler PlayerProperties;
-
-		public override void AddNameProperties(ObjectPropertyList list)
-		{
-			base.AddNameProperties(list);
-
-			XmlPoints a = (XmlPoints)XmlAttach.FindAttachment(this, typeof(XmlPoints));
-
-			XmlData XmlPointsTitle = (XmlData)XmlAttach.FindAttachment(this, typeof(XmlData), "XmlPointsTitle");
-
-			if ((XmlPointsTitle != null && XmlPointsTitle.Data == "True") || a == null)
-			{
-				return;
-			}
-			else if (IsPlayer())
-			{
-				list.Add(1070722, "Kills {0} / Deaths {1} : Rank={2}", a.Kills, a.Deaths, a.Rank);
-			}
-		}
 
 		public class PlayerPropertiesEventArgs : EventArgs
 		{
@@ -4135,18 +4041,19 @@ namespace Server.Mobiles
 		}
 		#endregion
 
-		#region Quests
-		private QuestSystem m_Quest;
-		private List<QuestRestartInfo> m_DoneQuests;
-		private SolenFriendship m_SolenFriendship;
+        [CommandProperty(AccessLevel.GameMaster)]
+        public bool Peaced
+        {
+            get
+            {
+                if (m_PeacedUntil > DateTime.UtcNow)
+                {
+                    return true;
+                }
 
-		public QuestSystem Quest { get { return m_Quest; } set { m_Quest = value; } }
-
-		public List<QuestRestartInfo> DoneQuests { get { return m_DoneQuests; } set { m_DoneQuests = value; } }
-
-		[CommandProperty(AccessLevel.GameMaster)]
-		public SolenFriendship SolenFriendship { get { return m_SolenFriendship; } set { m_SolenFriendship = value; } }
-		#endregion
+                return false;
+            }
+        }
 
 		#region MyRunUO Invalidation
 		private bool m_ChangedMyRunUO;
@@ -4561,11 +4468,6 @@ namespace Server.Mobiles
 			}
 
 			if (from is BaseCreature && ((BaseCreature)from).IgnoreYoungProtection)
-			{
-				return false;
-			}
-
-			if (Quest != null && Quest.IgnoreYoungProtection(from))
 			{
 				return false;
 			}
