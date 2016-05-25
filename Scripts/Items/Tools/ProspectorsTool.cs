@@ -64,62 +64,7 @@ namespace Server.Items
                 return WeaponAbility.ShadowStrike;
             }
         }
-        public override int AosStrengthReq
-        {
-            get
-            {
-                return 40;
-            }
-        }
-        public override int AosMinDamage
-        {
-            get
-            {
-                return 13;
-            }
-        }
-        public override int AosMaxDamage
-        {
-            get
-            {
-                return 15;
-            }
-        }
-        public override int AosSpeed
-        {
-            get
-            {
-                return 33;
-            }
-        }
-        public override int OldStrengthReq
-        {
-            get
-            {
-                return 10;
-            }
-        }
-        public override int OldMinDamage
-        {
-            get
-            {
-                return 6;
-            }
-        }
-        public override int OldMaxDamage
-        {
-            get
-            {
-                return 8;
-            }
-        }
-        public override int OldSpeed
-        {
-            get
-            {
-                return 33;
-            }
-        }
+ 
         public override void OnDoubleClick(Mobile from)
         {
             if (this.IsChildOf(from.Backpack) || this.Parent == from)

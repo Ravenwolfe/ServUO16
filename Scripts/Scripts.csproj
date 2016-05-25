@@ -4194,9 +4194,6 @@
     <Compile Include="Items\Addons\WallBanner.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Tools\WeaponEngravingTool.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Addons\CorporealBrumeStatuette.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -4376,9 +4373,6 @@
     <Compile Include="Items\Equipment\Weapons\DoubleAxe.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Equipment\Weapons\DualShortAxes.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Equipment\Weapons\ExecutionersAxe.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -4442,12 +4436,6 @@
     <Compile Include="Items\Equipment\Weapons\WarMace.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Equipment\Weapons\Leafblade.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\MagicalShortbow.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Equipment\Weapons\OrnateAxe.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -4493,9 +4481,6 @@
     <Compile Include="Items\Equipment\Weapons\Daisho.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Equipment\Weapons\Lajatang.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Equipment\Weapons\Yumi.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -4512,9 +4497,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Equipment\Weapons\DoubleBladedStaff.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\DualPointedSpear.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Equipment\Weapons\Pike.cs">
@@ -4557,9 +4539,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Equipment\Weapons\Cutlass.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\DreadSword.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Equipment\Weapons\Katana.cs">

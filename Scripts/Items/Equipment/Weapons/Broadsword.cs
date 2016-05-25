@@ -31,69 +31,7 @@ namespace Server.Items
                 return WeaponAbility.ArmorIgnore;
             }
         }
-        public override int AosStrengthReq
-        {
-            get
-            {
-                return 30;
-            }
-        }
-        public override int AosMinDamage
-        {
-            get
-            {
-                return 13;
-            }
-        }
-        public override int AosMaxDamage
-        {
-            get
-            {
-                return 17;
-            }
-        }
-        public override int AosSpeed
-        {
-            get
-            {
-                return 33;
-            }
-        }
-        public override float MlSpeed
-        {
-            get
-            {
-                return 3.25f;
-            }
-        }
-        public override int OldStrengthReq
-        {
-            get
-            {
-                return 25;
-            }
-        }
-        public override int OldMinDamage
-        {
-            get
-            {
-                return 5;
-            }
-        }
-        public override int OldMaxDamage
-        {
-            get
-            {
-                return 29;
-            }
-        }
-        public override int OldSpeed
-        {
-            get
-            {
-                return 45;
-            }
-        }
+
         public override int DefHitSound
         {
             get

@@ -31,19 +31,6 @@ namespace Server.Items
 
 	public abstract class BaseWeapon : Item, IWeapon, IFactionItem, ICraftable, ISlayer, IDurability
 	{
-		private string m_EngravedText;
-
-		[CommandProperty(AccessLevel.GameMaster)]
-		public string EngravedText
-		{
-			get { return m_EngravedText; }
-			set
-			{
-				m_EngravedText = value;
-				InvalidateProperties();
-			}
-		}
-
 		#region Factions
 		private FactionItem m_FactionState;
 
@@ -119,33 +106,6 @@ namespace Server.Items
 		public virtual SkillName DefSkill { get { return SkillName.Swords; } }
 		public virtual WeaponType DefType { get { return WeaponType.Slashing; } }
 		public virtual WeaponAnimation DefAnimation { get { return WeaponAnimation.Slash1H; } }
-
-		public virtual int AosStrengthReq { get { return 0; } }
-		public virtual int AosDexterityReq { get { return 0; } }
-		public virtual int AosIntelligenceReq { get { return 0; } }
-		public virtual int AosMinDamage { get { return 0; } }
-		public virtual int AosMaxDamage { get { return 0; } }
-		public virtual int AosSpeed { get { return 0; } }
-		public virtual float MlSpeed { get { return 0.0f; } }
-		public virtual int AosMaxRange { get { return DefMaxRange; } }
-		public virtual int AosHitSound { get { return DefHitSound; } }
-		public virtual int AosMissSound { get { return DefMissSound; } }
-		public virtual SkillName AosSkill { get { return DefSkill; } }
-		public virtual WeaponType AosType { get { return DefType; } }
-		public virtual WeaponAnimation AosAnimation { get { return DefAnimation; } }
-
-		public virtual int OldStrengthReq { get { return 0; } }
-		public virtual int OldDexterityReq { get { return 0; } }
-		public virtual int OldIntelligenceReq { get { return 0; } }
-		public virtual int OldMinDamage { get { return 0; } }
-		public virtual int OldMaxDamage { get { return 0; } }
-		public virtual int OldSpeed { get { return 0; } }
-		public virtual int OldMaxRange { get { return DefMaxRange; } }
-		public virtual int OldHitSound { get { return DefHitSound; } }
-		public virtual int OldMissSound { get { return DefMissSound; } }
-		public virtual SkillName OldSkill { get { return DefSkill; } }
-		public virtual WeaponType OldType { get { return DefType; } }
-		public virtual WeaponAnimation OldAnimation { get { return DefAnimation; } }
 
 		public virtual int InitMinHits { get { return 0; } }
 		public virtual int InitMaxHits { get { return 0; } }
@@ -361,7 +321,7 @@ namespace Server.Items
 		[CommandProperty(AccessLevel.GameMaster)]
 		public int MaxRange
 		{
-			get { return (m_MaxRange == -1 ? Core.AOS ? AosMaxRange : OldMaxRange : m_MaxRange); }
+			get { return (m_MaxRange); }
 			set
 			{
 				m_MaxRange = value;
@@ -370,15 +330,15 @@ namespace Server.Items
 		}
 
 		[CommandProperty(AccessLevel.GameMaster)]
-		public WeaponAnimation Animation { get { return (m_Animation == (WeaponAnimation)(-1) ? Core.AOS ? AosAnimation : OldAnimation : m_Animation); } set { m_Animation = value; } }
+		public WeaponAnimation Animation { get { return (m_Animation); } set { m_Animation = value; } }
 
 		[CommandProperty(AccessLevel.GameMaster)]
-		public WeaponType Type { get { return (m_Type == (WeaponType)(-1) ? Core.AOS ? AosType : OldType : m_Type); } set { m_Type = value; } }
+		public WeaponType Type { get { return (m_Type); } set { m_Type = value; } }
 
 		[CommandProperty(AccessLevel.GameMaster)]
 		public SkillName Skill
 		{
-			get { return (m_Skill == (SkillName)(-1) ? Core.AOS ? AosSkill : OldSkill : m_Skill); }
+			get { return (m_Skill); }
 			set
 			{
 				m_Skill = value;
@@ -387,15 +347,15 @@ namespace Server.Items
 		}
 
 		[CommandProperty(AccessLevel.GameMaster)]
-		public int HitSound { get { return (m_HitSound == -1 ? Core.AOS ? AosHitSound : OldHitSound : m_HitSound); } set { m_HitSound = value; } }
+		public int HitSound { get { return (m_HitSound); } set { m_HitSound = value; } }
 
 		[CommandProperty(AccessLevel.GameMaster)]
-		public int MissSound { get { return (m_MissSound == -1 ? Core.AOS ? AosMissSound : OldMissSound : m_MissSound); } set { m_MissSound = value; } }
+		public int MissSound { get { return (m_MissSound); } set { m_MissSound = value; } }
 
 		[CommandProperty(AccessLevel.GameMaster)]
 		public int MinDamage
 		{
-			get { return (m_MinDamage == -1 ? Core.AOS ? AosMinDamage : OldMinDamage : m_MinDamage); }
+			get { return (m_MinDamage); }
 			set
 			{
 				m_MinDamage = value;
@@ -406,7 +366,7 @@ namespace Server.Items
 		[CommandProperty(AccessLevel.GameMaster)]
 		public int MaxDamage
 		{
-			get { return (m_MaxDamage == -1 ? Core.AOS ? AosMaxDamage : OldMaxDamage : m_MaxDamage); }
+			get { return (m_MaxDamage); }
 			set
 			{
 				m_MaxDamage = value;
@@ -419,21 +379,7 @@ namespace Server.Items
 		{
 			get
 			{
-				if (m_Speed != -1)
-				{
-					return m_Speed;
-				}
-
-				if (Core.ML)
-				{
-					return MlSpeed;
-				}
-				else if (Core.AOS)
-				{
-					return AosSpeed;
-				}
-
-				return OldSpeed;
+				return m_Speed;
 			}
 			set
 			{
@@ -445,7 +391,7 @@ namespace Server.Items
 		[CommandProperty(AccessLevel.GameMaster)]
 		public int StrRequirement
 		{
-            get { return Math.Min(110, (int)((double)(m_StrReq == -1 ? Core.AOS ? AosStrengthReq : OldStrengthReq : m_StrReq))); }
+            get { return Math.Min(110, (int)((double)(m_StrReq))); }
 			set
 			{
 				m_StrReq = value;
@@ -454,10 +400,10 @@ namespace Server.Items
 		}
 
 		[CommandProperty(AccessLevel.GameMaster)]
-		public int DexRequirement { get { return (m_DexReq == -1 ? Core.AOS ? AosDexterityReq : OldDexterityReq : m_DexReq); } set { m_DexReq = value; } }
+		public int DexRequirement { get { return (m_DexReq); } set { m_DexReq = value; } }
 
 		[CommandProperty(AccessLevel.GameMaster)]
-		public int IntRequirement { get { return (m_IntReq == -1 ? Core.AOS ? AosIntelligenceReq : OldIntelligenceReq : m_IntReq); } set { m_IntReq = value; } }
+		public int IntRequirement { get { return (m_IntReq); } set { m_IntReq = value; } }
 
 		[CommandProperty(AccessLevel.GameMaster)]
 		public WeaponAccuracyLevel AccuracyLevel
@@ -496,11 +442,6 @@ namespace Server.Items
 			}
 		}
 
-        public Mobile FocusWeilder { get; set; }
-        public Mobile EnchantedWeilder { get; set; }
-
-        public double ConsecrateProcChance { get; set; }
-        public double ConsecrateDamageBonus { get; set; }
         #endregion
 
         public override void GetContextMenuEntries(Mobile from, List<ContextMenuEntry> list)
@@ -627,13 +568,6 @@ namespace Server.Items
 			return base.AllowSecureTrade(from, to, newOwner, accepted);
 		}
 
-		public virtual Race RequiredRace { get { return null; } }
-		//On OSI, there are no weapons with race requirements, this is for custom stuff
-
-		#region SA
-		public virtual bool CanBeWornByGargoyles { get { return false; } }
-		#endregion
-
 		public override bool CanEquip(Mobile from)
 		{
 			if (!Ethic.CheckEquip(from, this))
@@ -679,7 +613,7 @@ namespace Server.Items
 			}
 		}
 
-		public virtual bool UseSkillMod { get { return !Core.AOS; } }
+		public virtual bool UseSkillMod { get { return true; } }
 
 		public override bool OnEquip(Mobile from)
 		{
@@ -721,8 +655,6 @@ namespace Server.Items
 				m_SkillMod = new DefaultSkillMod(AccuracySkill, true, (int)m_AccuracyLevel * 5);
 				from.AddSkillMod(m_SkillMod);
 			}
-
-			XmlAttach.CheckOnEquip(this, from);
 
 			return true;
 		}
@@ -773,12 +705,6 @@ namespace Server.Items
 				m.CheckStatTimers();
 
 				m.Delta(MobileDelta.WeaponDamage);
-
-				XmlAttach.CheckOnRemoved(this, parent);
-
-                if (FocusWeilder != null)
-                    FocusWeilder = null;
-
 			}
 		}
 
@@ -863,11 +789,6 @@ namespace Server.Items
 
 			chance *= 1.0 + ((double)bonus / 100);
 
-			if (Core.AOS && chance < 0.02)
-			{
-				chance = 0.02;
-			}
-
 			return attacker.CheckSkill(atkSkill.SkillName, chance);
 		}
 
@@ -919,25 +840,6 @@ namespace Server.Items
 		public virtual TimeSpan OnSwing(Mobile attacker, Mobile defender, double damageBonus)
 		{
 			bool canSwing = true;
-
-			if (Core.AOS)
-			{
-				canSwing = (!attacker.Paralyzed && !attacker.Frozen);
-
-				if (canSwing)
-				{
-					Spell sp = attacker.Spell as Spell;
-
-					canSwing = (sp == null || !sp.IsCasting || !sp.BlocksMovement);
-				}
-
-				if (canSwing)
-				{
-					PlayerMobile p = attacker as PlayerMobile;
-
-					canSwing = (p == null || p.PeacedUntil <= DateTime.UtcNow);
-				}
-			}
 
 			#region Dueling
 			if (attacker is PlayerMobile)
@@ -1105,52 +1007,6 @@ namespace Server.Items
 			return false;
 		}
 
-		public virtual int AbsorbDamageAOS(Mobile attacker, Mobile defender, int damage)
-		{
-			int originalDamage = damage;
-
-			bool blocked = false;
-
-			if (defender.Player || defender.Body.IsHuman)
-			{
-				blocked = CheckParry(defender);
-                BaseWeapon weapon = defender.Weapon as BaseWeapon;
-
-				if (blocked)
-				{
-					defender.FixedEffect(0x37B9, 10, 16);
-					damage = 0;
-
-					BaseShield shield = defender.FindItemOnLayer(Layer.TwoHanded) as BaseShield;
-
-					if (shield != null)
-					{
-						shield.OnHit(this, damage);
-
-                        XmlAttach.OnArmorHit(attacker, defender, shield, this, originalDamage);
-                    }
-                }
-			}
-
-			if (!blocked)
-			{
-				double positionChance = Utility.RandomDouble();
-
-                Layer randomLayer = _DamageLayers[Utility.Random(_DamageLayers.Length)];
-                Item armorItem = defender.FindItemOnLayer(randomLayer);
-
-				IWearableDurability armor = armorItem as IWearableDurability;
-
-				if (armor != null)
-				{
-					armor.OnHit(this, damage); // call OnHit to lose durability
-					damage -= XmlAttach.OnArmorHit(attacker, defender, armorItem, this, originalDamage);
-				}
-			}
-
-			return damage;
-		}
-
         private Layer[] _DamageLayers =
         {
             Layer.Talisman,
@@ -1180,11 +1036,6 @@ namespace Server.Items
 
 		public virtual int AbsorbDamage(Mobile attacker, Mobile defender, int damage)
 		{
-			if (Core.AOS)
-			{
-				return AbsorbDamageAOS(attacker, defender, damage);
-			}
-
 			BaseShield shield = defender.FindItemOnLayer(Layer.TwoHanded) as BaseShield;
 			if (shield != null)
 			{
@@ -1228,9 +1079,6 @@ namespace Server.Items
 			}
 
 			int virtualArmor = defender.VirtualArmor + defender.VirtualArmorMod;
-
-			damage -= XmlAttach.OnArmorHit(attacker, defender, armorItem, this, damage);
-			damage -= XmlAttach.OnArmorHit(attacker, defender, shield, this, damage);
 
 			if (virtualArmor > 0)
 			{
@@ -1339,10 +1187,6 @@ namespace Server.Items
 			return 0;
 		}
 
-		private static bool m_InDoubleStrike;
-
-		public static bool InDoubleStrike { get { return m_InDoubleStrike; } set { m_InDoubleStrike = value; } }
-
 		public void OnHit(Mobile attacker, Mobile defender)
 		{
 			OnHit(attacker, defender, 1.0);
@@ -1428,150 +1272,7 @@ namespace Server.Items
 				((IHonorTarget)defender).ReceivedHonorContext.OnTargetHit(attacker);
 			}
 
-			XmlAttach.OnWeaponHit(this, attacker, defender, damageGiven);
 		}
-
-		public virtual double GetAosDamage(Mobile attacker, int bonus, int dice, int sides)
-		{
-			int damage = Utility.Dice(dice, sides, bonus) * 100;
-			int damageBonus = 0;
-
-			// Inscription bonus
-			int inscribeSkill = attacker.Skills[SkillName.Inscribe].Fixed;
-
-
-
-			if (inscribeSkill >= 1000)
-			{
-				damageBonus += 10;
-			}
-
-			if (attacker.Player)
-			{
-				// Int bonus
-				damageBonus += (attacker.Int / 10);
-			}
-
-			damage = MathHelper.Scale(damage, 100 + damageBonus);
-
-			return damage / 100;
-		}
-
-		#region Do<AoSEffect>
-		public virtual void DoMagicArrow(Mobile attacker, Mobile defender)
-		{
-			if (!attacker.CanBeHarmful(defender, false))
-			{
-				return;
-			}
-
-			attacker.DoHarmful(defender);
-
-			double damage = GetAosDamage(attacker, 10, 1, 4);
-
-			attacker.MovingParticles(defender, 0x36E4, 5, 0, false, true, 3006, 4006, 0);
-			attacker.PlaySound(0x1E5);
-
-			SpellHelper.Damage(TimeSpan.FromSeconds(1.0), defender, attacker, damage, 0, 100, 0, 0, 0);
-		}
-
-		public virtual void DoHarm(Mobile attacker, Mobile defender)
-		{
-			if (!attacker.CanBeHarmful(defender, false))
-			{
-				return;
-			}
-
-			attacker.DoHarmful(defender);
-
-			double damage = GetAosDamage(attacker, 17, 1, 5);
-
-			if (!defender.InRange(attacker, 2))
-			{
-				damage *= 0.25; // 1/4 damage at > 2 tile range
-			}
-			else if (!defender.InRange(attacker, 1))
-			{
-				damage *= 0.50; // 1/2 damage at 2 tile range
-			}
-
-			defender.FixedParticles(0x374A, 10, 30, 5013, 1153, 2, EffectLayer.Waist);
-			defender.PlaySound(0x0FC);
-
-			SpellHelper.Damage(TimeSpan.Zero, defender, attacker, damage, 0, 0, 100, 0, 0);
-		}
-
-		public virtual void DoFireball(Mobile attacker, Mobile defender)
-		{
-			if (!attacker.CanBeHarmful(defender, false))
-			{
-				return;
-			}
-
-			attacker.DoHarmful(defender);
-
-			double damage = GetAosDamage(attacker, 19, 1, 5);
-
-			attacker.MovingParticles(defender, 0x36D4, 7, 0, false, true, 9502, 4019, 0x160);
-			attacker.PlaySound(0x15E);
-
-			SpellHelper.Damage(TimeSpan.FromSeconds(1.0), defender, attacker, damage, 0, 100, 0, 0, 0);
-		}
-
-		public virtual void DoLightning(Mobile attacker, Mobile defender)
-		{
-			if (!attacker.CanBeHarmful(defender, false))
-			{
-				return;
-			}
-
-			attacker.DoHarmful(defender);
-
-			double damage = GetAosDamage(attacker, 23, 1, 4);
-
-			defender.BoltEffect(0);
-
-			SpellHelper.Damage(TimeSpan.Zero, defender, attacker, damage, 0, 0, 0, 0, 100);
-		}
-
-		public virtual void DoDispel(Mobile attacker, Mobile defender)
-		{
-			bool dispellable = false;
-
-			if (defender is BaseCreature)
-			{
-				dispellable = ((BaseCreature)defender).Summoned && !((BaseCreature)defender).IsAnimatedDead;
-			}
-
-			if (!dispellable)
-			{
-				return;
-			}
-
-			if (!attacker.CanBeHarmful(defender, false))
-			{
-				return;
-			}
-
-			attacker.DoHarmful(defender);
-
-			MagerySpell sp = new DispelSpell(attacker, null);
-
-			if (sp.CheckResisted(defender))
-			{
-				defender.FixedEffect(0x3779, 10, 20);
-			}
-			else
-			{
-				Effects.SendLocationParticles(
-					EffectItem.Create(defender.Location, defender.Map, EffectItem.DefaultDuration), 0x3728, 8, 20, 5042);
-				Effects.PlaySound(defender, defender.Map, 0x201);
-
-				defender.Delete();
-			}
-		}
-
-		#endregion
 
 		public virtual CheckSlayerResult CheckSlayers(Mobile attacker, Mobile defender)
 		{
@@ -1600,7 +1301,7 @@ namespace Server.Items
 			{
 				new Blood().MoveToWorld(defender.Location, defender.Map);
 
-				int extraBlood = (Core.SE ? Utility.RandomMinMax(3, 4) : Utility.RandomMinMax(0, 1));
+				int extraBlood = Utility.RandomMinMax(0, 1);
 
 				for (int i = 0; i < extraBlood; i++)
 				{
@@ -1609,35 +1310,6 @@ namespace Server.Items
 						defender.Map);
 				}
 			}
-		}
-
-		private int ApplyCraftAttributeElementDamage(int attrDamage, ref int element, int totalRemaining)
-		{
-			if (totalRemaining <= 0)
-			{
-				return 0;
-			}
-
-			if (attrDamage <= 0)
-			{
-				return totalRemaining;
-			}
-
-			int appliedDamage = attrDamage;
-
-			if ((appliedDamage + element) > 100)
-			{
-				appliedDamage = 100 - element;
-			}
-
-			if (appliedDamage > totalRemaining)
-			{
-				appliedDamage = totalRemaining;
-			}
-
-			element += appliedDamage;
-
-			return totalRemaining - appliedDamage;
 		}
 
 		public virtual void OnMiss(Mobile attacker, Mobile defender)
@@ -1699,11 +1371,6 @@ namespace Server.Items
 
 			int damage = Utility.RandomMinMax(min, max);
 
-			if (Core.AOS)
-			{
-				return damage;
-			}
-
 			/* Apply damage level offset
              * : Regular : 0
              * : Ruin    : 1
@@ -1734,11 +1401,6 @@ namespace Server.Items
 
 		public virtual int GetHitChanceBonus()
 		{
-			if (!Core.AOS)
-			{
-				return 0;
-			}
-
 			int bonus = 0;
 
 			switch (m_AccuracyLevel)
@@ -1767,36 +1429,33 @@ namespace Server.Items
 		{
 			int bonus = VirtualDamageBonus;
 
-			if (!Core.AOS)
+			switch (m_Quality)
 			{
-				switch (m_Quality)
-				{
-					case WeaponQuality.Low:
-						bonus -= 20;
-						break;
-					case WeaponQuality.Exceptional:
-						bonus += 20;
-						break;
-				}
+				case WeaponQuality.Low:
+					bonus -= 20;
+					break;
+				case WeaponQuality.Exceptional:
+					bonus += 20;
+					break;
+			}
 
-				switch (m_DamageLevel)
-				{
-					case WeaponDamageLevel.Ruin:
-						bonus += 15;
-						break;
-					case WeaponDamageLevel.Might:
-						bonus += 20;
-						break;
-					case WeaponDamageLevel.Force:
-						bonus += 25;
-						break;
-					case WeaponDamageLevel.Power:
-						bonus += 30;
-						break;
-					case WeaponDamageLevel.Vanq:
-						bonus += 35;
-						break;
-				}
+			switch (m_DamageLevel)
+			{
+				case WeaponDamageLevel.Ruin:
+					bonus += 15;
+					break;
+				case WeaponDamageLevel.Might:
+					bonus += 20;
+					break;
+				case WeaponDamageLevel.Force:
+					bonus += 25;
+					break;
+				case WeaponDamageLevel.Power:
+					bonus += 30;
+					break;
+				case WeaponDamageLevel.Vanq:
+					bonus += 35;
+					break;
 			}
 
 			return bonus;
@@ -1808,82 +1467,11 @@ namespace Server.Items
 
 			GetBaseDamageRange(from, out baseMin, out baseMax);
 
-			if (Core.AOS)
-			{
-				min = Math.Max((int)ScaleDamageAOS(from, baseMin, false), 1);
-				max = Math.Max((int)ScaleDamageAOS(from, baseMax, false), 1);
-			}
-			else
-			{
-				min = Math.Max((int)ScaleDamageOld(from, baseMin, false), 1);
-				max = Math.Max((int)ScaleDamageOld(from, baseMax, false), 1);
-			}
-		}
-
-		public virtual double ScaleDamageAOS(Mobile attacker, double damage, bool checkSkills)
-		{
-			if (checkSkills)
-			{
-				attacker.CheckSkill(SkillName.Tactics, 0.0, attacker.Skills[SkillName.Tactics].Cap);
-					// Passively check tactics for gain
-				attacker.CheckSkill(SkillName.Anatomy, 0.0, attacker.Skills[SkillName.Anatomy].Cap);
-					// Passively check Anatomy for gain
-
-				if (Type == WeaponType.Axe)
-				{
-					attacker.CheckSkill(SkillName.Lumberjacking, 0.0, 100.0); // Passively check Lumberjacking for gain
-				}
-			}
-
-			#region Physical bonuses
-			/*
-            * These are the bonuses given by the physical characteristics of the mobile.
-            * No caps apply.
-            */
-			double strengthBonus = GetBonus(attacker.Str, 0.300, 100.0, 5.00);
-			double anatomyBonus = GetBonus(attacker.Skills[SkillName.Anatomy].Value, 0.500, 100.0, 5.00);
-			double tacticsBonus = GetBonus(attacker.Skills[SkillName.Tactics].Value, 0.625, 100.0, 6.25);
-			double lumberBonus = GetBonus(attacker.Skills[SkillName.Lumberjacking].Value, 0.200, 100.0, 10.00);
-
-			if (Type != WeaponType.Axe)
-			{
-				lumberBonus = 0.0;
-			}
-			#endregion
-
-			#region Modifiers
-			/*
-            * The following are damage modifiers whose effect shows on the status bar.
-            * Capped at 100% total.
-            */
-			int damageBonus = 0;
-
-			int discordanceEffect = 0;
-
-			// Discordance gives a -2%/-48% malus to damage.
-			if (Discordance.GetEffect(attacker, ref discordanceEffect))
-			{
-				damageBonus -= discordanceEffect * 2;
-			}
-
-			if (damageBonus > 100)
-			{
-				damageBonus = 100;
-			}
-			#endregion
-
-			double totalBonus = strengthBonus + anatomyBonus + tacticsBonus + lumberBonus +
-								((GetDamageBonus() + damageBonus) / 100.0);
-
-			return damage + (int)(damage * totalBonus);
+			min = Math.Max((int)ScaleDamageOld(from, baseMin, false), 1);
+			max = Math.Max((int)ScaleDamageOld(from, baseMax, false), 1);
 		}
 
 		public virtual int VirtualDamageBonus { get { return 0; } }
-
-		public virtual int ComputeDamageAOS(Mobile attacker, Mobile defender)
-		{
-			return (int)ScaleDamageAOS(attacker, GetBaseDamage(attacker), true);
-		}
 
 		public virtual double ScaleDamageOld(Mobile attacker, double damage, bool checkSkills)
 		{
@@ -1976,11 +1564,6 @@ namespace Server.Items
 
 		public virtual int ComputeDamage(Mobile attacker, Mobile defender)
 		{
-			if (Core.AOS)
-			{
-				return ComputeDamageAOS(attacker, defender);
-			}
-
 			int damage = (int)ScaleDamageOld(attacker, GetBaseDamage(attacker), true);
 
 			// pre-AOS, halve damage if the defender is a player or the attacker is not a player
@@ -2122,16 +1705,10 @@ namespace Server.Items
 		{
 			base.Serialize(writer);
 
-			writer.Write(14); // version
+			writer.Write(1); // version
 
-            // Version 10
 			writer.Write(m_BlessedBy); // Bless Deed
 
-			#region Veteran Rewards
-			writer.Write(m_EngravedText);
-			#endregion
-
-			// Version 9
 			SaveFlag flags = SaveFlag.None;
 
 			SetSaveFlag(ref flags, SaveFlag.DamageLevel, m_DamageLevel != WeaponDamageLevel.Regular);
@@ -2160,7 +1737,6 @@ namespace Server.Items
 			SetSaveFlag(ref flags, SaveFlag.Resource, m_Resource != CraftResource.Iron);
 			SetSaveFlag(ref flags, SaveFlag.PlayerConstructed, m_PlayerConstructed);
 			SetSaveFlag(ref flags, SaveFlag.Slayer2, m_Slayer2 != SlayerName.None);
-			SetSaveFlag(ref flags, SaveFlag.EngravedText, !String.IsNullOrEmpty(m_EngravedText));
 
 			writer.Write((long)flags);
 
@@ -2283,12 +1859,6 @@ namespace Server.Items
 			{
 				writer.Write((int)m_Slayer2);
 			}
-
-			if (GetSaveFlag(flags, SaveFlag.EngravedText))
-			{
-				writer.Write(m_EngravedText);
-			}
-
 		}
 
 		[Flags]
@@ -2319,15 +1889,8 @@ namespace Server.Items
 			Type = 0x00200000,
 			Animation = 0x00400000,
 			Resource = 0x00800000,
-			xAttributes = 0x01000000,
-			xWeaponAttributes = 0x02000000,
-			PlayerConstructed = 0x04000000,
-			SkillBonuses = 0x08000000,
-			Slayer2 = 0x10000000,
-			ElementalDamages = 0x20000000,
-			EngravedText = 0x40000000,
-			xAbsorptionAttributes = 0x80000000,
-            xNegativeAttributes = 0x100000000
+			PlayerConstructed = 0x01000000,
+			Slayer2 = 0x02000000
 		}
 
 		public override void Deserialize(GenericReader reader)
@@ -2338,425 +1901,233 @@ namespace Server.Items
 
 			switch (version)
 			{
-                case 14:
-                    {
-                        goto case 13;
-                    }
-                case 13:
-                case 12:
-                    {
-                        goto case 10;
-					}
-				case 10:
+				case 0:
+				{
+					m_BlessedBy = reader.ReadMobile();
+
+					SaveFlag flags;
+
+					flags = (SaveFlag) reader.ReadLong();
+
+					if (GetSaveFlag(flags, SaveFlag.DamageLevel))
 					{
-						m_BlessedBy = reader.ReadMobile();
-						m_EngravedText = reader.ReadString();
-						goto case 5;
+						m_DamageLevel = (WeaponDamageLevel) reader.ReadInt();
+
+						if (m_DamageLevel > WeaponDamageLevel.Vanq)
+						{
+							m_DamageLevel = WeaponDamageLevel.Ruin;
+						}
 					}
-				case 9:
-				case 8:
-				case 7:
-				case 6:
-				case 5:
+
+					if (GetSaveFlag(flags, SaveFlag.AccuracyLevel))
 					{
-						SaveFlag flags;
-                        
-                        if(version < 13)
-                            flags = (SaveFlag)reader.ReadInt();
-                        else
-                            flags = (SaveFlag)reader.ReadLong();
+						m_AccuracyLevel = (WeaponAccuracyLevel) reader.ReadInt();
 
-						if (GetSaveFlag(flags, SaveFlag.DamageLevel))
+						if (m_AccuracyLevel > WeaponAccuracyLevel.Supremely)
 						{
-							m_DamageLevel = (WeaponDamageLevel)reader.ReadInt();
-
-							if (m_DamageLevel > WeaponDamageLevel.Vanq)
-							{
-								m_DamageLevel = WeaponDamageLevel.Ruin;
-							}
+							m_AccuracyLevel = WeaponAccuracyLevel.Accurate;
 						}
-
-						if (GetSaveFlag(flags, SaveFlag.AccuracyLevel))
-						{
-							m_AccuracyLevel = (WeaponAccuracyLevel)reader.ReadInt();
-
-							if (m_AccuracyLevel > WeaponAccuracyLevel.Supremely)
-							{
-								m_AccuracyLevel = WeaponAccuracyLevel.Accurate;
-							}
-						}
-
-						if (GetSaveFlag(flags, SaveFlag.DurabilityLevel))
-						{
-							m_DurabilityLevel = (WeaponDurabilityLevel)reader.ReadInt();
-
-							if (m_DurabilityLevel > WeaponDurabilityLevel.Indestructible)
-							{
-								m_DurabilityLevel = WeaponDurabilityLevel.Durable;
-							}
-						}
-
-						if (GetSaveFlag(flags, SaveFlag.Quality))
-						{
-							m_Quality = (WeaponQuality)reader.ReadInt();
-						}
-						else
-						{
-							m_Quality = WeaponQuality.Regular;
-						}
-
-						if (GetSaveFlag(flags, SaveFlag.Hits))
-						{
-							m_Hits = reader.ReadInt();
-						}
-
-						if (GetSaveFlag(flags, SaveFlag.MaxHits))
-						{
-							m_MaxHits = reader.ReadInt();
-						}
-
-						if (GetSaveFlag(flags, SaveFlag.Slayer))
-						{
-							m_Slayer = (SlayerName)reader.ReadInt();
-						}
-
-						if (GetSaveFlag(flags, SaveFlag.Poison))
-						{
-							m_Poison = Poison.Deserialize(reader);
-						}
-
-						if (GetSaveFlag(flags, SaveFlag.PoisonCharges))
-						{
-							m_PoisonCharges = reader.ReadInt();
-						}
-
-						if (GetSaveFlag(flags, SaveFlag.Crafter))
-						{
-							m_Crafter = reader.ReadMobile();
-						}
-
-						if (GetSaveFlag(flags, SaveFlag.Identified))
-						{
-							m_Identified = (version >= 6 || reader.ReadBool());
-						}
-
-						if (GetSaveFlag(flags, SaveFlag.StrReq))
-						{
-							m_StrReq = reader.ReadInt();
-						}
-						else
-						{
-							m_StrReq = -1;
-						}
-
-						if (GetSaveFlag(flags, SaveFlag.DexReq))
-						{
-							m_DexReq = reader.ReadInt();
-						}
-						else
-						{
-							m_DexReq = -1;
-						}
-
-						if (GetSaveFlag(flags, SaveFlag.IntReq))
-						{
-							m_IntReq = reader.ReadInt();
-						}
-						else
-						{
-							m_IntReq = -1;
-						}
-
-						if (GetSaveFlag(flags, SaveFlag.MinDamage))
-						{
-							m_MinDamage = reader.ReadInt();
-						}
-						else
-						{
-							m_MinDamage = -1;
-						}
-
-						if (GetSaveFlag(flags, SaveFlag.MaxDamage))
-						{
-							m_MaxDamage = reader.ReadInt();
-						}
-						else
-						{
-							m_MaxDamage = -1;
-						}
-
-						if (GetSaveFlag(flags, SaveFlag.HitSound))
-						{
-							m_HitSound = reader.ReadInt();
-						}
-						else
-						{
-							m_HitSound = -1;
-						}
-
-						if (GetSaveFlag(flags, SaveFlag.MissSound))
-						{
-							m_MissSound = reader.ReadInt();
-						}
-						else
-						{
-							m_MissSound = -1;
-						}
-
-						if (GetSaveFlag(flags, SaveFlag.Speed))
-						{
-							if (version < 9)
-							{
-								m_Speed = reader.ReadInt();
-							}
-							else
-							{
-								m_Speed = reader.ReadFloat();
-							}
-						}
-						else
-						{
-							m_Speed = -1;
-						}
-
-						if (GetSaveFlag(flags, SaveFlag.MaxRange))
-						{
-							m_MaxRange = reader.ReadInt();
-						}
-						else
-						{
-							m_MaxRange = -1;
-						}
-
-						if (GetSaveFlag(flags, SaveFlag.Skill))
-						{
-							m_Skill = (SkillName)reader.ReadInt();
-						}
-						else
-						{
-							m_Skill = (SkillName)(-1);
-						}
-
-						if (GetSaveFlag(flags, SaveFlag.Type))
-						{
-							m_Type = (WeaponType)reader.ReadInt();
-						}
-						else
-						{
-							m_Type = (WeaponType)(-1);
-						}
-
-						if (GetSaveFlag(flags, SaveFlag.Animation))
-						{
-							m_Animation = (WeaponAnimation)reader.ReadInt();
-						}
-						else
-						{
-							m_Animation = (WeaponAnimation)(-1);
-						}
-
-						if (GetSaveFlag(flags, SaveFlag.Resource))
-						{
-							m_Resource = (CraftResource)reader.ReadInt();
-						}
-						else
-						{
-							m_Resource = CraftResource.Iron;
-						}
-
-						if (UseSkillMod && m_AccuracyLevel != WeaponAccuracyLevel.Regular && Parent is Mobile)
-						{
-							m_SkillMod = new DefaultSkillMod(AccuracySkill, true, (int)m_AccuracyLevel * 5);
-							((Mobile)Parent).AddSkillMod(m_SkillMod);
-						}
-
-						if (GetSaveFlag(flags, SaveFlag.PlayerConstructed))
-						{
-							m_PlayerConstructed = true;
-						}
-
-						if (GetSaveFlag(flags, SaveFlag.Slayer2))
-						{
-							m_Slayer2 = (SlayerName)reader.ReadInt();
-						}
-
-						if (GetSaveFlag(flags, SaveFlag.EngravedText))
-						{
-							m_EngravedText = reader.ReadString();
-						}
-
-						break;
 					}
-				case 4:
+
+					if (GetSaveFlag(flags, SaveFlag.DurabilityLevel))
 					{
-						m_Slayer = (SlayerName)reader.ReadInt();
+						m_DurabilityLevel = (WeaponDurabilityLevel) reader.ReadInt();
 
-						goto case 3;
+						if (m_DurabilityLevel > WeaponDurabilityLevel.Indestructible)
+						{
+							m_DurabilityLevel = WeaponDurabilityLevel.Durable;
+						}
 					}
-				case 3:
+
+					if (GetSaveFlag(flags, SaveFlag.Quality))
+					{
+						m_Quality = (WeaponQuality) reader.ReadInt();
+					}
+					else
+					{
+						m_Quality = WeaponQuality.Regular;
+					}
+
+					if (GetSaveFlag(flags, SaveFlag.Hits))
+					{
+						m_Hits = reader.ReadInt();
+					}
+
+					if (GetSaveFlag(flags, SaveFlag.MaxHits))
+					{
+						m_MaxHits = reader.ReadInt();
+					}
+
+					if (GetSaveFlag(flags, SaveFlag.Slayer))
+					{
+						m_Slayer = (SlayerName) reader.ReadInt();
+					}
+
+					if (GetSaveFlag(flags, SaveFlag.Poison))
+					{
+						m_Poison = Poison.Deserialize(reader);
+					}
+
+					if (GetSaveFlag(flags, SaveFlag.PoisonCharges))
+					{
+						m_PoisonCharges = reader.ReadInt();
+					}
+
+					if (GetSaveFlag(flags, SaveFlag.Crafter))
+					{
+						m_Crafter = reader.ReadMobile();
+					}
+
+					if (GetSaveFlag(flags, SaveFlag.Identified))
+					{
+						m_Identified = (version >= 6 || reader.ReadBool());
+					}
+
+					if (GetSaveFlag(flags, SaveFlag.StrReq))
 					{
 						m_StrReq = reader.ReadInt();
-						m_DexReq = reader.ReadInt();
-						m_IntReq = reader.ReadInt();
-
-						goto case 2;
 					}
-				case 2:
+					else
 					{
-						m_Identified = reader.ReadBool();
-
-						goto case 1;
+						m_StrReq = -1;
 					}
-				case 1:
+
+					if (GetSaveFlag(flags, SaveFlag.DexReq))
+					{
+						m_DexReq = reader.ReadInt();
+					}
+					else
+					{
+						m_DexReq = -1;
+					}
+
+					if (GetSaveFlag(flags, SaveFlag.IntReq))
+					{
+						m_IntReq = reader.ReadInt();
+					}
+					else
+					{
+						m_IntReq = -1;
+					}
+
+					if (GetSaveFlag(flags, SaveFlag.MinDamage))
+					{
+						m_MinDamage = reader.ReadInt();
+					}
+					else
+					{
+						m_MinDamage = -1;
+					}
+
+					if (GetSaveFlag(flags, SaveFlag.MaxDamage))
+					{
+						m_MaxDamage = reader.ReadInt();
+					}
+					else
+					{
+						m_MaxDamage = -1;
+					}
+
+					if (GetSaveFlag(flags, SaveFlag.HitSound))
+					{
+						m_HitSound = reader.ReadInt();
+					}
+					else
+					{
+						m_HitSound = -1;
+					}
+
+					if (GetSaveFlag(flags, SaveFlag.MissSound))
+					{
+						m_MissSound = reader.ReadInt();
+					}
+					else
+					{
+						m_MissSound = -1;
+					}
+
+					if (GetSaveFlag(flags, SaveFlag.Speed))
+					{
+						if (version < 9)
+						{
+							m_Speed = reader.ReadInt();
+						}
+						else
+						{
+							m_Speed = reader.ReadFloat();
+						}
+					}
+					else
+					{
+						m_Speed = -1;
+					}
+
+					if (GetSaveFlag(flags, SaveFlag.MaxRange))
 					{
 						m_MaxRange = reader.ReadInt();
-
-						goto case 0;
 					}
-				case 0:
+					else
 					{
-						if (version == 0)
-						{
-							m_MaxRange = 1; // default
-						}
-
-						if (version < 5)
-						{
-							m_Resource = CraftResource.Iron;
-						}
-
-						m_MinDamage = reader.ReadInt();
-						m_MaxDamage = reader.ReadInt();
-
-						m_Speed = reader.ReadInt();
-
-						m_HitSound = reader.ReadInt();
-						m_MissSound = reader.ReadInt();
-
-						m_Skill = (SkillName)reader.ReadInt();
-						m_Type = (WeaponType)reader.ReadInt();
-						m_Animation = (WeaponAnimation)reader.ReadInt();
-						m_DamageLevel = (WeaponDamageLevel)reader.ReadInt();
-						m_AccuracyLevel = (WeaponAccuracyLevel)reader.ReadInt();
-						m_DurabilityLevel = (WeaponDurabilityLevel)reader.ReadInt();
-						m_Quality = (WeaponQuality)reader.ReadInt();
-
-						m_Crafter = reader.ReadMobile();
-
-						m_Poison = Poison.Deserialize(reader);
-						m_PoisonCharges = reader.ReadInt();
-
-						if (m_StrReq == OldStrengthReq)
-						{
-							m_StrReq = -1;
-						}
-
-						if (m_DexReq == OldDexterityReq)
-						{
-							m_DexReq = -1;
-						}
-
-						if (m_IntReq == OldIntelligenceReq)
-						{
-							m_IntReq = -1;
-						}
-
-						if (m_MinDamage == OldMinDamage)
-						{
-							m_MinDamage = -1;
-						}
-
-						if (m_MaxDamage == OldMaxDamage)
-						{
-							m_MaxDamage = -1;
-						}
-
-						if (m_HitSound == OldHitSound)
-						{
-							m_HitSound = -1;
-						}
-
-						if (m_MissSound == OldMissSound)
-						{
-							m_MissSound = -1;
-						}
-
-						if (m_Speed == OldSpeed)
-						{
-							m_Speed = -1;
-						}
-
-						if (m_MaxRange == OldMaxRange)
-						{
-							m_MaxRange = -1;
-						}
-
-						if (m_Skill == OldSkill)
-						{
-							m_Skill = (SkillName)(-1);
-						}
-
-						if (m_Type == OldType)
-						{
-							m_Type = (WeaponType)(-1);
-						}
-
-						if (m_Animation == OldAnimation)
-						{
-							m_Animation = (WeaponAnimation)(-1);
-						}
-
-						if (UseSkillMod && m_AccuracyLevel != WeaponAccuracyLevel.Regular && Parent is Mobile)
-						{
-							m_SkillMod = new DefaultSkillMod(AccuracySkill, true, (int)m_AccuracyLevel * 5);
-							((Mobile)Parent).AddSkillMod(m_SkillMod);
-						}
-
-						break;
+						m_MaxRange = -1;
 					}
-			}
 
-			int strBonus = 0;
-			int dexBonus = 0;
-			int intBonus = 0;
+					if (GetSaveFlag(flags, SaveFlag.Skill))
+					{
+						m_Skill = (SkillName) reader.ReadInt();
+					}
+					else
+					{
+						m_Skill = (SkillName) (-1);
+					}
 
-			if (Parent is Mobile && (strBonus != 0 || dexBonus != 0 || intBonus != 0))
-			{
-				Mobile m = (Mobile)Parent;
+					if (GetSaveFlag(flags, SaveFlag.Type))
+					{
+						m_Type = (WeaponType) reader.ReadInt();
+					}
+					else
+					{
+						m_Type = (WeaponType) (-1);
+					}
 
-				string modName = Serial.ToString();
+					if (GetSaveFlag(flags, SaveFlag.Animation))
+					{
+						m_Animation = (WeaponAnimation) reader.ReadInt();
+					}
+					else
+					{
+						m_Animation = (WeaponAnimation) (-1);
+					}
 
-				if (strBonus != 0)
-				{
-					m.AddStatMod(new StatMod(StatType.Str, modName + "Str", strBonus, TimeSpan.Zero));
+					if (GetSaveFlag(flags, SaveFlag.Resource))
+					{
+						m_Resource = (CraftResource) reader.ReadInt();
+					}
+					else
+					{
+						m_Resource = CraftResource.Iron;
+					}
+
+					if (UseSkillMod && m_AccuracyLevel != WeaponAccuracyLevel.Regular && Parent is Mobile)
+					{
+						m_SkillMod = new DefaultSkillMod(AccuracySkill, true, (int) m_AccuracyLevel*5);
+						((Mobile) Parent).AddSkillMod(m_SkillMod);
+					}
+
+					if (GetSaveFlag(flags, SaveFlag.PlayerConstructed))
+					{
+						m_PlayerConstructed = true;
+					}
+
+					if (GetSaveFlag(flags, SaveFlag.Slayer2))
+					{
+						m_Slayer2 = (SlayerName) reader.ReadInt();
+					}
+
+					break;
 				}
-
-				if (dexBonus != 0)
-				{
-					m.AddStatMod(new StatMod(StatType.Dex, modName + "Dex", dexBonus, TimeSpan.Zero));
-				}
-
-				if (intBonus != 0)
-				{
-					m.AddStatMod(new StatMod(StatType.Int, modName + "Int", intBonus, TimeSpan.Zero));
-				}
-			}
-
-			if (Parent is Mobile)
-			{
-				((Mobile)Parent).CheckStatTimers();
-			}
-
-			if (m_Hits <= 0 && m_MaxHits <= 0)
-			{
-				m_Hits = m_MaxHits = Utility.RandomMinMax(InitMinHits, InitMaxHits);
-			}
-
-			if (version < 6)
-			{
-				m_PlayerConstructed = true; // we don't know, so, assume it's crafted
 			}
 		}
+
 		#endregion
 
 		public BaseWeapon(int itemID)
@@ -2885,25 +2256,6 @@ namespace Server.Items
             {
                 list.Add(Name);
             }
-
-			/*
-            * Want to move this to the engraving tool, let the non-harmful 
-            * formatting show, and remove CLILOCs embedded: more like OSI
-            * did with the books that had markup, etc.
-            * 
-            * This will have a negative effect on a few event things imgame 
-            * as is.
-            * 
-            * If we cant find a more OSI-ish way to clean it up, we can 
-            * easily put this back, and use it in the deserialize
-            * method and engraving tool, to make it perm cleaned up.
-            */
-
-			if (!String.IsNullOrEmpty(m_EngravedText))
-			{
-				list.Add(1062613, m_EngravedText);
-			}
-			/* list.Add( 1062613, Utility.FixHtml( m_EngravedText ) ); */
 		}
 
 		public override bool AllowEquipedCast(Mobile from)
@@ -2957,11 +2309,6 @@ namespace Server.Items
 			if (m_Quality == WeaponQuality.Exceptional)
 			{
 				list.Add(1060636); // exceptional
-			}
-
-			if (RequiredRace == Race.Elf)
-			{
-				list.Add(1075086); // Elves Only
 			}
 
 			if (ArtifactRarity > 0)

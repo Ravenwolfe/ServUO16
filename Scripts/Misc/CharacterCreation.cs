@@ -923,11 +923,7 @@ namespace Server.Misc
                     }
                 case SkillName.Lumberjacking:
                     {
-                        if (human || elf)
-                            EquipItem(new Hatchet());
-                        else if (gargoyle)
-                            EquipItem(new DualShortAxes());
-
+                        EquipItem(new Hatchet());
                         break;
                     }
                 case SkillName.Macing:

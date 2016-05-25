@@ -332,16 +332,7 @@ namespace Server.Engines.Craft
             AddCraft(typeof(Spear), 1011083, 1023938, 49.0, 99.0, typeof(IronIngot), 1044036, 12, 1044037);
             AddCraft(typeof(WarFork), 1011083, 1025125, 42.9, 92.9, typeof(IronIngot), 1044036, 12, 1044037);
 
-            #region SA
-            if (Core.SA)
-            {
-                index = AddCraft(typeof(DualPointedSpear), 1011083, 1095365, 45.0, 100.0, typeof(IronIngot), 1044036, 16, 1044037);
-                SetNeededExpansion(index, Expansion.SA);
-            }
-            #endregion
-
-            //Not craftable (is this an AOS change ??)
-            //AddCraft( typeof( Pitchfork ), 1011083, 1023720, 36.1, 86.1, typeof( IronIngot ), 1044036, 12, 1044037 );
+            AddCraft( typeof( Pitchfork ), 1011083, 1023720, 36.1, 86.1, typeof( IronIngot ), 1044036, 12, 1044037 );
             #endregion
 
             #region Bashing
