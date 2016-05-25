@@ -52,41 +52,7 @@ namespace Server.Items
                 return WeaponAbility.Disarm;
             }
         }
-        public override int AosStrengthReq
-        {
-            get
-            {
-                return 5;
-            }
-        }
-        public override int AosMinDamage
-        {
-            get
-            {
-                return 9;
-            }
-        }
-        public override int AosMaxDamage
-        {
-            get
-            {
-                return 11;
-            }
-        }
-        public override int AosSpeed
-        {
-            get
-            {
-                return 40;
-            }
-        }
-        public override float MlSpeed
-        {
-            get
-            {
-                return 2.75f;
-            }
-        }
+
         public override int OldStrengthReq
         {
             get

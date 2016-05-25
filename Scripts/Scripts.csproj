@@ -591,12 +591,6 @@
     <Compile Include="Items\Equipment\Armor\RangerGorget.cs" />
     <Compile Include="Items\Equipment\Armor\RangerLegs.cs" />
     <Compile Include="Items\Equipment\Light\TwilightLantern.cs" />
-    <Compile Include="Items\Equipment\Weapons\BaseAxe.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\BaseBashing.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Containers\BaseBoard.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -609,7 +603,100 @@
     <Compile Include="Items\Consumables\BaseCurePotion.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Items\Equipment\Weapons\Axe.cs" />
+    <Compile Include="Items\Equipment\Weapons\Bardiche.cs" />
+    <Compile Include="Items\Equipment\Weapons\BaseAxe.cs" />
+    <Compile Include="Items\Equipment\Weapons\BaseBashing.cs" />
+    <Compile Include="Items\Equipment\Weapons\BaseKnife.cs" />
+    <Compile Include="Items\Equipment\Weapons\BaseMeleeWeapon.cs" />
+    <Compile Include="Items\Equipment\Weapons\BasePoleArm.cs" />
+    <Compile Include="Items\Equipment\Weapons\BaseRanged.cs" />
+    <Compile Include="Items\Equipment\Weapons\BaseSpear.cs" />
+    <Compile Include="Items\Equipment\Weapons\BaseStaff.cs" />
+    <Compile Include="Items\Equipment\Weapons\BaseSword.cs" />
+    <Compile Include="Items\Equipment\Weapons\BaseWand.cs" />
+    <Compile Include="Items\Equipment\Weapons\BaseWeapon.cs" />
+    <Compile Include="Items\Equipment\Weapons\BattleAxe.cs" />
+    <Compile Include="Items\Equipment\Weapons\BlackStaff.cs" />
+    <Compile Include="Items\Equipment\Weapons\BladedStaff.cs" />
+    <Compile Include="Items\Equipment\Weapons\Bokuto.cs" />
+    <Compile Include="Items\Equipment\Weapons\BoneHarvester.cs" />
+    <Compile Include="Items\Equipment\Weapons\Bow.cs" />
+    <Compile Include="Items\Equipment\Weapons\Broadsword.cs" />
+    <Compile Include="Items\Equipment\Weapons\ButcherKnife.cs" />
+    <Compile Include="Items\Equipment\Weapons\Cleaver.cs" />
+    <Compile Include="Items\Equipment\Weapons\Club.cs" />
+    <Compile Include="Items\Equipment\Weapons\ClumsyWand.cs" />
+    <Compile Include="Items\Equipment\Weapons\CompositeBow.cs" />
+    <Compile Include="Items\Equipment\Weapons\CrescentBlade.cs" />
+    <Compile Include="Items\Equipment\Weapons\Crossbow.cs" />
+    <Compile Include="Items\Equipment\Weapons\Cutlass.cs" />
+    <Compile Include="Items\Equipment\Weapons\Dagger.cs" />
+    <Compile Include="Items\Equipment\Weapons\Daisho.cs" />
+    <Compile Include="Items\Equipment\Weapons\DoubleAxe.cs" />
+    <Compile Include="Items\Equipment\Weapons\DoubleBladedStaff.cs" />
+    <Compile Include="Items\Equipment\Weapons\DreadSword.cs" />
+    <Compile Include="Items\Equipment\Weapons\DualPointedSpear.cs" />
+    <Compile Include="Items\Equipment\Weapons\DualShortAxes.cs" />
+    <Compile Include="Items\Equipment\Weapons\ExecutionersAxe.cs" />
+    <Compile Include="Items\Equipment\Weapons\FeebleWand.cs" />
+    <Compile Include="Items\Equipment\Weapons\FireballWand.cs" />
+    <Compile Include="Items\Equipment\Weapons\FireworksWand.cs" />
+    <Compile Include="Items\Equipment\Weapons\Fists.cs" />
     <Compile Include="Items\Equipment\Weapons\GlacialStaff.cs" />
+    <Compile Include="Items\Equipment\Weapons\GnarledStaff.cs" />
+    <Compile Include="Items\Equipment\Weapons\GreaterHealWand.cs" />
+    <Compile Include="Items\Equipment\Weapons\Halberd.cs" />
+    <Compile Include="Items\Equipment\Weapons\HammerPick.cs" />
+    <Compile Include="Items\Equipment\Weapons\HarmWand.cs" />
+    <Compile Include="Items\Equipment\Weapons\Hatchet.cs" />
+    <Compile Include="Items\Equipment\Weapons\HealWand.cs" />
+    <Compile Include="Items\Equipment\Weapons\HeavyCrossbow.cs" />
+    <Compile Include="Items\Equipment\Weapons\HitLower.cs" />
+    <Compile Include="Items\Equipment\Weapons\IDWand.cs" />
+    <Compile Include="Items\Equipment\Weapons\JukaBow.cs" />
+    <Compile Include="Items\Equipment\Weapons\Kryss.cs" />
+    <Compile Include="Items\Equipment\Weapons\Lajatang.cs" />
+    <Compile Include="Items\Equipment\Weapons\Lance.cs" />
+    <Compile Include="Items\Equipment\Weapons\LargeBattleAxe.cs" />
+    <Compile Include="Items\Equipment\Weapons\Leafblade.cs" />
+    <Compile Include="Items\Equipment\Weapons\LightningWand.cs" />
+    <Compile Include="Items\Equipment\Weapons\Longsword.cs" />
+    <Compile Include="Items\Equipment\Weapons\Mace.cs" />
+    <Compile Include="Items\Equipment\Weapons\MagicalShortbow.cs" />
+    <Compile Include="Items\Equipment\Weapons\MagicArrowWand.cs" />
+    <Compile Include="Items\Equipment\Weapons\MagicWand.cs" />
+    <Compile Include="Items\Equipment\Weapons\ManaDrainWand.cs" />
+    <Compile Include="Items\Equipment\Weapons\Maul.cs" />
+    <Compile Include="Items\Equipment\Weapons\OrcishBow.cs" />
+    <Compile Include="Items\Equipment\Weapons\OrnateAxe.cs" />
+    <Compile Include="Items\Equipment\Weapons\Pickaxe.cs" />
+    <Compile Include="Items\Equipment\Weapons\Pike.cs" />
+    <Compile Include="Items\Equipment\Weapons\Pitchfork.cs" />
+    <Compile Include="Items\Equipment\Weapons\QuarterStaff.cs" />
+    <Compile Include="Items\Equipment\Weapons\RadiantScimitar.cs" />
+    <Compile Include="Items\Equipment\Weapons\RandomWand.cs" />
+    <Compile Include="Items\Equipment\Weapons\RepeatingCrossbow.cs" />
+    <Compile Include="Items\Equipment\Weapons\Scepter.cs" />
+    <Compile Include="Items\Equipment\Weapons\Scimitar.cs" />
+    <Compile Include="Items\Equipment\Weapons\Scythe.cs" />
+    <Compile Include="Items\Equipment\Weapons\ShepherdsCrook.cs" />
+    <Compile Include="Items\Equipment\Weapons\Shortblade.cs" />
+    <Compile Include="Items\Equipment\Weapons\ShortSpear.cs" />
+    <Compile Include="Items\Equipment\Weapons\SkinningKnife.cs" />
+    <Compile Include="Items\Equipment\Weapons\Spear.cs" />
+    <Compile Include="Items\Equipment\Weapons\TribalSpear.cs" />
+    <Compile Include="Items\Equipment\Weapons\TwoHandedAxe.cs" />
+    <Compile Include="Items\Equipment\Weapons\VikingSword.cs" />
+    <Compile Include="Items\Equipment\Weapons\WandTarget.cs" />
+    <Compile Include="Items\Equipment\Weapons\WarAxe.cs" />
+    <Compile Include="Items\Equipment\Weapons\WarCleaver.cs" />
+    <Compile Include="Items\Equipment\Weapons\WarFork.cs" />
+    <Compile Include="Items\Equipment\Weapons\WarHammer.cs" />
+    <Compile Include="Items\Equipment\Weapons\WarMace.cs" />
+    <Compile Include="Items\Equipment\Weapons\WeaknessWand.cs" />
+    <Compile Include="Items\Equipment\Weapons\WeaponEnums.cs" />
+    <Compile Include="Items\Equipment\Weapons\Yumi.cs" />
     <Compile Include="Items\Functional\AcidVine.cs" />
     <Compile Include="Items\Functional\BaseDoor.cs">
       <SubType>Code</SubType>
@@ -639,13 +726,7 @@
     <Compile Include="Items\Equipment\Jewelry\BaseJewel.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Equipment\Weapons\BaseKnife.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Decorative\BaseLight.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\BaseMeleeWeapon.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Decorative\BasePiece.cs">
@@ -654,13 +735,7 @@
     <Compile Include="Items\Consumables\BasePoisonPotion.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Equipment\Weapons\BasePoleArm.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Consumables\BasePotion.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\BaseRanged.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Consumables\BaseReagent.cs">
@@ -675,12 +750,6 @@
     <Compile Include="Items\Decorative\BaseSign.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Equipment\Weapons\BaseSpear.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\BaseStaff.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Decorative\BaseStatuette.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -688,9 +757,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Equipment\Suits\BaseSuit.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\BaseSword.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Tools\BaseTool.cs">
@@ -705,13 +771,7 @@
     <Compile Include="Items\Decorative\BaseWall.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Equipment\Weapons\BaseWand.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Consumables\BaseWaterContainer.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\BaseWeapon.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Resource\AbyssalCloth.cs">
@@ -4194,9 +4254,6 @@
     <Compile Include="Items\Addons\WallBanner.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Tools\WeaponEngravingTool.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Addons\CorporealBrumeStatuette.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -4307,45 +4364,6 @@
     </Compile>
     <Compile Include="Items\Tools\MasterSkeletonKey.cs" />
     <Compile Include="Items\Tools\SkeletonKey.cs" />
-    <Compile Include="Items\Equipment\Weapons\ClumsyWand.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\FeebleWand.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\FireballWand.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\GreaterHealWand.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\HarmWand.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\HealWand.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\IDWand.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\LightningWand.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\MagicArrowWand.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\ManaDrainWand.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\RandomWand.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\WandTarget.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\WeaknessWand.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Abilities\ConcussionBlow.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -4367,138 +4385,6 @@
     <Compile Include="Abilities\WeaponAbility.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Equipment\Weapons\Axe.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\BattleAxe.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\DoubleAxe.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\DualShortAxes.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\ExecutionersAxe.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\Hatchet.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\LargeBattleAxe.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\Pickaxe.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\TwoHandedAxe.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\WarAxe.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\Fists.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\HitLower.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\ButcherKnife.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\Cleaver.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\Dagger.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\SkinningKnife.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\Club.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\FireworksWand.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\HammerPick.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\Mace.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\MagicWand.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\Maul.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\Scepter.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\WarHammer.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\WarMace.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\Leafblade.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\MagicalShortbow.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\OrnateAxe.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\RadiantScimitar.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\WarCleaver.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\Bardiche.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\Halberd.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\Scythe.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\Bow.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\CompositeBow.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\Crossbow.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\HeavyCrossbow.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\JukaBow.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\OrcishBow.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\RepeatingCrossbow.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\Bokuto.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\Daisho.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\Lajatang.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\Yumi.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Abilities\SlayerEntry.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -4508,82 +4394,7 @@
     <Compile Include="Abilities\SlayerName.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Equipment\Weapons\BladedStaff.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\DoubleBladedStaff.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\DualPointedSpear.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\Pike.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\Pitchfork.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\ShortSpear.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\Spear.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\TribalSpear.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\WarFork.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\BlackStaff.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\GnarledStaff.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\QuarterStaff.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\ShepherdsCrook.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\BoneHarvester.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\Broadsword.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\CrescentBlade.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\Cutlass.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\DreadSword.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Equipment\Weapons\Katana.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\Kryss.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\Lance.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\Longsword.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\Scimitar.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\Shortblade.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\VikingSword.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Weapons\WeaponEnums.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Misc\AccountPrompt.cs">

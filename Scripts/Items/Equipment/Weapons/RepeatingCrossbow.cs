@@ -52,41 +52,7 @@ namespace Server.Items
                 return WeaponAbility.MovingShot;
             }
         }
-        public override int AosStrengthReq
-        {
-            get
-            {
-                return 30;
-            }
-        }
-        public override int AosMinDamage
-        {
-            get
-            {
-                return Core.ML ? 11 : 10;
-            }
-        }
-        public override int AosMaxDamage
-        {
-            get
-            {
-                return 15;
-            }
-        }
-        public override int AosSpeed
-        {
-            get
-            {
-                return 41;
-            }
-        }
-        public override float MlSpeed
-        {
-            get
-            {
-                return 2.75f;
-            }
-        }
+
         public override int OldStrengthReq
         {
             get

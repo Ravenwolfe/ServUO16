@@ -64,34 +64,7 @@ namespace Server.Items
                 return WeaponAbility.ShadowStrike;
             }
         }
-        public override int AosStrengthReq
-        {
-            get
-            {
-                return 40;
-            }
-        }
-        public override int AosMinDamage
-        {
-            get
-            {
-                return 13;
-            }
-        }
-        public override int AosMaxDamage
-        {
-            get
-            {
-                return 15;
-            }
-        }
-        public override int AosSpeed
-        {
-            get
-            {
-                return 33;
-            }
-        }
+
         public override int OldStrengthReq
         {
             get

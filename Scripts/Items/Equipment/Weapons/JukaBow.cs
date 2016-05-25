@@ -15,21 +15,7 @@ namespace Server.Items
         {
         }
 
-        public override int AosStrengthReq
-        {
-            get
-            {
-                return 80;
-            }
-        }
-        public override int AosDexterityReq
-        {
-            get
-            {
-                return 80;
-            }
-        }
-        public override int OldStrengthReq
+ public override int OldStrengthReq
         {
             get
             {

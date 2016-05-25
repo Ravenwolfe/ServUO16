@@ -31,41 +31,7 @@ namespace Server.Items
                 return WeaponAbility.Dismount;
             }
         }
-        public override int AosStrengthReq
-        {
-            get
-            {
-                return 40;
-            }
-        }
-        public override int AosMinDamage
-        {
-            get
-            {
-                return 10;
-            }
-        }
-        public override int AosMaxDamage
-        {
-            get
-            {
-                return 14;
-            }
-        }
-        public override int AosSpeed
-        {
-            get
-            {
-                return 44;
-            }
-        }
-        public override float MlSpeed
-        {
-            get
-            {
-                return 2.50f;
-            }
-        }
+
         public override int OldStrengthReq
         {
             get

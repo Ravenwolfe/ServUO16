@@ -32,41 +32,7 @@ namespace Server.Items
                 return WeaponAbility.ConcussionBlow;
             }
         }
-        public override int AosStrengthReq
-        {
-            get
-            {
-                return 35;
-            }
-        }
-        public override int AosMinDamage
-        {
-            get
-            {
-                return 14;
-            }
-        }
-        public override int AosMaxDamage
-        {
-            get
-            {
-                return 18;
-            }
-        }
-        public override int AosSpeed
-        {
-            get
-            {
-                return 30;
-            }
-        }
-        public override float MlSpeed
-        {
-            get
-            {
-                return 3.50f;
-            }
-        }
+
         public override int OldStrengthReq
         {
             get
@@ -123,9 +89,6 @@ namespace Server.Items
                 return 110;
             }
         }
-
-        public override Race RequiredRace { get { return Race.Gargoyle; } }
-        public override bool CanBeWornByGargoyles { get { return true; } }
 
         public override void Serialize(GenericWriter writer)
         {

@@ -32,41 +32,7 @@ namespace Server.Items
                 return WeaponAbility.FrenziedWhirlwind;
             }
         }
-        public override int AosStrengthReq
-        {
-            get
-            {
-                return 65;
-            }
-        }
-        public override int AosMinDamage
-        {
-            get
-            {
-                return 16;
-            }
-        }
-        public override int AosMaxDamage
-        {
-            get
-            {
-                return 19;
-            }
-        }
-        public override int AosSpeed
-        {
-            get
-            {
-                return 32;
-            }
-        }
-        public override float MlSpeed
-        {
-            get
-            {
-                return 3.50f;
-            }
-        }
+
         public override int OldStrengthReq
         {
             get

@@ -31,41 +31,7 @@ namespace Server.Items
                 return WeaponAbility.MortalStrike;
             }
         }
-        public override int AosStrengthReq
-        {
-            get
-            {
-                return 55;
-            }
-        }
-        public override int AosMinDamage
-        {
-            get
-            {
-                return 12;
-            }
-        }
-        public override int AosMaxDamage
-        {
-            get
-            {
-                return 15;
-            }
-        }
-        public override int AosSpeed
-        {
-            get
-            {
-                return 47;
-            }
-        }
-        public override float MlSpeed
-        {
-            get
-            {
-                return 2.50f;
-            }
-        }
+
         public override int OldStrengthReq
         {
             get

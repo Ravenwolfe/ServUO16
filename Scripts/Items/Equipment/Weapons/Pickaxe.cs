@@ -41,41 +41,7 @@ namespace Server.Items
                 return WeaponAbility.Disarm;
             }
         }
-        public override int AosStrengthReq
-        {
-            get
-            {
-                return 50;
-            }
-        }
-        public override int AosMinDamage
-        {
-            get
-            {
-                return 12;
-            }
-        }
-        public override int AosMaxDamage
-        {
-            get
-            {
-                return 16;
-            }
-        }
-        public override int AosSpeed
-        {
-            get
-            {
-                return 35;
-            }
-        }
-        public override float MlSpeed
-        {
-            get
-            {
-                return 3.00f;
-            }
-        }
+
         public override int OldStrengthReq
         {
             get
@@ -118,8 +84,6 @@ namespace Server.Items
                 return 60;
             }
         }
-
-        public override bool CanBeWornByGargoyles { get { return true; } }
 
         public override WeaponAnimation DefAnimation
         {

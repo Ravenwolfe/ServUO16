@@ -52,41 +52,7 @@ namespace Server.Items
                 return WeaponAbility.PsychicAttack;
             }
         }
-        public override int AosStrengthReq
-        {
-            get
-            {
-                return 45;
-            }
-        }
-        public override int AosMinDamage
-        {
-            get
-            {
-                return 12;
-            }
-        }
-        public override int AosMaxDamage
-        {
-            get
-            {
-                return 16;
-            }
-        }
-        public override int AosSpeed
-        {
-            get
-            {
-                return 38;
-            }
-        }
-        public override float MlSpeed
-        {
-            get
-            {
-                return 3.00f;
-            }
-        }
+
         public override int OldStrengthReq
         {
             get

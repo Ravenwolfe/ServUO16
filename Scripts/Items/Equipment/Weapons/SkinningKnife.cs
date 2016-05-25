@@ -31,41 +31,7 @@ namespace Server.Items
                 return WeaponAbility.BleedAttack;
             }
         }
-        public override int AosStrengthReq
-        {
-            get
-            {
-                return 5;
-            }
-        }
-        public override int AosMinDamage
-        {
-            get
-            {
-                return 10;
-            }
-        }
-        public override int AosMaxDamage
-        {
-            get
-            {
-                return 13;
-            }
-        }
-        public override int AosSpeed
-        {
-            get
-            {
-                return 49;
-            }
-        }
-        public override float MlSpeed
-        {
-            get
-            {
-                return 2.25f;
-            }
-        }
+
         public override int OldStrengthReq
         {
             get
