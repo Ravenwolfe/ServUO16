@@ -31,7 +31,69 @@ namespace Server.Items
                 return WeaponAbility.ConcussionBlow;
             }
         }
- 
+        public override int AosStrengthReq
+        {
+            get
+            {
+                return 95;
+            }
+        }
+        public override int AosMinDamage
+        {
+            get
+            {
+                return 18;
+            }
+        }
+        public override int AosMaxDamage
+        {
+            get
+            {
+                return 21;
+            }
+        }
+        public override int AosSpeed
+        {
+            get
+            {
+                return 25;
+            }
+        }
+        public override float MlSpeed
+        {
+            get
+            {
+                return 4.00f;
+            }
+        }
+        public override int OldStrengthReq
+        {
+            get
+            {
+                return 45;
+            }
+        }
+        public override int OldMinDamage
+        {
+            get
+            {
+                return 5;
+            }
+        }
+        public override int OldMaxDamage
+        {
+            get
+            {
+                return 49;
+            }
+        }
+        public override int OldSpeed
+        {
+            get
+            {
+                return 25;
+            }
+        }
         public override int InitMinHits
         {
             get

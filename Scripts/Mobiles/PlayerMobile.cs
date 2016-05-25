@@ -849,6 +849,11 @@ namespace Server.Mobiles
 						{
 							drop = true;
 						}
+						else if (weapon.RequiredRace != null && weapon.RequiredRace != Race)
+						{
+							drop = true;
+						}
+
 						if (drop)
 						{
 							string name = weapon.Name;

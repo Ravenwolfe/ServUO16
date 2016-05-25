@@ -32,7 +32,69 @@ namespace Server.Items
                 return WeaponAbility.CrushingBlow;
             }
         }
-
+        public override int AosStrengthReq
+        {
+            get
+            {
+                return 95;
+            }
+        }
+        public override int AosMinDamage
+        {
+            get
+            {
+                return 17;
+            }
+        }
+        public override int AosMaxDamage
+        {
+            get
+            {
+                return 20;
+            }
+        }
+        public override int AosSpeed
+        {
+            get
+            {
+                return 28;
+            }
+        }
+        public override float MlSpeed
+        {
+            get
+            {
+                return 3.75f;
+            }
+        }
+        public override int OldStrengthReq
+        {
+            get
+            {
+                return 40;
+            }
+        }
+        public override int OldMinDamage
+        {
+            get
+            {
+                return 8;
+            }
+        }
+        public override int OldMaxDamage
+        {
+            get
+            {
+                return 36;
+            }
+        }
+        public override int OldSpeed
+        {
+            get
+            {
+                return 31;
+            }
+        }
         public override int InitMinHits
         {
             get

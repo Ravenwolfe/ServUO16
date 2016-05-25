@@ -2,17 +2,17 @@ using System;
 
 namespace Server.Items
 {
-    [FlipableAttribute(0x1407, 0x1406)]
-    public class WarMace : BaseBashing
+    [FlipableAttribute(0x2D22, 0x2D2E)]
+    public class Leafblade : BaseKnife
     {
         [Constructable]
-        public WarMace()
-            : base(0x1407)
+        public Leafblade()
+            : base(0x2D22)
         {
-            this.Weight = 17.0;
+            this.Weight = 8.0;
         }
 
-        public WarMace(Serial serial)
+        public Leafblade(Serial serial)
             : base(serial)
         {
         }
@@ -21,105 +21,119 @@ namespace Server.Items
         {
             get
             {
-                return WeaponAbility.CrushingBlow;
+                return WeaponAbility.Feint;
             }
         }
         public override WeaponAbility SecondaryAbility
         {
             get
             {
-                return WeaponAbility.MortalStrike;
+                return WeaponAbility.ArmorIgnore;
             }
         }
         public override int AosStrengthReq
         {
             get
             {
-                return 80;
+                return 20;
             }
         }
         public override int AosMinDamage
         {
             get
             {
-                return 16;
+                return 11;
             }
         }
         public override int AosMaxDamage
         {
             get
             {
-                return 20;
+                return 15;
             }
         }
         public override int AosSpeed
         {
             get
             {
-                return 26;
+                return 42;
             }
         }
         public override float MlSpeed
         {
             get
             {
-                return 4.00f;
+                return 2.75f;
             }
         }
         public override int OldStrengthReq
         {
             get
             {
-                return 30;
+                return 20;
             }
         }
         public override int OldMinDamage
         {
             get
             {
-                return 10;
+                return 13;
             }
         }
         public override int OldMaxDamage
         {
             get
             {
-                return 30;
+                return 15;
             }
         }
         public override int OldSpeed
         {
             get
             {
-                return 32;
+                return 42;
+            }
+        }
+        public override int DefMissSound
+        {
+            get
+            {
+                return 0x239;
+            }
+        }
+        public override SkillName DefSkill
+        {
+            get
+            {
+                return SkillName.Fencing;
             }
         }
         public override int InitMinHits
         {
             get
             {
-                return 31;
+                return 30;
             }
-        }
+        }// TODO
         public override int InitMaxHits
         {
             get
             {
-                return 110;
+                return 60;
             }
-        }
+        }// TODO
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
 
-            writer.Write((int)0); // version
+            writer.WriteEncodedInt(0); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
 
-            int version = reader.ReadInt();
+            int version = reader.ReadEncodedInt();
         }
     }
 }

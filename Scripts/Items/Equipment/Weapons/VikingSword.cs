@@ -31,7 +31,69 @@ namespace Server.Items
                 return WeaponAbility.ParalyzingBlow;
             }
         }
-
+        public override int AosStrengthReq
+        {
+            get
+            {
+                return 40;
+            }
+        }
+        public override int AosMinDamage
+        {
+            get
+            {
+                return 15;
+            }
+        }
+        public override int AosMaxDamage
+        {
+            get
+            {
+                return 19;
+            }
+        }
+        public override int AosSpeed
+        {
+            get
+            {
+                return 28;
+            }
+        }
+        public override float MlSpeed
+        {
+            get
+            {
+                return 3.75f;
+            }
+        }
+        public override int OldStrengthReq
+        {
+            get
+            {
+                return 40;
+            }
+        }
+        public override int OldMinDamage
+        {
+            get
+            {
+                return 6;
+            }
+        }
+        public override int OldMaxDamage
+        {
+            get
+            {
+                return 34;
+            }
+        }
+        public override int OldSpeed
+        {
+            get
+            {
+                return 30;
+            }
+        }
         public override int DefHitSound
         {
             get

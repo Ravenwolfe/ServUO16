@@ -35,7 +35,69 @@ namespace Server.Items
                 return WeaponAbility.Disarm;
             }
         }
-
+        public override int AosStrengthReq
+        {
+            get
+            {
+                return 20;
+            }
+        }
+        public override int AosMinDamage
+        {
+            get
+            {
+                return 13;
+            }
+        }
+        public override int AosMaxDamage
+        {
+            get
+            {
+                return 16;
+            }
+        }
+        public override int AosSpeed
+        {
+            get
+            {
+                return 40;
+            }
+        }
+        public override float MlSpeed
+        {
+            get
+            {
+                return 2.75f;
+            }
+        }
+        public override int OldStrengthReq
+        {
+            get
+            {
+                return 10;
+            }
+        }
+        public override int OldMinDamage
+        {
+            get
+            {
+                return 3;
+            }
+        }
+        public override int OldMaxDamage
+        {
+            get
+            {
+                return 12;
+            }
+        }
+        public override int OldSpeed
+        {
+            get
+            {
+                return 30;
+            }
+        }
         public override int InitMinHits
         {
             get
@@ -50,6 +112,8 @@ namespace Server.Items
                 return 50;
             }
         }
+
+        public override bool CanBeWornByGargoyles { get { return true; } }
 
         public override void Serialize(GenericWriter writer)
         {

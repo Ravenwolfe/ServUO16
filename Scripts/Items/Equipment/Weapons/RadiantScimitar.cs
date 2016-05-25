@@ -31,7 +31,69 @@ namespace Server.Items
                 return WeaponAbility.Bladeweave;
             }
         }
-
+        public override int AosStrengthReq
+        {
+            get
+            {
+                return 20;
+            }
+        }
+        public override int AosMinDamage
+        {
+            get
+            {
+                return 10;
+            }
+        }
+        public override int AosMaxDamage
+        {
+            get
+            {
+                return 14;
+            }
+        }
+        public override int AosSpeed
+        {
+            get
+            {
+                return 43;
+            }
+        }
+        public override float MlSpeed
+        {
+            get
+            {
+                return 2.50f;
+            }
+        }
+        public override int OldStrengthReq
+        {
+            get
+            {
+                return 20;
+            }
+        }
+        public override int OldMinDamage
+        {
+            get
+            {
+                return 12;
+            }
+        }
+        public override int OldMaxDamage
+        {
+            get
+            {
+                return 14;
+            }
+        }
+        public override int OldSpeed
+        {
+            get
+            {
+                return 43;
+            }
+        }
         public override int DefHitSound
         {
             get
