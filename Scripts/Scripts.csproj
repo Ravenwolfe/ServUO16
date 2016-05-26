@@ -2035,9 +2035,6 @@
     <Compile Include="Items\Equipment\Armor\PlateHelm.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Equipment\Armor\RavenHelm.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Equipment\Armor\FemaleLeatherChest.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -2863,9 +2860,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Equipment\Armor\LargePlateShield.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Equipment\Armor\LargeStoneShield.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Equipment\Armor\MediumPlateShield.cs">

@@ -17,41 +17,6 @@ namespace Server.Items
         {
         }
 
-        public override int BasePhysicalResistance
-        {
-            get
-            {
-                return 5;
-            }
-        }
-        public override int BaseFireResistance
-        {
-            get
-            {
-                return 3;
-            }
-        }
-        public override int BaseColdResistance
-        {
-            get
-            {
-                return 2;
-            }
-        }
-        public override int BasePoisonResistance
-        {
-            get
-            {
-                return 3;
-            }
-        }
-        public override int BaseEnergyResistance
-        {
-            get
-            {
-                return 2;
-            }
-        }
         public override int InitMinHits
         {
             get
@@ -64,13 +29,6 @@ namespace Server.Items
             get
             {
                 return 65;
-            }
-        }
-        public override int AosStrReq
-        {
-            get
-            {
-                return 95;
             }
         }
         public override int OldStrReq

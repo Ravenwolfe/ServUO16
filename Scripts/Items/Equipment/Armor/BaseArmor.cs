@@ -5,7 +5,6 @@ using Server.Engines.Craft;
 using Server.Engines.XmlSpawner2;
 using Server.Factions;
 using Server.Network;
-using Server.Mobiles;
 using AMA = Server.Items.ArmorMeditationAllowance;
 using AMT = Server.Items.ArmorMaterialType;
 
@@ -58,7 +57,6 @@ namespace Server.Items
         private ArmorProtectionLevel m_Protection;
         private CraftResource m_Resource;
         private bool m_Identified, m_PlayerConstructed;
-        private int m_PhysicalBonus, m_FireBonus, m_ColdBonus, m_PoisonBonus, m_EnergyBonus;
 
         // Overridable values. These values are provided to override the defaults which get defined in the individual armor scripts.
         private int m_ArmorBase = -1;
@@ -105,13 +103,6 @@ namespace Server.Items
                 return AMA.None;
             }
         }
-        public virtual AMA AosMedAllowance
-        {
-            get
-            {
-                return DefMedAllowance;
-            }
-        }
         public virtual AMA OldMedAllowance
         {
             get
@@ -119,50 +110,6 @@ namespace Server.Items
                 return DefMedAllowance;
             }
         }
-
-        public virtual int AosStrBonus
-        {
-            get
-            {
-                return 0;
-            }
-        }
-        public virtual int AosDexBonus
-        {
-            get
-            {
-                return 0;
-            }
-        }
-        public virtual int AosIntBonus
-        {
-            get
-            {
-                return 0;
-            }
-        }
-        public virtual int AosStrReq
-        {
-            get
-            {
-                return 0;
-            }
-        }
-        public virtual int AosDexReq
-        {
-            get
-            {
-                return 0;
-            }
-        }
-        public virtual int AosIntReq
-        {
-            get
-            {
-                return 0;
-            }
-        }
-
         public virtual int OldStrBonus
         {
             get
@@ -199,21 +146,6 @@ namespace Server.Items
             }
         }
         public virtual int OldIntReq
-        {
-            get
-            {
-                return 0;
-            }
-        }
-
-        public virtual bool UseIntOrDexProperty
-        {
-            get
-            {
-                return false;
-            }
-        }
-        public virtual int IntOrDexPropertyValue
         {
             get
             {
@@ -281,7 +213,7 @@ namespace Server.Items
         {
             get
             {
-                return (m_Meditate == (AMA)(-1) ? Core.AOS ? AosMedAllowance : OldMedAllowance : m_Meditate);
+                return (OldMedAllowance);
             }
             set
             {
@@ -378,7 +310,7 @@ namespace Server.Items
         {
             get
             {
-                return (m_StrBonus == -1 ? Core.AOS ? AosStrBonus : OldStrBonus : m_StrBonus);
+                return (OldStrBonus);
             }
             set
             {
@@ -392,7 +324,7 @@ namespace Server.Items
         {
             get
             {
-                return (m_DexBonus == -1 ? Core.AOS ? AosDexBonus : OldDexBonus : m_DexBonus);
+                return (OldDexBonus);
             }
             set
             {
@@ -406,7 +338,7 @@ namespace Server.Items
         {
             get
             {
-                return (m_IntBonus == -1 ? Core.AOS ? AosIntBonus : OldIntBonus : m_IntBonus);
+                return (OldIntBonus);
             }
             set
             {
@@ -420,7 +352,7 @@ namespace Server.Items
         {
             get
             {
-                return Math.Min(110, (int)((double)(m_StrReq == -1 ? (Core.AOS ? AosStrReq : OldStrReq) : m_StrReq)));
+                return Math.Min(110, (OldStrReq));
             }
             set
             {
@@ -434,7 +366,7 @@ namespace Server.Items
         {
             get
             {
-                return (m_DexReq == -1 ? Core.AOS ? AosDexReq : OldDexReq : m_DexReq);
+                return (OldDexReq);
             }
             set
             {
@@ -448,7 +380,7 @@ namespace Server.Items
         {
             get
             {
-                return (m_IntReq == -1 ? Core.AOS ? AosIntReq : OldIntReq : m_IntReq);
+                return (OldIntReq);
             }
             set
             {
@@ -612,14 +544,6 @@ namespace Server.Items
             }
         }
 
-        public virtual int ArtifactRarity
-        {
-            get
-            {
-                return 0;
-            }
-        }
-
         [CommandProperty(AccessLevel.GameMaster)]
         public ArmorProtectionLevel ProtectionLevel
         {
@@ -639,152 +563,6 @@ namespace Server.Items
                     if (Parent is Mobile)
                         ((Mobile)Parent).UpdateResistances();
                 }
-            }
-        }
-
-        [CommandProperty(AccessLevel.GameMaster)]
-        public int PhysicalBonus
-        {
-            get
-            {
-                return m_PhysicalBonus;
-            }
-            set
-            {
-                m_PhysicalBonus = value;
-                InvalidateProperties();
-            }
-        }
-
-        [CommandProperty(AccessLevel.GameMaster)]
-        public int FireBonus
-        {
-            get
-            {
-                return m_FireBonus;
-            }
-            set
-            {
-                m_FireBonus = value;
-                InvalidateProperties();
-            }
-        }
-
-        [CommandProperty(AccessLevel.GameMaster)]
-        public int ColdBonus
-        {
-            get
-            {
-                return m_ColdBonus;
-            }
-            set
-            {
-                m_ColdBonus = value;
-                InvalidateProperties();
-            }
-        }
-
-        [CommandProperty(AccessLevel.GameMaster)]
-        public int PoisonBonus
-        {
-            get
-            {
-                return m_PoisonBonus;
-            }
-            set
-            {
-                m_PoisonBonus = value;
-                InvalidateProperties();
-            }
-        }
-
-        [CommandProperty(AccessLevel.GameMaster)]
-        public int EnergyBonus
-        {
-            get
-            {
-                return m_EnergyBonus;
-            }
-            set
-            {
-                m_EnergyBonus = value;
-                InvalidateProperties();
-            }
-        }
-
-        public virtual int BasePhysicalResistance
-        {
-            get
-            {
-                return 0;
-            }
-        }
-        public virtual int BaseFireResistance
-        {
-            get
-            {
-                return 0;
-            }
-        }
-        public virtual int BaseColdResistance
-        {
-            get
-            {
-                return 0;
-            }
-        }
-        public virtual int BasePoisonResistance
-        {
-            get
-            {
-                return 0;
-            }
-        }
-        public virtual int BaseEnergyResistance
-        {
-            get
-            {
-                return 0;
-            }
-        }
-
-        public override int PhysicalResistance
-        {
-            get
-            {
-                return BasePhysicalResistance + GetProtOffset() + GetResourceAttrs().ArmorPhysicalResist + m_PhysicalBonus;
-            }
-        }
-
-        public override int FireResistance
-        {
-            get
-            {
-                return BaseFireResistance + GetProtOffset() + GetResourceAttrs().ArmorFireResist + m_FireBonus;
-            }
-        }
-
-        public override int ColdResistance
-        {
-            get
-            {
-                return BaseColdResistance + GetProtOffset() + GetResourceAttrs().ArmorColdResist + m_ColdBonus;
-            }
-        }
-
-        public override int PoisonResistance
-        {
-            get
-            {
-                return BasePoisonResistance + GetProtOffset() + GetResourceAttrs().ArmorPoisonResist;
-            }
-        }
-
-        public override int EnergyResistance
-        {
-            get
-            {
-                return BaseEnergyResistance + GetProtOffset() + GetResourceAttrs().ArmorEnergyResist;
             }
         }
 
@@ -833,43 +611,6 @@ namespace Server.Items
                         return ArmorBodyType.Chest;
                 }
             }
-        }
-
-        public void DistributeBonuses(int amount)
-        {
-            for (int i = 0; i < amount; ++i)
-            {
-                switch ( Utility.Random(5) )
-                {
-                    case 0:
-                        ++m_PhysicalBonus;
-                        break;
-                    case 1:
-                        ++m_FireBonus;
-                        break;
-                    case 2:
-                        ++m_ColdBonus;
-                        break;
-                    case 3:
-                        ++m_PoisonBonus;
-                        break;
-                    case 4:
-                        ++m_EnergyBonus;
-                        break;
-                }
-            }
-
-            InvalidateProperties();
-        }
-
-        public CraftAttributeInfo GetResourceAttrs()
-        {
-            CraftResourceInfo info = CraftResources.GetInfo(m_Resource);
-
-            if (info == null)
-                return CraftAttributeInfo.Blank;
-
-            return info.AttributeInfo;
         }
 
         public int GetProtOffset()
@@ -999,23 +740,7 @@ namespace Server.Items
                 {
                     BaseArmor armor = (BaseArmor)item;
 
-                    if (m.Race == Race.Gargoyle && !armor.CanBeWornByGargoyles)
-                    {
-                        m.SendLocalizedMessage(1111708); // Gargoyles can't wear this.
-                        m.AddToBackpack(armor);
-                    }
-                    if (armor.RequiredRace != null && m.Race != armor.RequiredRace)
-                    {
-                        if (armor.RequiredRace == Race.Elf)
-                            m.SendLocalizedMessage(1072203); // Only Elves may use this.
-                        else if (armor.RequiredRace == Race.Gargoyle)
-                            m.SendLocalizedMessage(1111707); // Only gargoyles can wear this.
-                        else
-                            m.SendMessage("Only {0} may use this.", armor.RequiredRace.PluralName);
-
-                        m.AddToBackpack(armor);
-                    }
-                    else if (!armor.AllowMaleWearer && !m.Female && m.AccessLevel < AccessLevel.GameMaster)
+                    if (!armor.AllowMaleWearer && !m.Female && m.AccessLevel < AccessLevel.GameMaster)
                     {
                         if (armor.AllowFemaleWearer)
                             m.SendLocalizedMessage(1010388); // Only females can wear this.
@@ -1085,51 +810,35 @@ namespace Server.Items
             None = 0x00000000,
             Attributes = 0x00000001,
             ArmorAttributes = 0x00000002,
-            PhysicalBonus = 0x00000004,
-            FireBonus = 0x00000008,
-            ColdBonus = 0x00000010,
-            PoisonBonus = 0x00000020,
-            EnergyBonus = 0x00000040,
-            Identified = 0x00000080,
-            MaxHitPoints = 0x00000100,
-            HitPoints = 0x00000200,
-            Crafter = 0x00000400,
-            Quality = 0x00000800,
-            Durability = 0x00001000,
-            Protection = 0x00002000,
-            Resource = 0x00004000,
-            BaseArmor = 0x00008000,
-            StrBonus = 0x00010000,
-            DexBonus = 0x00020000,
-            IntBonus = 0x00040000,
-            StrReq = 0x00080000,
-            DexReq = 0x00100000,
-            IntReq = 0x00200000,
-            MedAllowance = 0x00400000,
-            SkillBonuses = 0x00800000,
-            PlayerConstructed = 0x01000000,
-            xAbsorptionAttributes = 0x02000000,
-            //TimesImbued = 0x04000000,
-            NegativeAttributes  = 0x08000000,
+            Identified = 0x00000004,
+            MaxHitPoints = 0x00000008,
+            HitPoints = 0x00000010,
+            Crafter = 0x00000020,
+            Quality = 0x00000040,
+            Durability = 0x00000080,
+            Protection = 0x00000100,
+            Resource = 0x00000200,
+            BaseArmor = 0x00000400,
+            StrBonus = 0x00000800,
+            DexBonus = 0x00001000,
+            IntBonus = 0x00002000,
+            StrReq = 0x00004000,
+            DexReq = 0x00008000,
+            IntReq = 0x00010000,
+            MedAllowance = 0x00020000,
+            PlayerConstructed = 0x00040000
         }
 
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
 
-            writer.Write((int)10); // version
+            writer.Write(0); // version
 
-            // Version 9
             writer.Write((Mobile)m_BlessedBy);
 
-            // Version 7
-            SaveFlag flags = SaveFlag.None;
+			SaveFlag flags = SaveFlag.None;
 
-            SetSaveFlag(ref flags, SaveFlag.PhysicalBonus, m_PhysicalBonus != 0);
-            SetSaveFlag(ref flags, SaveFlag.FireBonus, m_FireBonus != 0);
-            SetSaveFlag(ref flags, SaveFlag.ColdBonus, m_ColdBonus != 0);
-            SetSaveFlag(ref flags, SaveFlag.PoisonBonus, m_PoisonBonus != 0);
-            SetSaveFlag(ref flags, SaveFlag.EnergyBonus, m_EnergyBonus != 0);
             SetSaveFlag(ref flags, SaveFlag.Identified, m_Identified != false);
             SetSaveFlag(ref flags, SaveFlag.MaxHitPoints, m_MaxHitPoints != 0);
             SetSaveFlag(ref flags, SaveFlag.HitPoints, m_HitPoints != 0);
@@ -1149,21 +858,6 @@ namespace Server.Items
             SetSaveFlag(ref flags, SaveFlag.PlayerConstructed, m_PlayerConstructed != false);
 
             writer.WriteEncodedInt((int)flags);
-
-            if (GetSaveFlag(flags, SaveFlag.PhysicalBonus))
-                writer.WriteEncodedInt((int)m_PhysicalBonus);
-
-            if (GetSaveFlag(flags, SaveFlag.FireBonus))
-                writer.WriteEncodedInt((int)m_FireBonus);
-
-            if (GetSaveFlag(flags, SaveFlag.ColdBonus))
-                writer.WriteEncodedInt((int)m_ColdBonus);
-
-            if (GetSaveFlag(flags, SaveFlag.PoisonBonus))
-                writer.WriteEncodedInt((int)m_PoisonBonus);
-
-            if (GetSaveFlag(flags, SaveFlag.EnergyBonus))
-                writer.WriteEncodedInt((int)m_EnergyBonus);
 
             if (GetSaveFlag(flags, SaveFlag.MaxHitPoints))
                 writer.WriteEncodedInt((int)m_MaxHitPoints);
@@ -1219,34 +913,14 @@ namespace Server.Items
 
             switch ( version )
             {
-                case 9:
+                case 0:
                     {
                         m_BlessedBy = reader.ReadMobile();
-                        goto case 5;
-                    }
-                case 7:
-                case 6:
-                case 5:
-                    {
+
                         SaveFlag flags = (SaveFlag)reader.ReadEncodedInt();
 
-                        if (GetSaveFlag(flags, SaveFlag.PhysicalBonus))
-                            m_PhysicalBonus = reader.ReadEncodedInt();
-
-                        if (GetSaveFlag(flags, SaveFlag.FireBonus))
-                            m_FireBonus = reader.ReadEncodedInt();
-
-                        if (GetSaveFlag(flags, SaveFlag.ColdBonus))
-                            m_ColdBonus = reader.ReadEncodedInt();
-
-                        if (GetSaveFlag(flags, SaveFlag.PoisonBonus))
-                            m_PoisonBonus = reader.ReadEncodedInt();
-
-                        if (GetSaveFlag(flags, SaveFlag.EnergyBonus))
-                            m_EnergyBonus = reader.ReadEncodedInt();
-
                         if (GetSaveFlag(flags, SaveFlag.Identified))
-                            m_Identified = (version >= 7 || reader.ReadBool());
+                            m_Identified = (reader.ReadBool());
 
                         if (GetSaveFlag(flags, SaveFlag.MaxHitPoints))
                             m_MaxHitPoints = reader.ReadEncodedInt();
@@ -1332,133 +1006,8 @@ namespace Server.Items
                         if (GetSaveFlag(flags, SaveFlag.PlayerConstructed))
                             m_PlayerConstructed = true;
 
-                        break;
-                    }
-                case 4:
-                    {
-                        goto case 3;
-                    }
-                case 3:
-                    {
-                        m_PhysicalBonus = reader.ReadInt();
-                        m_FireBonus = reader.ReadInt();
-                        m_ColdBonus = reader.ReadInt();
-                        m_PoisonBonus = reader.ReadInt();
-                        m_EnergyBonus = reader.ReadInt();
-                        goto case 2;
-                    }
-                case 2:
-                case 1:
-                    {
-                        m_Identified = reader.ReadBool();
-                        goto case 0;
-                    }
-                case 0:
-                    {
-                        m_ArmorBase = reader.ReadInt();
-                        m_MaxHitPoints = reader.ReadInt();
-                        m_HitPoints = reader.ReadInt();
-                        m_Crafter = reader.ReadMobile();
-                        m_Quality = (ArmorQuality)reader.ReadInt();
-                        m_Durability = (ArmorDurabilityLevel)reader.ReadInt();
-                        m_Protection = (ArmorProtectionLevel)reader.ReadInt();
-
-                        AMT mat = (AMT)reader.ReadInt();
-
                         if (m_ArmorBase == RevertArmorBase)
                             m_ArmorBase = -1;
-
-                        /*m_BodyPos = (ArmorBodyType)*/reader.ReadInt();
-
-                        if (version < 3 && m_Quality == ArmorQuality.Exceptional)
-                            DistributeBonuses(6);
-
-                        if (version >= 2)
-                        {
-                            m_Resource = (CraftResource)reader.ReadInt();
-                        }
-                        else
-                        {
-                            OreInfo info;
-
-                            switch ( reader.ReadInt() )
-                            {
-                                default:
-                                case 0:
-                                    info = OreInfo.Iron;
-                                    break;
-                                case 1:
-                                    info = OreInfo.DullCopper;
-                                    break;
-                                case 2:
-                                    info = OreInfo.ShadowIron;
-                                    break;
-                                case 3:
-                                    info = OreInfo.Copper;
-                                    break;
-                                case 4:
-                                    info = OreInfo.Bronze;
-                                    break;
-                                case 5:
-                                    info = OreInfo.Gold;
-                                    break;
-                                case 6:
-                                    info = OreInfo.Agapite;
-                                    break;
-                                case 7:
-                                    info = OreInfo.Verite;
-                                    break;
-                                case 8:
-                                    info = OreInfo.Valorite;
-                                    break;
-                            }
-
-                            m_Resource = CraftResources.GetFromOreInfo(info, mat);
-                        }
-
-                        m_StrBonus = reader.ReadInt();
-                        m_DexBonus = reader.ReadInt();
-                        m_IntBonus = reader.ReadInt();
-                        m_StrReq = reader.ReadInt();
-                        m_DexReq = reader.ReadInt();
-                        m_IntReq = reader.ReadInt();
-
-                        if (m_StrBonus == OldStrBonus)
-                            m_StrBonus = -1;
-
-                        if (m_DexBonus == OldDexBonus)
-                            m_DexBonus = -1;
-
-                        if (m_IntBonus == OldIntBonus)
-                            m_IntBonus = -1;
-
-                        if (m_StrReq == OldStrReq)
-                            m_StrReq = -1;
-
-                        if (m_DexReq == OldDexReq)
-                            m_DexReq = -1;
-
-                        if (m_IntReq == OldIntReq)
-                            m_IntReq = -1;
-
-                        m_Meditate = (AMA)reader.ReadInt();
-
-                        if (m_Meditate == OldMedAllowance)
-                            m_Meditate = (AMA)(-1);
-
-                        if (m_Resource == CraftResource.None)
-                        {
-                            if (mat == ArmorMaterialType.Studded || mat == ArmorMaterialType.Leather)
-                                m_Resource = CraftResource.RegularLeather;
-                            else if (mat == ArmorMaterialType.Spined)
-                                m_Resource = CraftResource.SpinedLeather;
-                            else if (mat == ArmorMaterialType.Horned)
-                                m_Resource = CraftResource.HornedLeather;
-                            else if (mat == ArmorMaterialType.Barbed)
-                                m_Resource = CraftResource.BarbedLeather;
-                            else
-                                m_Resource = CraftResource.Iron;
-                        }
 
                         if (m_MaxHitPoints == 0 && m_HitPoints == 0)
                             m_HitPoints = m_MaxHitPoints = Utility.RandomMinMax(InitMinHits, InitMaxHits);
@@ -1469,9 +1018,6 @@ namespace Server.Items
 
             if (Parent is Mobile)
                 ((Mobile)Parent).CheckStatTimers();
-
-            if (version < 7)
-                m_PlayerConstructed = true; // we don't know, so, assume it's crafted
         }
 
         public virtual CraftResource DefaultResource
@@ -1506,77 +1052,43 @@ namespace Server.Items
             return base.AllowSecureTrade(from, to, newOwner, accepted);
         }
 
-        public virtual Race RequiredRace
-        {
-            get
-            {
-                return null;
-            }
-        }
-
-        public virtual bool CanBeWornByGargoyles
-        {
-            get
-            {
-                return false;
-            }
-        }
-
         public override bool CanEquip(Mobile from)
         {
             if (!Ethics.Ethic.CheckEquip(from, this))
                 return false;
 
-            if (from.IsPlayer())
+            if (!AllowMaleWearer && !from.Female)
             {
-                if (from.Race == Race.Gargoyle && !CanBeWornByGargoyles)
-                {
-                    from.SendLocalizedMessage(1111708); // Gargoyles can't wear this.
-                    return false;
-                }
-                if (RequiredRace != null && from.Race != RequiredRace)
-                {
-                    if (RequiredRace == Race.Elf)
-                        from.SendLocalizedMessage(1072203); // Only Elves may use this.
-                    else if (RequiredRace == Race.Gargoyle)
-                        from.SendLocalizedMessage(1111707); // Only gargoyles can wear this.
-                    else
-                        from.SendMessage("Only {0} may use this.", RequiredRace.PluralName);
+                if (AllowFemaleWearer)
+                    from.SendLocalizedMessage(1010388); // Only females can wear this.
+                else
+                    from.SendMessage("You may not wear this.");
 
-                    return false;
-                }
-                else if (!AllowMaleWearer && !from.Female)
-                {
-                    if (AllowFemaleWearer)
-                        from.SendLocalizedMessage(1010388); // Only females can wear this.
-                    else
-                        from.SendMessage("You may not wear this.");
-
-                    return false;
-                }
-                else if (!AllowFemaleWearer && from.Female)
-                {
-                    if (AllowMaleWearer)
-                        from.SendLocalizedMessage(1063343); // Only males can wear this.
-                    else
-                        from.SendMessage("You may not wear this.");
-
-                    return false;
-                }
-                #region Personal Bless Deed
-                else if (BlessedBy != null && BlessedBy != from)
-                {
-                    from.SendLocalizedMessage(1075277); // That item is blessed by another player.
-
-                    return false;
-                }
-                #endregion
+                return false;
             }
 
-            if (!XmlAttach.CheckCanEquip(this, from))
-                return false;
-            else
-                return base.CanEquip(from);
+            if (!AllowFemaleWearer && from.Female)
+            {
+	            if (AllowMaleWearer)
+		            from.SendLocalizedMessage(1063343); // Only males can wear this.
+	            else
+		            from.SendMessage("You may not wear this.");
+
+	            return false;
+            }
+
+	            #region Personal Bless Deed
+
+            if (BlessedBy != null && BlessedBy != from)
+            {
+	            from.SendLocalizedMessage(1075277); // That item is blessed by another player.
+
+	            return false;
+            }
+
+	        #endregion
+
+            return base.CanEquip(from);
         }
 
         public override bool CheckPropertyConfliction(Mobile m)
@@ -1617,8 +1129,6 @@ namespace Server.Items
                 m.CheckStatTimers();
 
             }
-
-            XmlAttach.CheckOnRemoved(this, parent);
 
             base.OnRemoved(parent);
         }
@@ -1807,24 +1317,6 @@ namespace Server.Items
             return (false);
         }
 
-        public virtual int GetLuckBonus()
-        {
-            if (m_Resource == CraftResource.Heartwood)
-                return 0;
-
-            CraftResourceInfo resInfo = CraftResources.GetInfo(m_Resource);
-
-            if (resInfo == null)
-                return 0;
-
-            CraftAttributeInfo attrInfo = resInfo.AttributeInfo;
-
-            if (attrInfo == null)
-                return 0;
-
-            return attrInfo.ArmorLuck;
-        }
-
         public override void GetProperties(ObjectPropertyList list)
         {
             base.GetProperties(list);
@@ -1838,11 +1330,6 @@ namespace Server.Items
             #endregion
 
             int prop;
-
-            if ((prop = ArtifactRarity) > 0)
-                list.Add(1061078, prop.ToString()); // artifact rarity ~1_val~
-
-            AddResistanceProperties(list);
 
             if ((prop = GetDurabilityBonus()) > 0)
                 list.Add(1060410, prop.ToString()); // durability ~1_val~%

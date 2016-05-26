@@ -39,7 +39,7 @@ namespace Server.Items
         {
             base.Serialize(writer);
 
-            writer.Write((int)1);//version
+            writer.Write((int)0);//version
         }
 
         public override void Deserialize(GenericReader reader)
@@ -48,15 +48,6 @@ namespace Server.Items
 
             int version = reader.ReadInt();
 
-            if (version < 1)
-            {
-                // The 15 bonus points to resistances are not applied to shields on OSI.
-                this.PhysicalBonus = 0;
-                this.FireBonus = 0;
-                this.ColdBonus = 0;
-                this.PoisonBonus = 0;
-                this.EnergyBonus = 0;
-            }
         }
 
         public override int OnHit(BaseWeapon weapon, int damage)

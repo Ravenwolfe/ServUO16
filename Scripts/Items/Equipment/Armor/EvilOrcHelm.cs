@@ -24,23 +24,6 @@ namespace Server.Items
                 return 1062021;
             }
         }// an evil orc helm
-        public override bool UseIntOrDexProperty
-        {
-            get
-            {
-                if (Core.SA && !(this.Parent is Mobile))
-                    return true;
-
-                return base.UseIntOrDexProperty;
-            }
-        }
-        public override int IntOrDexPropertyValue
-        {
-            get
-            {
-                return -10;
-            }
-        }
         public override bool OnEquip(Mobile from)
         {
 		

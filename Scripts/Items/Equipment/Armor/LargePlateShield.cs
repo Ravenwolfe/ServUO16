@@ -18,41 +18,6 @@ namespace Server.Items
         {
         }
 
-        public override int BasePhysicalResistance
-        {
-            get
-            {
-                return 0;
-            }
-        }
-        public override int BaseFireResistance
-        {
-            get
-            {
-                return 1;
-            }
-        }
-        public override int BaseColdResistance
-        {
-            get
-            {
-                return 0;
-            }
-        }
-        public override int BasePoisonResistance
-        {
-            get
-            {
-                return 0;
-            }
-        }
-        public override int BaseEnergyResistance
-        {
-            get
-            {
-                return 0;
-            }
-        }
         public override int InitMinHits
         {
             get
@@ -67,32 +32,11 @@ namespace Server.Items
                 return 65;
             }
         }
-        public override int AosStrReq
-        {
-            get
-            {
-                return 90;
-            }
-        }
         public override int ArmorBase
         {
             get
             {
                 return 23;
-            }
-        }
-        public override bool CanBeWornByGargoyles
-        {
-            get
-            {
-                return true;
-            }
-        }
-        public override Race RequiredRace
-        {
-            get
-            {
-                return Race.Gargoyle;
             }
         }
         public override void Deserialize(GenericReader reader)
