@@ -156,8 +156,6 @@ namespace Server.Gumps
                 PlayerMobile pm = from as PlayerMobile;
                 if (null != pm && pm.Region.IsPartOf("Abyss"))
                 {
-                    pm.Location = pm.SSSeedLocation;
-                    pm.Map = pm.SSSeedMap;
                     if (null != pm.Corpse)
                     {
                         pm.Corpse.Location = pm.Location;

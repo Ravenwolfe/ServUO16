@@ -1430,10 +1430,6 @@ namespace Server.Mobiles
                     CheckDistracted(from);
                 }
             }
-            else if (from is PlayerMobile)
-            {
-                Timer.DelayCall(TimeSpan.FromSeconds(10), ((PlayerMobile)@from).RecoverAmmo);
-            }
 
             base.OnDamage(amount, from, willKill);
         }

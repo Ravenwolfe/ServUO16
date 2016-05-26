@@ -62,19 +62,7 @@ namespace Server.Mobiles
 		Young = 0x00000400,
 		AcceptGuildInvites = 0x00000800,
 		DisplayChampionTitle = 0x00001000,
-		HasStatReward = 0x00002000,
-		Bedlam = 0x00010000,
-		LibraryFriend = 0x00020000,
-		Spellweaving = 0x00040000,
-		GemMining = 0x00080000,
-		ToggleMiningGem = 0x00100000,
-		BasketWeaving = 0x00200000,
-		AbyssEntry = 0x00400000,
-		ToggleClippings = 0x00800000,
-		ToggleCutClippings = 0x01000000,
-		ToggleCutReeds = 0x02000000,
-		MechanicalLife = 0x04000000,
-        HumilityHunt = 0x08000000
+		HasStatReward = 0x00002000
     }
 
 	public enum NpcGuild
@@ -94,12 +82,6 @@ namespace Server.Mobiles
 		BlacksmithsGuild
 	}
 
-	public enum SolenFriendship
-	{
-		None,
-		Red,
-		Black
-	}
 	#endregion
 
 	public class PlayerMobile : Mobile, IHonorTarget
@@ -221,17 +203,6 @@ namespace Server.Mobiles
 
 		[CommandProperty(AccessLevel.GameMaster)]
 		public TimeSpan NpcGuildGameTime { get { return m_NpcGuildGameTime; } set { m_NpcGuildGameTime = value; } }
-
-		private int m_VASTotalMonsterFame;
-
-		[CommandProperty(AccessLevel.GameMaster)]
-		public int VASTotalMonsterFame { get { return m_VASTotalMonsterFame; } set { m_VASTotalMonsterFame = value; } }
-
-		[CommandProperty(AccessLevel.GameMaster)]
-		public int ToothAche { get { return BaseSweet.GetToothAche(this); } set { BaseSweet.SetToothAche(this, value, true); } }
-
-		[CommandProperty(AccessLevel.GameMaster)]
-		public bool MechanicalLife { get { return GetFlag(PlayerFlag.MechanicalLife); } set { SetFlag(PlayerFlag.MechanicalLife, value); } }
 		#endregion
 
 		#region PlayerFlags
@@ -253,13 +224,7 @@ namespace Server.Mobiles
 		public bool StoneMining { get { return GetFlag(PlayerFlag.StoneMining); } set { SetFlag(PlayerFlag.StoneMining, value); } }
 
 		[CommandProperty(AccessLevel.GameMaster)]
-		public bool GemMining { get { return GetFlag(PlayerFlag.GemMining); } set { SetFlag(PlayerFlag.GemMining, value); } }
-
-		[CommandProperty(AccessLevel.GameMaster)]
 		public bool ToggleMiningStone { get { return GetFlag(PlayerFlag.ToggleMiningStone); } set { SetFlag(PlayerFlag.ToggleMiningStone, value); } }
-
-		[CommandProperty(AccessLevel.GameMaster)]
-		public bool ToggleMiningGem { get { return GetFlag(PlayerFlag.ToggleMiningGem); } set { SetFlag(PlayerFlag.ToggleMiningGem, value); } }
 
 		[CommandProperty(AccessLevel.GameMaster)]
 		public bool KarmaLocked { get { return GetFlag(PlayerFlag.KarmaLocked); } set { SetFlag(PlayerFlag.KarmaLocked, value); } }
@@ -286,97 +251,7 @@ namespace Server.Mobiles
 
 		[CommandProperty(AccessLevel.GameMaster)]
 		public bool HasStatReward { get { return GetFlag(PlayerFlag.HasStatReward); } set { SetFlag(PlayerFlag.HasStatReward, value); } }
-
-        #region Plant system
-		[CommandProperty(AccessLevel.GameMaster)]
-		public bool ToggleClippings { get { return GetFlag(PlayerFlag.ToggleClippings); } set { SetFlag(PlayerFlag.ToggleClippings, value); } }
-
-		[CommandProperty(AccessLevel.GameMaster)]
-		public bool ToggleCutReeds { get { return GetFlag(PlayerFlag.ToggleCutReeds); } set { SetFlag(PlayerFlag.ToggleCutReeds, value); } }
-
-		[CommandProperty(AccessLevel.GameMaster)]
-		public bool ToggleCutClippings { get { return GetFlag(PlayerFlag.ToggleCutClippings); } set { SetFlag(PlayerFlag.ToggleCutClippings, value); } }
-
-		private DateTime m_SSNextSeed;
-
-		[CommandProperty(AccessLevel.GameMaster)]
-		public DateTime SSNextSeed { get { return m_SSNextSeed; } set { m_SSNextSeed = value; } }
-
-		private DateTime m_SSSeedExpire;
-
-		[CommandProperty(AccessLevel.GameMaster)]
-		public DateTime SSSeedExpire { get { return m_SSSeedExpire; } set { m_SSSeedExpire = value; } }
-
-		private Point3D m_SSSeedLocation;
-
-		public Point3D SSSeedLocation { get { return m_SSSeedLocation; } set { m_SSSeedLocation = value; } }
-
-		private Map m_SSSeedMap;
-
-		public Map SSSeedMap { get { return m_SSSeedMap; } set { m_SSSeedMap = value; } }
         #endregion
-
-        #endregion
-
-        #region Auto Arrow Recovery
-        private readonly Dictionary<Type, int> m_RecoverableAmmo = new Dictionary<Type, int>();
-
-		public Dictionary<Type, int> RecoverableAmmo { get { return m_RecoverableAmmo; } }
-
-		public void RecoverAmmo()
-		{
-			if (Core.SE && Alive)
-			{
-				foreach (var kvp in m_RecoverableAmmo)
-				{
-					if (kvp.Value > 0)
-					{
-						Item ammo = null;
-
-						try
-						{
-							ammo = Activator.CreateInstance(kvp.Key) as Item;
-						}
-						catch
-						{ }
-
-						if (ammo != null)
-						{
-							string name = ammo.Name;
-							ammo.Amount = kvp.Value;
-
-							if (name == null)
-							{
-								if (ammo is Arrow)
-								{
-									name = "arrow";
-								}
-								else if (ammo is Bolt)
-								{
-									name = "bolt";
-								}
-							}
-
-							if (name != null && ammo.Amount > 1)
-							{
-								name = String.Format("{0}s", name);
-							}
-
-							if (name == null)
-							{
-								name = String.Format("#{0}", ammo.LabelNumber);
-							}
-
-							PlaceInBackpack(ammo);
-							SendLocalizedMessage(1073504, String.Format("{0}\t{1}", ammo.Amount, name)); // You recover ~1_NUM~ ~2_AMMO~.
-						}
-					}
-				}
-
-				m_RecoverableAmmo.Clear();
-			}
-		}
-		#endregion
 
 		private DateTime m_AnkhNextUse;
 
@@ -572,38 +447,8 @@ namespace Server.Mobiles
 			EventSink.Logout += OnLogout;
 			EventSink.Connected += EventSink_Connected;
 			EventSink.Disconnected += EventSink_Disconnected;
-
-			if (Core.SE)
-			{
-				Timer.DelayCall(TimeSpan.Zero, CheckPets);
-			}
 		}
 
-		private static void CheckPets()
-		{
-			foreach (Mobile m in World.Mobiles.Values)
-			{
-				if (m is PlayerMobile)
-				{
-					PlayerMobile pm = (PlayerMobile)m;
-
-					if (((!pm.Mounted || (pm.Mount != null && pm.Mount is EtherealMount)) &&
-						 (pm.AllFollowers.Count > pm.AutoStabled.Count)) ||
-						(pm.Mounted && (pm.AllFollowers.Count > (pm.AutoStabled.Count + 1))))
-					{
-						pm.AutoStablePets(); /* autostable checks summons, et al: no need here */
-					}
-				}
-			}
-		}
-
-		public override void OnSkillInvalidated(Skill skill)
-		{
-			if (Core.AOS && skill.SkillName == SkillName.MagicResist)
-			{
-				UpdateResistances();
-			}
-		}
         public override int GetMaxResistance(ResistanceType type)
         {
             if (IsStaff())
@@ -1390,15 +1235,6 @@ namespace Server.Mobiles
 			return DesignContext.Check(this);
 		}
 
-		public SkillName[] AnimalFormRestrictedSkills { get { return m_AnimalFormRestrictedSkills; } }
-
-		private readonly SkillName[] m_AnimalFormRestrictedSkills = new[]
-		{
-			SkillName.ArmsLore, SkillName.Begging, SkillName.Discordance, SkillName.Forensics, SkillName.Inscribe,
-			SkillName.ItemID, SkillName.Meditation, SkillName.Peacemaking, SkillName.Provocation, SkillName.RemoveTrap,
-			SkillName.SpiritSpeak, SkillName.Stealing, SkillName.TasteID
-		};
-
 		public override bool AllowSkillUse(SkillName skill)
 		{
 			#region Dueling
@@ -1475,9 +1311,6 @@ namespace Server.Mobiles
 				{
 					list.Add(new CallbackEntry(6201, ToggleItemInsurance));
 
-                    if (Core.SA)
-                        list.Add(new CallbackEntry(1114299, new ContextCallback(OpenItemInsuranceMenu)));
-
                     if (AutoRenewInsurance)
 					{
 						list.Add(new CallbackEntry(6202, CancelRenewInventoryInsurance));
@@ -1516,33 +1349,6 @@ namespace Server.Mobiles
 			}
 			else
 			{
-				if (Core.TOL && from.InRange(this, 2))
-				{
-					list.Add(new CallbackEntry(1077728, () => OpenTrade(from))); // Trade
-				}
-
-				if (Alive && Core.Expansion >= Expansion.AOS)
-				{
-					Party theirParty = from.Party as Party;
-					Party ourParty = Party as Party;
-
-					if (theirParty == null && ourParty == null)
-					{
-						list.Add(new AddToPartyEntry(from, this));
-					}
-					else if (theirParty != null && theirParty.Leader == from)
-					{
-						if (ourParty == null)
-						{
-							list.Add(new AddToPartyEntry(from, this));
-						}
-						else if (ourParty == theirParty)
-						{
-							list.Add(new RemoveFromPartyEntry(from, this));
-						}
-					}
-				}
-
 				BaseHouse curhouse = BaseHouse.FindHouseAt(this);
 
 				if (curhouse != null)
@@ -1702,18 +1508,8 @@ namespace Server.Mobiles
 				return;
 			}
 
-			if (Core.SE)
-			{
-				if (!HasGump(typeof(CancelRenewInventoryInsuranceGump)))
-				{
-					SendGump(new CancelRenewInventoryInsuranceGump(this, null));
-				}
-			}
-			else
-			{
-				SendLocalizedMessage(1061075, "", 0x23); // You have cancelled automatically reinsuring all insured items upon death
-				AutoRenewInsurance = false;
-			}
+			SendLocalizedMessage(1061075, "", 0x23); // You have cancelled automatically reinsuring all insured items upon death
+			AutoRenewInsurance = false;
 		}
 
 		private class CancelRenewInventoryInsuranceGump : Gump
@@ -1764,34 +1560,6 @@ namespace Server.Mobiles
                     m_Player.SendGump(m_InsuranceGump.NewInstance());
             }
 		}
-
-        private void OpenItemInsuranceMenu()
-        {
-            if (!CheckAlive())
-                return;
-
-            List<Item> items = new List<Item>();
-
-            foreach (Item item in Items)
-            {
-                if (DisplayInItemInsuranceGump(item))
-                    items.Add(item);
-            }
-
-            Container pack = Backpack;
-
-            if (pack != null)
-                items.AddRange(pack.FindItemsByType<Item>(true, DisplayInItemInsuranceGump));
-
-            // TODO: Investigate item sorting
-
-            CloseGump(typeof(ItemInsuranceMenuGump));
-
-            if (items.Count == 0)
-                SendLocalizedMessage(1114915, "", 0x35); // None of your current items meet the requirements for insurance.
-            else
-                SendGump(new ItemInsuranceMenuGump(this, items.ToArray()));
-        }
 
         private bool DisplayInItemInsuranceGump(Item item)
         {
@@ -2439,18 +2207,8 @@ namespace Server.Mobiles
 		{
 			int disruptThreshold;
 
-			if (!Core.AOS)
-			{
-				disruptThreshold = 0;
-			}
-			else if (from != null && from.Player)
-			{
-				disruptThreshold = 19;
-			}
-			else
-			{
-				disruptThreshold = 26;
-			}
+
+			disruptThreshold = 0;
 
 			if (amount > disruptThreshold)
 			{
@@ -2471,11 +2229,6 @@ namespace Server.Mobiles
 			if (m_SentHonorContext != null)
 			{
 				m_SentHonorContext.OnSourceDamaged(from, amount);
-			}
-
-			if (willKill && from is PlayerMobile)
-			{
-				Timer.DelayCall(TimeSpan.FromSeconds(10), ((PlayerMobile)@from).RecoverAmmo);
 			}
 
 			base.OnDamage(amount, from, willKill);
@@ -2502,44 +2255,6 @@ namespace Server.Mobiles
 					BuffInfo.AddBuff(this, new BuffInfo(BuffIcon.ArcaneEmpowerment, 1078511, 1078512, AcceleratedSkill.ToString()));
 				}
 				#endregion
-			}
-		}
-
-		public override double RacialSkillBonus
-		{
-			get
-			{
-				if (Core.ML && Race == Race.Human)
-				{
-					return 20.0;
-				}
-
-				return 0;
-			}
-		}
-
-        public override double GetRacialSkillBonus(SkillName skill)
-        {
-            if (Core.ML && this.Race == Race.Human)
-                return 20.0;
-
-            if (Core.SA && this.Race == Race.Gargoyle)
-            {
-                if (skill == SkillName.Imbuing)
-                    return 30.0;
-
-                if (skill == SkillName.Throwing)
-                    return 20.0;
-            }
-
-            return RacialSkillBonus;
-        }
-
-		public override void OnWarmodeChanged()
-		{
-			if (!Warmode)
-			{
-				Timer.DelayCall(TimeSpan.FromSeconds(10), RecoverAmmo);
 			}
 		}
 
@@ -2618,8 +2333,6 @@ namespace Server.Mobiles
 			{
 				m_SentHonorContext.OnSourceKilled();
 			}
-
-			RecoverAmmo();
 
 			return base.OnBeforeDeath();
 		}
@@ -2751,14 +2464,6 @@ namespace Server.Mobiles
 
 			MeerMage.StopEffect(this, false);
 
-			#region Stygian Abyss
-			if (Flying)
-			{
-				Flying = false;
-				BuffInfo.RemoveBuff(this, BuffIcon.Fly);
-			}
-			#endregion
-
 			StolenItem.ReturnOnDeath(this, c);
 
 			if (m_PermaFlags.Count > 0)
@@ -2855,13 +2560,6 @@ namespace Server.Mobiles
 					RemoveBuff(list[i]);
 				}
 			}
-
-			#region Stygian Abyss
-			if (Region.IsPartOf("Abyss") && SSSeedExpire > DateTime.UtcNow)
-			{
-				SendGump(new ResurrectGump(this, ResurrectMessage.SilverSapling));
-			}
-			#endregion
 		}
 
 		private List<Mobile> m_PermaFlags;
@@ -2979,24 +2677,6 @@ namespace Server.Mobiles
 			if (Alive)
 			{
 				return false;
-			}
-
-			if (Core.ML && Skills[SkillName.SpiritSpeak].Value >= 100.0)
-			{
-				return false;
-			}
-
-			if (Core.AOS)
-			{
-				for (int i = 0; i < hears.Count; ++i)
-				{
-					Mobile m = hears[i];
-
-					if (m != this && m.Skills[SkillName.SpiritSpeak].Value >= 100.0)
-					{
-						return false;
-					}
-				}
 			}
 
 			return base.MutateSpeech(hears, ref text, ref context);
@@ -3143,12 +2823,6 @@ namespace Server.Mobiles
 				return false;
 			}
 
-			if (Core.ML && target is BaseCreature && ((BaseCreature)target).Controlled &&
-				this == ((BaseCreature)target).ControlMaster)
-			{
-				return false;
-			}
-
 			return base.IsHarmfulCriminal(target);
 		}
 
@@ -3211,41 +2885,18 @@ namespace Server.Mobiles
 
 			switch (version)
 			{
-				case 29:
+				case 0:
 					{
-						m_SSNextSeed = reader.ReadDateTime();
-						m_SSSeedExpire = reader.ReadDateTime();
-						m_SSSeedLocation = reader.ReadPoint3D();
-						m_SSSeedMap = reader.ReadMap();
-
 						reader.ReadLong(); // Old m_LevelExp
 						reader.ReadInt(); // Old m_Level
                         reader.ReadString(); // Old m_ExpTitle
 
-                        m_VASTotalMonsterFame = reader.ReadInt();
-
-						goto case 28;
-					}
-				case 28:
-					{
 						m_PeacedUntil = reader.ReadDateTime();
 
-						goto case 27;
-					}
-				case 27:
-					{
 						m_AnkhNextUse = reader.ReadDateTime();
 
-						goto case 26;
-					}
-				case 26:
-					{
 						m_AutoStabled = reader.ReadStrongMobileList();
 
-						goto case 25;
-					}
-				case 25:
-					{
 						int recipeCount = reader.ReadInt();
 
 						if (recipeCount > 0)
@@ -3261,36 +2912,16 @@ namespace Server.Mobiles
 								}
 							}
 						}
-						goto case 24;
-					}
-				case 24:
-					{
+
 						m_LastHonorLoss = reader.ReadDeltaTime();
-						goto case 23;
-					}
-				case 23:
-					{
-						m_ChampionTitles = new ChampionTitleInfo(reader);
-						goto case 22;
-					}
-				case 22:
-					{
+
+                        m_ChampionTitles = new ChampionTitleInfo(reader);
+
 						m_LastValorLoss = reader.ReadDateTime();
-						goto case 21;
-					}
-				case 21:
-					{
-						goto case 20;
-					}
-				case 20:
-					{
+
 						m_AllianceMessageHue = reader.ReadEncodedInt();
 						m_GuildMessageHue = reader.ReadEncodedInt();
 
-						goto case 19;
-					}
-				case 19:
-					{
 						int rank = reader.ReadEncodedInt();
 						int maxRank = RankDefinition.Ranks.Length - 1;
 						if (rank > maxRank)
@@ -3300,25 +2931,11 @@ namespace Server.Mobiles
 
 						m_GuildRank = RankDefinition.Ranks[rank];
 						m_LastOnline = reader.ReadDateTime();
-						goto case 18;
-					}
-				case 18:
-					{
-						goto case 17;
-					}
-				case 17: // changed how DoneQuests is serialized
-				case 16:
-					{
+
 						m_Profession = reader.ReadEncodedInt();
-						goto case 15;
-					}
-				case 15:
-					{
+
 						m_LastCompassionLoss = reader.ReadDeltaTime();
-						goto case 14;
-					}
-				case 14:
-					{
+
 						m_CompassionGains = reader.ReadEncodedInt();
 
 						if (m_CompassionGains > 0)
@@ -3326,30 +2943,15 @@ namespace Server.Mobiles
 							m_NextCompassionDay = reader.ReadDeltaTime();
 						}
 
-						goto case 13;
-					}
-				case 13: // just removed m_PayedInsurance list
-				case 12:
-					{
 						m_BOBFilter = new BOBFilter(reader);
-						goto case 11;
-					}
-				case 11:
-					{
-						if (version < 13)
-						{
-							var payed = reader.ReadStrongItemList();
 
-							for (int i = 0; i < payed.Count; ++i)
-							{
-								payed[i].PayedInsurance = true;
-							}
+						var payed = reader.ReadStrongItemList();
+
+						for (int i = 0; i < payed.Count; ++i)
+						{
+							payed[i].PayedInsurance = true;
 						}
 
-						goto case 10;
-					}
-				case 10:
-					{
 						if (reader.ReadBool())
 						{
 							m_HairModID = reader.ReadInt();
@@ -3358,10 +2960,6 @@ namespace Server.Mobiles
 							m_BeardModHue = reader.ReadInt();
 						}
 
-						goto case 9;
-					}
-				case 9:
-					{
 						SavagePaintExpiration = reader.ReadTimeSpan();
 
 						if (SavagePaintExpiration > TimeSpan.Zero)
@@ -3370,69 +2968,33 @@ namespace Server.Mobiles
 							HueMod = 0;
 						}
 
-						goto case 8;
-					}
-				case 8:
-					{
 						m_NpcGuild = (NpcGuild)reader.ReadInt();
 						m_NpcGuildJoinTime = reader.ReadDateTime();
 						m_NpcGuildGameTime = reader.ReadTimeSpan();
-						goto case 7;
-					}
-				case 7:
-					{
+
 						m_PermaFlags = reader.ReadStrongMobileList();
-						goto case 6;
-					}
-				case 6:
-					{
+
 						NextTailorBulkOrder = reader.ReadTimeSpan();
-						goto case 5;
-					}
-				case 5:
-					{
+
 						NextSmithBulkOrder = reader.ReadTimeSpan();
-						goto case 4;
-					}
-				case 4:
-					{
+
 						m_LastJusticeLoss = reader.ReadDeltaTime();
 						m_JusticeProtectors = reader.ReadStrongMobileList();
-						goto case 3;
-					}
-				case 3:
-					{
+
 						m_LastSacrificeGain = reader.ReadDeltaTime();
 						m_LastSacrificeLoss = reader.ReadDeltaTime();
 						m_AvailableResurrects = reader.ReadInt();
-						goto case 2;
-					}
-				case 2:
-					{
+
 						m_Flags = (PlayerFlag)reader.ReadInt();
-						goto case 1;
-					}
-				case 1:
-					{
+
 						m_LongTermElapse = reader.ReadTimeSpan();
 						m_ShortTermElapse = reader.ReadTimeSpan();
 						m_GameTime = reader.ReadTimeSpan();
-						goto case 0;
-					}
-				case 0:
-					{
-						if (version < 26)
-						{
-							m_AutoStabled = new List<Mobile>();
-						}
-						break;
-					}
-			}
 
-			if (version < 29)
-			{
-				m_SSNextSeed = m_SSSeedExpire = DateTime.UtcNow;
-				m_SSSeedLocation = Point3D.Zero;
+						m_AutoStabled = new List<Mobile>();
+
+                        break;
+					}
 			}
 
 			if (m_RecentlyReported == null)
@@ -3523,14 +3085,8 @@ namespace Server.Mobiles
 
 			base.Serialize(writer);
 
-			writer.Write(29); // version
+			writer.Write(1); // version
 
-
-			// Version 29
-
-            writer.Write(m_VASTotalMonsterFame);
-
-			// Version 28
 			writer.Write(m_PeacedUntil);
 			writer.Write(m_AnkhNextUse);
 			writer.Write(m_AutoStabled, true);
@@ -3792,20 +3348,6 @@ namespace Server.Mobiles
 				}
 			}
 
-			if (Core.ML)
-			{
-				for (int i = AllFollowers.Count - 1; i >= 0; i--)
-				{
-					BaseCreature c = AllFollowers[i] as BaseCreature;
-
-					if (c != null && c.ControlOrder == OrderType.Guard)
-					{
-						list.Add(501129); // guarded
-						break;
-					}
-				}
-			}
-
 			if (AccessLevel > AccessLevel.Player)
 			{
 				string color = "";
@@ -3911,44 +3453,6 @@ namespace Server.Mobiles
 			base.OnSingleClick(from);
 		}
 
-		protected override bool OnMove(Direction d)
-		{
-			if (!Core.SE)
-			{
-				return base.OnMove(d);
-			}
-
-			if (IsStaff())
-			{
-				return true;
-			}
-
-			if (Hidden && DesignContext.Find(this) == null) //Hidden & NOT customizing a house
-			{
-				if (!Mounted && Skills.Stealth.Value >= 25.0)
-				{
-					bool running = (d & Direction.Running) != 0;
-
-					if (running)
-					{
-						if ((AllowedStealthSteps -= 2) <= 0)
-						{
-							RevealingAction();
-						}
-					}
-					else if (AllowedStealthSteps-- <= 0)
-					{
-						Stealth.OnUse(this);
-					}
-				}
-				else
-				{
-					RevealingAction();
-				}
-			}
-			return true;
-		}
-
 		public bool BedrollLogout { get; set; }
 
 		[CommandProperty(AccessLevel.GameMaster)]
@@ -3969,27 +3473,6 @@ namespace Server.Mobiles
 				}
 			}
 		}
-
-		#region Mysticism
-		[CommandProperty(AccessLevel.GameMaster)]
-		public override bool Asleep
-		{
-			get { return base.Asleep; }
-			set
-			{
-				base.Asleep = value;
-
-				if (value)
-				{
-					AddBuff(new BuffInfo(BuffIcon.Sleep, 1080139)); //Paralyze/You are frozen and can not move
-				}
-				else
-				{
-					RemoveBuff(BuffIcon.Sleep);
-				}
-			}
-		}
-		#endregion
 
 		#region Ethics
 		private Player m_EthicPlayer;

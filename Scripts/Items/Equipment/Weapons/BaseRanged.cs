@@ -139,43 +139,7 @@ namespace Server.Items
 		{
 			if (attacker.Player && 0.4 >= Utility.RandomDouble())
 			{
-				if (Core.SE)
-				{
-					PlayerMobile p = attacker as PlayerMobile;
-
-					if (p != null && AmmoType != null)
-					{
-						Type ammo = AmmoType;
-
-						if (p.RecoverableAmmo.ContainsKey(ammo))
-						{
-							p.RecoverableAmmo[ammo]++;
-						}
-						else
-						{
-							p.RecoverableAmmo.Add(ammo, 1);
-						}
-
-						if (!p.Warmode)
-						{
-							if (m_RecoveryTimer == null)
-							{
-								m_RecoveryTimer = Timer.DelayCall(TimeSpan.FromSeconds(10), p.RecoverAmmo);
-							}
-
-							if (!m_RecoveryTimer.Running)
-							{
-								m_RecoveryTimer.Start();
-							}
-						}
-					}
-				}
-				else
-				{
-					Ammo.MoveToWorld(
-						new Point3D(defender.X + Utility.RandomMinMax(-1, 1), defender.Y + Utility.RandomMinMax(-1, 1), defender.Z),
-						defender.Map);
-				}
+				Ammo.MoveToWorld(new Point3D(defender.X + Utility.RandomMinMax(-1, 1), defender.Y + Utility.RandomMinMax(-1, 1), defender.Z),defender.Map);
 			}
 
 			base.OnMiss(attacker, defender);

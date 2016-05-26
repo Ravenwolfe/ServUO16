@@ -3393,9 +3393,6 @@
     <Compile Include="Items\Equipment\Instruments\TambourineTassel.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Consumables\GemMiningBook.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Consumables\GlassblowingBook.cs">
       <SubType>Code</SubType>
     </Compile>

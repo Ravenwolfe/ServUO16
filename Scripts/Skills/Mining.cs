@@ -204,9 +204,6 @@ namespace Server.Engines.Harvest
             {
                 PlayerMobile pm = from as PlayerMobile;
 
-                if (pm != null && pm.GemMining && pm.ToggleMiningGem && from.Skills[SkillName.Mining].Base >= 100.0 && 0.1 > Utility.RandomDouble())
-                    return Loot.RandomGem().GetType();
-
                 if (pm != null && pm.StoneMining && pm.ToggleMiningStone && from.Skills[SkillName.Mining].Base >= 100.0 && 0.15 > Utility.RandomDouble())
                     return resource.Types[1];
 
