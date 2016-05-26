@@ -17,9 +17,6 @@ using Server.Engines.ConPVP;
 using Server.Engines.Craft;
 using Server.Engines.Help;
 using Server.Engines.MyRunUO;
-using Server.Engines.PartySystem;
-using Server.Engines.Quests;
-using Server.Engines.XmlSpawner2;
 using Server.Ethics;
 using Server.Factions;
 using Server.Guilds;
@@ -2887,10 +2884,6 @@ namespace Server.Mobiles
 			{
 				case 0:
 					{
-						reader.ReadLong(); // Old m_LevelExp
-						reader.ReadInt(); // Old m_Level
-                        reader.ReadString(); // Old m_ExpTitle
-
 						m_PeacedUntil = reader.ReadDateTime();
 
 						m_AnkhNextUse = reader.ReadDateTime();
@@ -2944,13 +2937,6 @@ namespace Server.Mobiles
 						}
 
 						m_BOBFilter = new BOBFilter(reader);
-
-						var payed = reader.ReadStrongItemList();
-
-						for (int i = 0; i < payed.Count; ++i)
-						{
-							payed[i].PayedInsurance = true;
-						}
 
 						if (reader.ReadBool())
 						{
@@ -3085,7 +3071,7 @@ namespace Server.Mobiles
 
 			base.Serialize(writer);
 
-			writer.Write(1); // version
+			writer.Write(0); // version
 
 			writer.Write(m_PeacedUntil);
 			writer.Write(m_AnkhNextUse);

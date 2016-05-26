@@ -1669,7 +1669,7 @@ namespace Server.Items
 		{
 			base.Serialize(writer);
 
-			writer.Write(1); // version
+			writer.Write(0); // version
 
 
 			writer.Write(m_BlessedBy); // Bless Deed
@@ -1866,7 +1866,7 @@ namespace Server.Items
 
 			switch (version)
 			{
-				case 1:
+				case 0:
 				{
 					m_BlessedBy = reader.ReadMobile();
 
