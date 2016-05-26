@@ -39,20 +39,6 @@ namespace Server.Items
                 return new Arrow();
             }
         }
-        public override WeaponAbility PrimaryAbility
-        {
-            get
-            {
-                return WeaponAbility.ParalyzingBlow;
-            }
-        }
-        public override WeaponAbility SecondaryAbility
-        {
-            get
-            {
-                return WeaponAbility.MortalStrike;
-            }
-        }
 
         public override int OldStrengthReq
         {

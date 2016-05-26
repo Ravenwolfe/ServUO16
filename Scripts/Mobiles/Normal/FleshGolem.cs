@@ -59,10 +59,6 @@ namespace Server.Mobiles
                 return 1;
             }
         }
-        public override WeaponAbility GetWeaponAbility()
-        {
-            return WeaponAbility.BleedAttack;
-        }
 
         public override void GenerateLoot()
         {

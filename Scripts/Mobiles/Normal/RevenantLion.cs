@@ -103,10 +103,6 @@ namespace Server.Mobiles
                 return Poison.Greater;
             }
         }
-        public override WeaponAbility GetWeaponAbility()
-        {
-            return WeaponAbility.BleedAttack;
-        }
 
         public override int GetAngerSound()
         {

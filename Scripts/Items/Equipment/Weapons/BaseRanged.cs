@@ -183,14 +183,7 @@ namespace Server.Items
 
 		public virtual bool OnFired(Mobile attacker, Mobile defender)
 		{
-			WeaponAbility ability = WeaponAbility.GetCurrentAbility(attacker);
 			
-			// Respect special moves that use no ammo
-			if (ability != null && ability.ConsumeAmmo == false)
-			{
-				return true;
-			}
-
 			attacker.MovingEffect(defender, EffectID, 18, 1, false, false);
 
 			return true;

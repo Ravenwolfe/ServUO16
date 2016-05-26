@@ -40,20 +40,6 @@ namespace Server.Items
                 return Mining.System;
             }
         }
-        public override WeaponAbility PrimaryAbility
-        {
-            get
-            {
-                return WeaponAbility.DoubleStrike;
-            }
-        }
-        public override WeaponAbility SecondaryAbility
-        {
-            get
-            {
-                return WeaponAbility.Disarm;
-            }
-        }
 
         public override int OldStrengthReq
         {

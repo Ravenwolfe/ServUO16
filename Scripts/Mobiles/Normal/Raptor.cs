@@ -76,11 +76,6 @@ namespace Server.Mobiles
 			get { return PackInstinct.Ostard; }
 		}
 
-		public override WeaponAbility GetWeaponAbility()
-		{
-			return WeaponAbility.BleedAttack;
-		}
-
 		public override void GenerateLoot()
 		{
 			AddLoot(LootPack.Rich, 2);

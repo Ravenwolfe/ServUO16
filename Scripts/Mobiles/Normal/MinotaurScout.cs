@@ -50,11 +50,6 @@ namespace Server.Mobiles
         {
         }
 
-        public override WeaponAbility GetWeaponAbility()
-        {
-            return WeaponAbility.ParalyzingBlow;
-        }
-
         public override void GenerateLoot()
         {
             this.AddLoot(LootPack.Rich);  // Need to verify

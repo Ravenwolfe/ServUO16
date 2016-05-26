@@ -105,17 +105,6 @@ namespace Server.Mobiles
                 return OppositionGroup.SavagesAndOrcs;
             }
         }
-        public override WeaponAbility GetWeaponAbility()
-        {
-            switch (Utility.Random(2))
-            {
-                default:
-                case 1:
-                    return WeaponAbility.WhirlwindAttack;
-                case 2:
-                    return WeaponAbility.CrushingBlow;
-            }
-        }
 
         public override void OnDeath(Container c)
         {

@@ -39,20 +39,6 @@ namespace Server.Items
                 return new Bolt();
             }
         }
-        public override WeaponAbility PrimaryAbility
-        {
-            get
-            {
-                return WeaponAbility.ConcussionBlow;
-            }
-        }
-        public override WeaponAbility SecondaryAbility
-        {
-            get
-            {
-                return WeaponAbility.MortalStrike;
-            }
-        }
 
         public override int OldStrengthReq
         {

@@ -4364,27 +4364,6 @@
     </Compile>
     <Compile Include="Items\Tools\MasterSkeletonKey.cs" />
     <Compile Include="Items\Tools\SkeletonKey.cs" />
-    <Compile Include="Abilities\ConcussionBlow.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Abilities\CrushingBlow.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Abilities\Disarm.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Abilities\Dismount.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Abilities\InfectiousStrike.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Abilities\ParalyzingBlow.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Abilities\WeaponAbility.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Abilities\SlayerEntry.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -5956,9 +5935,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Services\XmlSpawner\XmlSpawner Core\XmlAttachments\XmlValue.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Services\XmlSpawner\XmlSpawner Core\XmlAttachments\XmlWeaponAbility.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Services\XmlSpawner\XmlSpawner Core\XmlAttach\XmlAttach.cs">

@@ -17,22 +17,7 @@ namespace Server.Items
         {
         }
 
-        public override WeaponAbility PrimaryAbility
-        {
-            get
-            {
-                return WeaponAbility.CrushingBlow;
-            }
-        }
-        public override WeaponAbility SecondaryAbility
-        {
-            get
-            {
-                return WeaponAbility.Dismount;
-            }
-        }
-
-        public override int OldStrengthReq
+         public override int OldStrengthReq
         {
             get
             {

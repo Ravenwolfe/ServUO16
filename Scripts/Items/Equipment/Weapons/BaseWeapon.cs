@@ -97,9 +97,6 @@ namespace Server.Items
 		private WeaponAnimation m_Animation;
 
         #region Virtual Properties
-        public virtual WeaponAbility PrimaryAbility { get { return null; } }
-		public virtual WeaponAbility SecondaryAbility { get { return null; } }
-
 		public virtual int DefMaxRange { get { return 1; } }
 		public virtual int DefHitSound { get { return 0; } }
 		public virtual int DefMissSound { get { return 0; } }
@@ -831,13 +828,6 @@ namespace Server.Items
 
 		public virtual void OnBeforeSwing(Mobile attacker, Mobile defender)
 		{
-			WeaponAbility a = WeaponAbility.GetCurrentAbility(attacker);
-
-			if (a != null && !a.OnBeforeSwing(attacker, defender))
-			{
-				WeaponAbility.ClearCurrentAbility(attacker);
-			}
-
 			SpecialMove move = SpecialMove.GetCurrentMove(attacker);
 
 			if (move != null && !move.OnBeforeSwing(attacker, defender))
@@ -893,24 +883,6 @@ namespace Server.Items
 				if (attacker.NetState != null)
 				{
 					attacker.Send(new Swing(0, attacker, defender));
-				}
-
-				if (attacker is BaseCreature)
-				{
-					BaseCreature bc = (BaseCreature)attacker;
-					WeaponAbility ab = bc.GetWeaponAbility();
-
-					if (ab != null)
-					{
-						if (bc.WeaponAbilityChance > Utility.RandomDouble())
-						{
-							WeaponAbility.SetCurrentAbility(bc, ab);
-						}
-						else
-						{
-							WeaponAbility.ClearCurrentAbility(bc);
-						}
-					}
 				}
 
 				if (CheckHit(attacker, defender))
@@ -1310,13 +1282,6 @@ namespace Server.Items
 			PlaySwingAnimation(attacker);
 			attacker.PlaySound(GetMissAttackSound(attacker, defender));
 			defender.PlaySound(GetMissDefendSound(attacker, defender));
-
-			WeaponAbility ability = WeaponAbility.GetCurrentAbility(attacker);
-
-			if (ability != null)
-			{
-				ability.OnMiss(attacker, defender);
-			}
 
 			SpecialMove move = SpecialMove.GetCurrentMove(attacker);
 

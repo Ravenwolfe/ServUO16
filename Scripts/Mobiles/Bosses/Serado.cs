@@ -116,10 +116,6 @@ namespace Server.Mobiles
                 return false;
             }
         }
-        public override WeaponAbility GetWeaponAbility()
-        {
-            return WeaponAbility.DoubleStrike;
-        }
 
         public override void GenerateLoot()
         {

@@ -38,20 +38,6 @@ namespace Server.Items
                 return new Bolt();
             }
         }
-        public override WeaponAbility PrimaryAbility
-        {
-            get
-            {
-                return WeaponAbility.DoubleStrike;
-            }
-        }
-        public override WeaponAbility SecondaryAbility
-        {
-            get
-            {
-                return WeaponAbility.MovingShot;
-            }
-        }
 
         public override int OldStrengthReq
         {

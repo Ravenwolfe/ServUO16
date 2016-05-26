@@ -69,10 +69,6 @@ namespace Server.Mobiles
                 return PackInstinct.Canine;
             }
         }
-        public override WeaponAbility GetWeaponAbility()
-        {
-            return WeaponAbility.ParalyzingBlow;
-        }
 
         public override void GenerateLoot()
         {

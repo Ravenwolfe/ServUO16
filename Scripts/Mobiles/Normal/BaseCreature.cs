@@ -422,11 +422,6 @@ namespace Server.Mobiles
 
         public virtual double WeaponAbilityChance { get { return 0.4; } }
 
-        public virtual WeaponAbility GetWeaponAbility()
-        {
-            return null;
-        }
-
         #region Elemental Resistance/Damage
         public override int BasePhysicalResistance { get { return m_PhysicalResistance; } }
         public override int BaseFireResistance { get { return m_FireResistance; } }

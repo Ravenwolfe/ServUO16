@@ -50,20 +50,6 @@ namespace Server.Items
                 return 1049065;
             }
         }// prospector's tool
-        public override WeaponAbility PrimaryAbility
-        {
-            get
-            {
-                return WeaponAbility.CrushingBlow;
-            }
-        }
-        public override WeaponAbility SecondaryAbility
-        {
-            get
-            {
-                return WeaponAbility.ShadowStrike;
-            }
-        }
 
         public override int OldStrengthReq
         {

@@ -58,11 +58,6 @@ namespace Server.Mobiles
                 return true;
             }
         }
-        public override WeaponAbility GetWeaponAbility()
-        {
-            return WeaponAbility.Dismount;
-        }
-
         public override int GetIdleSound()
         {
             return 443;
@@ -150,10 +145,6 @@ namespace Server.Mobiles
             {
                 return true;
             }
-        }
-        public override WeaponAbility GetWeaponAbility()
-        {
-            return WeaponAbility.Dismount;
         }
 
         public override int GetIdleSound()

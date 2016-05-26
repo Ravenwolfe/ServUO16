@@ -64,11 +64,7 @@ namespace Server.SkillHandlers
                     {
                         BaseWeapon weapon = (BaseWeapon)targeted;
 
-                        if (Core.AOS)
-                        {
-                            startTimer = (weapon.PrimaryAbility == WeaponAbility.InfectiousStrike || weapon.SecondaryAbility == WeaponAbility.InfectiousStrike);
-                        }
-                        else if (weapon.Layer == Layer.OneHanded)
+                        if (weapon.Layer == Layer.OneHanded)
                         {
                             // Only Bladed or Piercing weapon can be poisoned
                             startTimer = (weapon.Type == WeaponType.Slashing || weapon.Type == WeaponType.Piercing);

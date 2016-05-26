@@ -125,11 +125,6 @@ namespace Server.Mobiles
             this.AddLoot(LootPack.AosFilthyRich, 5);
         }
 
-        public override WeaponAbility GetWeaponAbility()
-        {
-            return WeaponAbility.BleedAttack;
-        }
-
         public override int GetIdleSound()
         {
             return 0x577;

@@ -151,11 +151,6 @@ namespace Server.Mobiles
             this.AddLoot(LootPack.Gems, 8);
         }
 
-        public override WeaponAbility GetWeaponAbility()
-        {
-            return WeaponAbility.BleedAttack;
-        }
-
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);

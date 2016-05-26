@@ -56,10 +56,6 @@ namespace Server.Mobiles
                 return 3;
             }
         }
-        public override WeaponAbility GetWeaponAbility()
-        {
-            return WeaponAbility.Dismount;
-        }
 
         public override void GenerateLoot()
         {

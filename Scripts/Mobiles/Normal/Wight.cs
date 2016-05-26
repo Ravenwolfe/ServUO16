@@ -57,10 +57,6 @@ namespace Server.Mobiles
                 return true;
             }
         }
-        public override WeaponAbility GetWeaponAbility()
-        {
-            return WeaponAbility.MortalStrike;
-        }
 
         public override void GenerateLoot()
         {

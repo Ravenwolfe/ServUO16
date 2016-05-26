@@ -46,11 +46,6 @@ namespace Server.Mobiles
         {
         }
 
-        public override WeaponAbility GetWeaponAbility()
-        {
-            return WeaponAbility.CrushingBlow;
-        }
-
         public override void GenerateLoot()
         {
             this.AddLoot(LootPack.Average);

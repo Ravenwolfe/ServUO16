@@ -17,21 +17,7 @@ namespace Server.Items
         {
         }
 
-        public override WeaponAbility PrimaryAbility
-        {
-            get
-            {
-                return WeaponAbility.ShadowStrike;
-            }
-        }
-        public override WeaponAbility SecondaryAbility
-        {
-            get
-            {
-                return WeaponAbility.InfectiousStrike;
-            }
-        }
- 
+
         public override int OldStrengthReq
         {
             get

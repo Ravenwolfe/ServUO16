@@ -57,11 +57,6 @@ namespace Server.Mobiles
 		public override FoodType FavoriteFood{ get{ return FoodType.Meat; } }
 		public override PackInstinct PackInstinct{ get{ return PackInstinct.Arachnid; } }
 
-        public override WeaponAbility GetWeaponAbility()
-        {
-            return WeaponAbility.ArmorIgnore;
-        }
-
 		public SentinelSpider( Serial serial ) : base( serial )
 		{
 		}

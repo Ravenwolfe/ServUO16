@@ -56,10 +56,6 @@ namespace Server.Mobiles
                 return Poison.Deadly;
             }
         }
-        public override WeaponAbility GetWeaponAbility()
-        {
-            return WeaponAbility.ConcussionBlow;
-        }
 
         public override void GenerateLoot()
         {

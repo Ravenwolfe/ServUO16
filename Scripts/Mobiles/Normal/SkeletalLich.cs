@@ -8,11 +8,6 @@ namespace Server.Mobiles
 	[CorpseName( "a skeletal corpse" )]
 	public class SkeletalLich : BaseCreature
 	{
-		public override WeaponAbility GetWeaponAbility()
-		{
-			return WeaponAbility.Dismount;
-		}
-
 		[Constructable]
 		public SkeletalLich() : base( AIType.AI_Spellbinder, FightMode.Closest, 10, 1, 0.2, 0.4 )
 		{

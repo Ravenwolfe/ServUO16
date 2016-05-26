@@ -106,11 +106,6 @@ namespace Server.Mobiles
             this.AddLoot(LootPack.AosUltraRich, 3);
         }
 
-        public override WeaponAbility GetWeaponAbility()
-        {
-            return WeaponAbility.ParalyzingBlow;
-        }
-
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);

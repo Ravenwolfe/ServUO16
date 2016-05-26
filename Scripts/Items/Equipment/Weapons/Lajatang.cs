@@ -18,21 +18,6 @@ namespace Server.Items
         {
         }
 
-        public override WeaponAbility PrimaryAbility
-        {
-            get
-            {
-                return WeaponAbility.DefenseMastery;
-            }
-        }
-        public override WeaponAbility SecondaryAbility
-        {
-            get
-            {
-                return WeaponAbility.FrenziedWhirlwind;
-            }
-        }
-
         public override int OldStrengthReq
         {
             get

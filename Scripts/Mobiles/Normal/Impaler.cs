@@ -104,10 +104,6 @@ namespace Server.Mobiles
                 return 1;
             }
         }
-        public override WeaponAbility GetWeaponAbility()
-        {
-            return Utility.RandomBool() ? WeaponAbility.MortalStrike : WeaponAbility.BleedAttack;
-        }
 
         public override void GenerateLoot()
         {

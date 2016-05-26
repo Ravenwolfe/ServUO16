@@ -45,11 +45,6 @@ namespace Server.Mobiles
         {
         }
 
-        public override WeaponAbility GetWeaponAbility()
-        {
-            return Utility.RandomBool() ? WeaponAbility.Dismount : WeaponAbility.CrushingBlow;
-        }
-
         public override void GenerateLoot()
         {
             this.AddLoot(LootPack.Rich);

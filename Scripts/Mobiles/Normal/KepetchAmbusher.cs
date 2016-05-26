@@ -110,11 +110,6 @@ namespace Server.Mobiles
             NextWoolTime = DateTime.Now + TimeSpan.FromHours(3.0); // TODO: Proper time delay
         }
 
-        public override WeaponAbility GetWeaponAbility()
-        {
-            return WeaponAbility.ShadowStrike;
-        }
-
         public override void OnThink()
         {
             base.OnThink();

@@ -12,21 +12,6 @@ namespace Server.Items
             EventSink.StunRequest += new StunRequestEventHandler(EventSink_StunRequest);
         }
 
-        public override WeaponAbility PrimaryAbility
-        {
-            get
-            {
-                return WeaponAbility.Disarm;
-            }
-        }
-        public override WeaponAbility SecondaryAbility
-        {
-            get
-            {
-                return WeaponAbility.ParalyzingBlow;
-            }
-        }
-
 		public override int OldStrengthReq
         {
             get
