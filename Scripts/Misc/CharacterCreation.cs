@@ -169,7 +169,6 @@ namespace Server.Misc
             if (newChar is PlayerMobile)
             {
                 PlayerMobile pm = (PlayerMobile)newChar;
-                pm.AutoRenewInsurance = true;
                 double skillcap = Config.Get("PlayerCaps.SkillCap", 1000.0d) / 10;
                 if (skillcap != 100.0)
                 {

@@ -1335,7 +1335,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Misc\CurrentExpansion.cs" />
-    <Compile Include="Misc\Extensions.cs" />
     <Compile Include="Misc\MathHelper.cs" />
     <Compile Include="Mobiles\Bosses\Barracoon.cs" />
     <Compile Include="Mobiles\Bosses\BaseChampion.cs" />
