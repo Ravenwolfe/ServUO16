@@ -95,15 +95,6 @@
     <Compile Include="Commands\Decorate.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Commands\DecorateDelete.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Commands\DecorateMag.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Commands\DecorateSA.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Commands\Docs.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -698,6 +689,7 @@
     <Compile Include="Items\Equipment\Weapons\WeaponEnums.cs" />
     <Compile Include="Items\Equipment\Weapons\Yumi.cs" />
     <Compile Include="Items\Functional\AcidVine.cs" />
+    <Compile Include="Items\Functional\Ankhs.cs" />
     <Compile Include="Items\Functional\BaseDoor.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -2214,9 +2206,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Functional\Switches.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Items\Functional\Ankhs.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Decorative\Benchs.cs">
