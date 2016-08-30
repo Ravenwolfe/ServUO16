@@ -46,7 +46,7 @@ namespace Server.Commands
 			new CommandEntry("Decorations",     "Decorate",         "DecorateDelete",		114),
 			//new CommandEntry("ML Decorations",  "DecorateML",		"DecorateMLDelete",		115),
 			//new CommandEntry("SA Decorations",  "DecorateSA",		"DecorateSADelete",		116),
-			//new CommandEntry("Spawners",		"XmlLoad Spawns",	"XmlSpawnerWipeAll",	117),
+			new CommandEntry("Spawners",		"XmlLoad Spawns",	"XmlSpawnerWipeAll",	117),
 		});
         public CreateWorld()
         {
